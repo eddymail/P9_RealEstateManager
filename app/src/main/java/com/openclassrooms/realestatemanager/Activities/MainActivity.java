@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         this.textViewQuantity.setText(String.valueOf(quantity));
     }
 
-    private void configureAndShowMainFragment() {
-      // Get FragmentManager (support) and Try to find existing instance of fragment in FramLayout container
+    public void configureAndShowMainFragment() {
+      // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
         mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
         if (mainFragment == null) {
             mainFragment = new MainFragment();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void configureAndShowDetailFragment() {
+    public void configureAndShowDetailFragment() {
         detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
         // Add detailFragment only if in Tablet mode
         if (detailFragment == null && findViewById(R.id.frame_layout_detail) != null) {
@@ -63,6 +63,5 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
         }
-
     }
 }
