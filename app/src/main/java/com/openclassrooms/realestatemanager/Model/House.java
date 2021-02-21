@@ -4,10 +4,11 @@ public class House {
     private String category;
     private String district;
     private String price;
-    private String surface;
+    private String area;
     private String numberOfRooms;
     private String numberOfBathrooms;
     private String numberOfBedrooms;
+    private String pointOfInterest;
     private String description;
     private String illustration;
     private String address;
@@ -16,15 +17,16 @@ public class House {
     private String dateOfSale;
     private String realEstateAgent;
 
-    public House(String category, String district, String price, String surface, String numberOfRooms, String numberOfBathrooms,String numberOfBedrooms, String description, String illustration,
+    public House(String category, String district, String price, String area, String numberOfRooms, String numberOfBathrooms, String numberOfBedrooms,String pointOfInterest, String description, String illustration,
                  String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
         this.price = price;
-        this.surface = surface;
+        this.area = area;
         this.numberOfRooms = numberOfRooms;
         this.numberOfBathrooms = numberOfBathrooms;
         this.numberOfBedrooms = numberOfBedrooms;
+        this.pointOfInterest = pointOfInterest;
         this.description = description;
         this.illustration = illustration;
         this.address = address;
@@ -58,12 +60,12 @@ public class House {
         this.price = price;
     }
 
-    public String getSurface() {
-        return surface;
+    public String getArea() {
+        return area;
     }
 
-    public void setSurface(String surface) {
-        this.surface = surface;
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getNumberOfRooms() {
@@ -88,6 +90,14 @@ public class House {
 
     public void setNumberOfBedrooms(String numberOfBedrooms) {
         this.numberOfBedrooms = numberOfBedrooms;
+    }
+
+    public String getPointOfInterest() {
+        return pointOfInterest;
+    }
+
+    public void setPointOfInterest(String pointOfInterest) {
+        this.pointOfInterest = pointOfInterest;
     }
 
     public String getDescription() {

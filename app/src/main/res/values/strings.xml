@@ -10,4 +10,18 @@
     <string name="no_house">No house to sell</string>
     <string name="surface">Surface :</string>
     <string name="nomber_of_rooms">Nomber of rooms</string>
+    <string name="surface_value">TextView</string>
+    <string name="rooms">Nombre de pièces :</string>
+    <string name="number">number</string>
+    <string name="bathroom">salle de bain</string>
+    <string name="point_of_interest">point of interest</string>
+    <string name="adress">adress</string>
+    <string name="bedrooms">Nombre de chambres :</string>
+
+    <string name="nombre_de_salle_de_bain">Nombre de salle de bain :</string>
+    <string name="poi">Point d\'intérêts à proximité :</string>
+    <string name="poi_details">Commerce, école, métro</string>
+    <string name="adresse">Adresse :</string>
+    <string name="adresse_detail">Adresse</string>
+    <string name="description">Description :</string>
 </resources>
