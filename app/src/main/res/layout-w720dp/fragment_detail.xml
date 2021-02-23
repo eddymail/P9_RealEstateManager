@@ -8,19 +8,68 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="766dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="1dp">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="313dp"
+            android:layout_marginEnd="710dp"
+            android:layout_marginBottom="765dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.43"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="313dp"
+            android:layout_marginEnd="710dp"
+            android:layout_marginBottom="765dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.75"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="313dp"
+            android:layout_marginEnd="710dp"
+            android:layout_marginBottom="765dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.25"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_fragment_detail"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="485dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.007">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -28,8 +77,16 @@
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="313dp"
+            android:layout_marginEnd="710dp"
+            android:layout_marginBottom="765dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="196dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_surface"
@@ -72,8 +129,8 @@
             android:layout_marginTop="8dp"
             android:contentDescription="@string/nomber_of_rooms"
             android:src="@drawable/ic_baseline_home_24"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail" />
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_detail_bedrooms" />
 
         <ImageView
             android:id="@+id/iv_fragment_detail_bedrooms"
@@ -83,19 +140,19 @@
             android:layout_marginTop="8dp"
             android:contentDescription="@string/bedrooms"
             android:src="@drawable/ic_baseline_single_bed_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_detail_surface" />
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail" />
 
         <ImageView
             android:id="@+id/iv_fragment_detail_bathroom"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:contentDescription="@string/bathroom"
             android:src="@drawable/ic_baseline_bathtub_24"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_detail_room" />
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bedrooms_value" />
 
         <ImageView
             android:id="@+id/iv_fragment_point_of_interest"
@@ -116,8 +173,8 @@
             android:layout_marginTop="8dp"
             android:contentDescription="@string/adress"
             android:src="@drawable/ic_baseline_room_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_point_of_interest" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_rooms"
@@ -150,8 +207,8 @@
             android:text="@string/bedrooms"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_fragment_detail_bedrooms"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_surface_value" />
+            app:layout_constraintStart_toEndOf="@+id/iv_fragment_detail_room"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_rooms_value" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_bedrooms_value"
@@ -168,12 +225,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="3dp"
             android:text="@string/nombre_de_salle_de_bain"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_detail_bathroom"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_rooms_value" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bedrooms_value" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_bathrooms_value"
@@ -187,47 +244,54 @@
 
         <TextView
             android:id="@+id/tv_fragment_detail_poi"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="6dp"
             android:text="@string/poi"
             android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_point_of_interest"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bedrooms_value" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_surface_value" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_poi_value"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/poi_details"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_point_of_interest"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="@string/adresse"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_adress"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi_value" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_address_value"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/adresse_detail"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_adress"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_address" />
 
@@ -236,37 +300,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:text="@string/description"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_adress" />
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_description_value"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/description_details"
             android:textAlignment="viewStart"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_dialog_map"
-            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description_value"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bathrooms_value" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail"
+            app:layout_constraintVertical_bias="0.448" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
 
         <!--
         <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -281,7 +358,6 @@
             map:mapType="normal"
             map:liteMode="true"/>
         -->
-
 
 
     </android.support.constraint.ConstraintLayout>

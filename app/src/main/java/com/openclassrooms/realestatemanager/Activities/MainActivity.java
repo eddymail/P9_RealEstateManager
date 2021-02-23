@@ -1,13 +1,18 @@
 package com.openclassrooms.realestatemanager.Activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.MainFragment;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+
+import static com.openclassrooms.realestatemanager.Fragments.MainFragment.houseList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         //this.configureTextViewMain();
         //this.configureTextViewQuantity();
+
         this.configureAndShowMainFragment();
         this.configureAndShowDetailFragment();
     }
@@ -51,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_main, mainFragment)
                     .commit();
+
+            Log.e("Test", "MAINACTIVTY configureAndShowMAINFragment: Condition OK");
+        } else {
+            Log.e("Test", "MAINACTIVTY configureAndShowMAINFragment: Condition NO");
         }
+
     }
 
     public void configureAndShowDetailFragment() {
@@ -62,6 +73,42 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
+
+            Log.e("Test", "MAINACTIVTY configureAndShowDETAILFragment: Condition OK");
+        } else {
+
+            Log.e("Test", "MAINACTIVTY configureAndShowDETAILFragment: Condition NO");
         }
     }
+
+    // Add with Gaethan
+    public void onHouseClick(int position) {
+
+        if (detailFragment != null) {
+            detailFragment.onHouseClick(position);
+
+            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick house Id = " + houseList.get(position).getId());
+
+        }   else {
+
+            detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+            detailFragment = new DetailFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout_main, detailFragment)
+                    .commit();
+
+
+           //detailFragment.onHouseClick(position);
+           //detailFragment.updateHouse(detailFragment.getHouseById(position + 1));
+
+            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick FRAGMENT IS NULL house Id = " + houseList.get(position).getId());
+
+            position = houseList.get(position).getId();
+        }
+
+
+
+
+    }
+
 }

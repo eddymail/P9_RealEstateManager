@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.Model;
 
 public class House {
+    private int id;
     private String category;
     private String district;
     private String price;
@@ -17,8 +18,9 @@ public class House {
     private String dateOfSale;
     private String realEstateAgent;
 
-    public House(String category, String district, String price, String area, String numberOfRooms, String numberOfBathrooms, String numberOfBedrooms,String pointOfInterest, String description, String illustration,
+    public House(int id, String category, String district, String price, String area, String numberOfRooms, String numberOfBathrooms, String numberOfBedrooms,String pointOfInterest, String description, String illustration,
                  String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
+        this.id = id;
         this.category = category;
         this.district = district;
         this.price = price;
@@ -34,6 +36,14 @@ public class House {
         this.dateOfEntry = dateOfEntry;
         this.dateOfSale = dateOfSale;
         this.realEstateAgent = realEstateAgent;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCategory() {

@@ -1,17 +1,28 @@
 package com.openclassrooms.realestatemanager.Fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,8 +39,10 @@ public class DetailFragment extends Fragment {
     private TextView description;
 
     private List<Illustration> gallery;
+    private List<House> houseList = MainFragment.houseList;
     private House house;
     private RecyclerView illustrationList;
+    private int position;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -49,10 +62,29 @@ public class DetailFragment extends Fragment {
         address = view.findViewById(R.id.tv_fragment_detail_address_value);
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
 
+        Log.e("Test", "DETAILFRAGMENT onCreatView");
+
+        //Smartphone
+      /*  if(position == 0){
+            updateHouse(getHouseById(position + 1));
+        }*/
+
         return view;
     }
 
-    private void updateHouse(){
+    public House getHouseById(int houseId) {
+        for (House house: houseList) {
+            if(house.getId() == houseId)
+
+                return house;
+
+            Log.e("Test", "House district :" + house.getDistrict());
+        }
+        return null;
+    }
+
+    public void updateHouse(House house){
+
         area.setText(house.getArea());
         rooms.setText(house.getNumberOfRooms());
         bedrooms.setText(house.getNumberOfBedrooms());
@@ -61,4 +93,18 @@ public class DetailFragment extends Fragment {
         address.setText(house.getAddress());
         description.setText(house.getDescription());
     }
+
+    public void onHouseClick(int position) {
+
+   //     Toast.makeText(getActivity(), "ClickOn " + position, Toast.LENGTH_LONG).show();
+
+        Log.e("Test", "DETAIL FRAGMENT onHouseClick d = " + position + 1);
+
+        this.position = position;
+
+       // Tablette
+        updateHouse(getHouseById(position + 1));
+
+    }
+
 }
