@@ -369,6 +369,7 @@
             android:drawableTop="@drawable/ic_baseline_big_home_24"
             android:gravity="center_horizontal"
             android:text="@string/no_house_clicked"
+            android:visibility="gone"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

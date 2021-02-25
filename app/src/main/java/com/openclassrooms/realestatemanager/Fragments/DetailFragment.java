@@ -25,15 +25,14 @@ import java.util.List;
  */
 public class DetailFragment extends Fragment {
 
-    private TextView area, areaTv;
-    private TextView rooms, roomsTv;
-    private TextView bedrooms, bedroomsTv;
-    private TextView bathrooms, bathroomsTv;
-    private TextView pointOfInterest, pointOfInterestTv;
-    private TextView address, addressTv;
-    private TextView description, descriptionTv;
+    private TextView area;
+    private TextView rooms;
+    private TextView bedrooms;
+    private TextView bathrooms;
+    private TextView pointOfInterest;
+    private TextView address;
+    private TextView description;
     private TextView label;
-    private ImageView areaIv, roomsIv, bedroomsIv, bathroomsIv, pointOfInterestIv, addressIv, mapIv;
 
     private List<Illustration> gallery = new ArrayList<>();
     private List<Illustration> galleryToDisplay = new ArrayList<>();
@@ -77,33 +76,12 @@ public class DetailFragment extends Fragment {
 
 
         area = view.findViewById(R.id.tv_fragment_detail_surface_value);
-        areaTv = view.findViewById(R.id.tv_fragment_detail_surface);
-        areaIv = view.findViewById(R.id.iv_fragment_detail_surface);
-
         rooms = view.findViewById(R.id.tv_fragment_detail_rooms_value);
-        roomsTv = view.findViewById(R.id.tv_fragment_detail_rooms);
-        roomsIv = view.findViewById(R.id.iv_fragment_detail_room);
-
         bedrooms = view.findViewById(R.id.tv_fragment_detail_bedrooms_value);
-        bedroomsTv = view.findViewById(R.id.tv_fragment_detail_bedrooms);
-        bedroomsIv = view.findViewById(R.id.iv_fragment_detail_bedrooms);
-
         bathrooms = view.findViewById(R.id.tv_fragment_detail_bathrooms_value);
-        bathroomsTv = view.findViewById(R.id.tv_fragment_detail_bathrooms);
-        bathroomsIv = view.findViewById(R.id.iv_fragment_detail_bathroom);
-
         pointOfInterest = view.findViewById(R.id.tv_fragment_detail_poi_value);
-        pointOfInterestTv = view.findViewById(R.id.tv_fragment_detail_poi);
-        pointOfInterestIv = view.findViewById(R.id.iv_fragment_point_of_interest);
-
         address = view.findViewById(R.id.tv_fragment_detail_address_value);
-        addressTv = view.findViewById(R.id.tv_fragment_detail_address);
-        addressIv = view.findViewById(R.id.iv_fragment_address);
-
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
-        descriptionTv = view.findViewById(R.id.tv_fragment_detail_description);
-
-        mapIv = view.findViewById(R.id.iv_fragment_detail_mapview);
         label = view.findViewById(R.id.lbl_no_house);
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
 
@@ -144,7 +122,7 @@ public class DetailFragment extends Fragment {
         rooms.setText(house.getNumberOfRooms());
         bedrooms.setText(house.getNumberOfBedrooms());
         bathrooms.setText(house.getNumberOfBathrooms());
-        pointOfInterestTv.setText(house.getPointOfInterest());
+        pointOfInterest.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());
     }
