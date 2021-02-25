@@ -1,9 +1,7 @@
 package com.openclassrooms.realestatemanager.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.Activities.MainActivity;
-import com.openclassrooms.realestatemanager.Adapter.houseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 
@@ -24,15 +22,13 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements houseRecyclerAdapter.OnHouseListener {
+public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener {
 
     private RecyclerView recyclerView;
     public static List<House> houseList = new ArrayList<>();
-    private houseRecyclerAdapter adapter;
+    private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
-    private DetailFragment detailFragment;
 
-    protected int houseSelectedIndex = 0;
 
     public MainFragment() {
         // Required empty public constructor
@@ -45,59 +41,20 @@ public class MainFragment extends Fragment implements houseRecyclerAdapter.OnHou
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //Si on a un état sauvegardé on met a jour l'élément par défaut
-        /*if(savedInstanceState != null) {
-            houseSelectedIndex= savedInstanceState.getInt("houseSelectedIndex", 0);
-        }*/
+        houseList.add(new House(1, "Maison", "Hourton", "1 160 000", "380 m²", "11", "2", "6",
+                "Commerce, école, métro", "Magnifique villa à Saint Aubin de Médoc située dans un quartier recherché. Vous découvrirez une entrée, une belle pièce de vie avec salon et salle à manger, un deuxième salon séparé par une cheminée centrale, une cuisine fermée donnant sur la cuisine d'été, une buanderie, une salle de jeu, une cave. Le rez-de-chaussée est complété par une chambre avec salle d'eau, un bureau et une salle de sport avec sauna et salle d'eau. A l'étage, vous accédez à une suite parentale avec une chambre donnant sur une terrasse, une salle de bains avec baignoire et douche, un double dressing, puis trois chambres avec dressing et une salle de bains avec baignoire et douche. L'ensemble sur un jardin paysagé d'environ 1400 m² dispose d'une grande terrasse en bois, d'une cuisine d'été, d'une piscine au sel chauffée. Très belles prestations pour cette maison d'exception à quelques minutes du centre de Saint Aubin de Médoc, des écoles, collège et lycée. Situation idéale à 15 kms de Bordeaux, 35 kms de Lacanau, 7 kms d'un parcours de golf. Un coin de paradis à découvrir sans tarder.",
+                "https://v.seloger.com/s/width/861/visuels/0/r/i/1/0ri18eygqgnn0yj8yzyiwv9mx1f5x0yku96bf1a0w.jpg", "15 route de Hourton, 33160 Saint-Aubin-de-Médoc ", true, "17/02/2021", null, "Eddy"));
 
-       // this.houseList = new ArrayList<>();
-        houseList.add(new House(1,"Flat","Manhattan", "50 388 600 $", "944 m2", "10", "7", "5",
-                "Commerce, école, métro","SOMPTUEUX GRAND PENTHOUSE DE CINQ CHAMBRES ET PLEIN ÉTAGE AVEC 360 DEGRÉS ET VUE SUR LA VILLE AVEC UNE TERRASSE PRIVÉE FACE À L'EST.\n" +
-                "\n" +
-                "Entrez dans ce remarquable penthouse de 10 171 pieds carrés qui englobe tout le 90e étage par ascenseur privé.\n" +
-                "La résidence soigneusement planifiée dispose d'un hall d'entrée gracieux, de plafonds de 14 pieds et de somptueux planchers de chêne français de 7,5 pouces de large.\n" +
-                "La grande chambre d'angle expansive offre une vue sud s'étendant sur des kilomètres vers le centre-ville de Manhattan, la Freedom Tower et au-delà. " +
-                "Adjacent à la salle à manger, la résidence dispose d'une terrasse de 454 pieds carrés avec vue sur l'horizon à l'est et au sud. " +
-                "La cuisine séparée avec fenêtre a été équipée d'armoires luxueuses Smallbone of Devizes, d'un îlot en marbre blanc opale, de comptoirs et de dosserets, " +
-                        "ainsi que d'une suite complète d'appareils Gaggenau. La suite parentale d'angle comprend un dressing et un bar, des salles de bains principales à " +
-                        "double fenêtre enveloppées dans un magnifique quartzite iceberg, avec une double vanité avec des panneaux Kinon, une baignoire profonde et un dressing.\n" +
-                "Les quatre chambres supplémentaires, la salle de remise en forme, la salle multimédia, six salles de bain attenantes, une belle salle d'eau revêtue d'Onyx et une buanderie / " +
-                        "buanderie avec laveuse et sécheuse côte à côte en font une maison vraiment spéciale. Aucun petit détail n'est négligé.",
-                "https://pic.le-cdn.com/thumbs/1024x768/04/5/properties/Property-13a300000000056000015ed9558b-90219283.jpg", "160 E 25th St, New York, NY 10010, États-Unis", true, "17/02/2021", null, "Eddy"));
-
-        houseList.add(new House(2,"Penthouse", "Financial District", "20 348 300 $", "313 m2", "6", "3","3",
-                "Commerce, école, métro","Massive maison Demi-étage Penthouse avec 176 carrés terrasse au pied dispose d'un mur de fenêtres en verre incurvées offrant une vue panoramique imprenable " +
-                        "sur la rivière Hudson, NY Harbor, Statue de la Liberté, World Trade Center et Manhattan Skyline. " +
-                        "La série L, une collection de 50 West Streets penthouse le plus remarquable, pleine et résidences demi-de-chaussée, " +
-                        "offre un éventail impressionnant de fonctionnalités supplémentaires. Les cuisines, aménagées avec des comptoirs de dalles en pierre et dosserets," +
-                        " sont équipées d'un réfrigérateur extra-spacieuses et congélateurs, un poêle à six brûleurs, et un réfrigérateur à vin pleine hauteur. " +
-                        "Grandes dalles de pierre de marbre, une baignoire autoportante trempage, une douche à vapeur et un sauna benched améliorer l'élégante salle de bains principale. " +
-                        "Ouest, une tour résidentielle de 64 étages situé dans le centre du New Downtown, offre une vue imprenable sur le port de New York, " +
-                        "l'Hudson et East Rivers, la Statue de la Liberté et Ellis Island. architecte de renommée internationale Helmut Jahn a conçu le environ 780" +
-                        " 'gratte-ciel à présenter des fenêtres en verre incurvées du sol au plafond. Les aménagements intérieurs vastes, allant de un à cinq chambres à coucher " +
-                        "et disposant d'un réseau de duplex et double hauteur des espaces, ont été conçus et finis par Thomas Juul-Hansen. Quatre étages de la tour sont consacrés " +
-                        "à des équipements state-of-the-art: un immense centre de remise en forme, le Club eau magnifiquement aménagées, des équipements childrens uniques, " +
-                        "et L'observatoire de la rue de l'Ouest, un 64ème étage spectaculaire espace de divertissement en plein air avec apparemment vues infinies de New York et au-delà. penthouse.",
-                "https://pic.le-cdn.com/thumbs/1024x768/04/10/properties/Property-b2660000000001e2000a57b5fd0a-31614642.jpg","New York, État de New York 10004",true,
+        houseList.add(new House(2, "Maison", "Estève", "749 000", "214 m²", "6", "2", "5",
+                "Commerce, bureau, école", "Nichée au fond d'une impasse, construite en 2015 sur une parcelle clôturée et piscinable de 1000 m² environ, très belle maison de plain pied ossature bois avec vue sur les champs. Située à 35mn en voiture de Bordeaux et des plages de Lacanau, cette maison vous charmera par sa luminosité grâce au patio central, et par la qualité de vie qu'elle propose. L'entrée dessert d'un côté la partie jour avec une vaste pièce de vie et cuisine ouverte, une buanderie, un bureau et une grande suite parentale avec dressing et salle de douche. De l'autre côté se trouve la partie enfants avec 4 chambres supplémentaires, une grande salle de bain, un WC séparé et une salle de jeu. Toute la maison tourne autour d'un joli patio de 80 m² environ, végétalisé et terrassé. L'ensemble est complété d'un garage de 15 m², de 3 places de stationnement devant la maison, une terrasse à l'ombre et un grand jardin. Arrêt de bus et ramassage scolaire au bout de la rue. 5mn en voiture de l'école élémentaire Molière et du Groupe Scolaire Jean de la Fontaine. Proximité sites aéronautiques DASSAULT et THALES",
+                "https://v.seloger.com/s/cdn/x/visuels/0/w/v/7/0wv7p12j5lugnffry96jkhoghwf43g5iqal3q1bc0.jpg", "68 ter Route de Loustaou Vieil, 33160 Saint-Aubin-de-Médoc", true,
                 "15/02/2021", null, "Eddy"));
-        houseList.add(new House(3,"Penthouse", "Central Park", "51 048 800 $", "769 m2", "10","7", "5",
-                "Commerce, école, métro, parc","Penthouse le plus sophistiqué, le plus étonnant et le plus élégant de New York\n" +
-                "Magnifique vue sur Central Park depuis cet appartement de 6 chambres gracieusement combiné. Vues magiques de chaque pièce - Central Park, Hudson River et ville ouverte " +
-                        "- l'appartement est entouré de lumière et de vert, ainsi que d'eau pétillante et de bateaux qui passent pendant la journée et des lumières de la ville scintillantes " +
-                        "tout autour la nuit. Le plan d'étage soigneusement conçu crée deux ailes de chambre séparées et un espace de divertissement qui peut sembler ouvert et loft ou être " +
-                        "élégamment divisé en pièces plus discrètes pour des réceptions formelles. La résidence est en triple état neuf et est joliment décorée. Il est également tout à fait unique" +
-                        " dans le bâtiment.\n" + "\n" + "Cette env. Cet appartement de 769 mètres carrés est une combinaison rare de grand espace, de lumière incroyable, de vues spectaculaires et" +
-                        " d'excellence dans la conception et l'exécution.\n" + "Le niveau de finitions personnalisées est inégalé, en commençant par les sols en pierre incrustés de l'entrée " +
-                        "de l'ascenseur privé et en continuant dans le salon spectaculaire de 42 pieds de long avec des fenêtres du sol au plafond donnant sur Central Park, des cheminées doubles," +
-                        " des portes et des planchers en bois Bubinga et des poutres et moulures en bois de Padouk. À côté du salon se trouve un beau coin salon lambrissé avec cheminée." +
-                        " À côté de la tanière se trouve une salle à manger spectaculaire de 22 pieds avec de beaux sols en marbre, des murs en peau texturée et une vue imprenable sur la " +
-                        "ville et Central Park.\n" + "\n" + "La cuisine du chef professionnel a un îlot central avec évier et table de cuisson à gaz, des appareils haut de gamme," +
-                        " des comptoirs en marbre et des armoires en sycomore personnalisées . Un coin petit-déjeuner confortable à côté de la cuisine mène à une salle multimédia orientée " +
-                        "au nord-ouest avec vue sur la rivière Hudson. Une chambre du personnel avec salle de bain attenante est également située dans cette aile de l'appartement.",
-                "https://pic.le-cdn.com/thumbs/1024x768/04/1/properties/Property-431f0000000005d200145f9be395-97656643.jpg","New York, NY 10007", true, "10/12/2020",null, "Nath"));
+        houseList.add(new House(3, "Villa", "Centre ville", "668 800", "195 m²", "7", "3", "5",
+                "Commerce, école, tram, parc", "Maison de 195 m² environ comprenant 5 belles chambres, toutes en parquet bois naturel. Vous serez séduit par le volume de sa chambre parentale, qui comprend un dressing équipé et sa pièce d'eau attenante disposant d'une baignoire, d'une douche à l'italienne, d'un toilette et d'une double vasque. Un ensemble de 37 m² environ entièrement pour vous. Les 4 autres chambres en parquet bois disposent toutes d'un placard. L'une d'entre elle, attenante à la pièce de vie pourra aisément se transformer en bureau afin de vous permettre d'être au calme et indépendant. Que dire de la pièce de vie de plus de 67 m², lumineuse grâce à sa double exposition Est/Ouest et ses grandes baies vitrées (5m d'un côté et 3m de l'autre), qui n'attend que vous pour se transformer en différents espaces: salle à manger, salon, coin cheminée, coin lecture.. Faites vous plaisir. La cuisine de près de 19 m² avec un îlot central et équipée, vous séduira par sa convivialité et sa luminosité grâce à un puit de lumière situé au dessus de l'îlot. Un cellier avec un accès sur le garage complète cette cuisine. Côté extérieur vous serez séduit par son terrain de plus de 1600 m² et ses arbres qui vous donnent une impression de vivre en forêt. La piscine de 4X10 exposée Ouest ajoute encore à cette quiétude. Un double garage isolé de 40 m² complète cette villa qui n'attend plus que vous me contactiez pour organiser une visite. Chauffage au sol, au gaz avec chaudière Viesmann de 2018, puit et arrosage automatique.",
+                "https://v.seloger.com/s/width/1613/visuels/1/g/2/z/1g2zw26el8kcz92rd2ixkbrnaujnduu8ods1scbpp.jpg", "15 Allée Saint-Julien, 33160 Saint-Aubin-de-Médoc", true, "10/12/2020", null, "Nath"));
 
         recyclerView = view.findViewById(R.id.fragment_main_recyclerview);
-        lblNoHouse = view.findViewById(R.id.lbl_no_task);
+        lblNoHouse = view.findViewById(R.id.lbl_no_house);
 
         this.configureRecyclerView();
         this.updateList();
@@ -107,7 +64,7 @@ public class MainFragment extends Fragment implements houseRecyclerAdapter.OnHou
 
     private void configureRecyclerView() {
 
-        this.adapter = new houseRecyclerAdapter(this.houseList, this);
+        this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -121,30 +78,15 @@ public class MainFragment extends Fragment implements houseRecyclerAdapter.OnHou
             lblNoHouse.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-       adapter.updateList(houseList);
+      //  adapter.updateList(houseList);
     }
-   /* @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //a la suspension de l'écran on sauvegarde l'index courant
-        outState.putInt("houseSelectedIndex", houseSelectedIndex);
-    }*/
 
     @Override
     public void onHouseClick(int position) {
-       // add with Gaethan
-        ((MainActivity) getActivity()).onHouseClick(position);
-
-      /*// Envoie des données au fragmentDetail
-        final Intent intent = new Intent("DATA_ACTION");
-        intent.putExtra("HOUSE_ID", houseList.get(position).getId());*/
+        // add with Gaethan
+        ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
 
         Log.e("Test", "MAIN FRAGMENT onHouseClick house Id = " + houseList.get(position).getId());
 
-       /* AppCompatActivity activity = (AppCompatActivity) getContext();
-        detailFragment = new DetailFragment();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, detailFragment)
-                .addToBackStack(null)
-                .commit();*/
     }
 }

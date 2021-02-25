@@ -1,14 +1,14 @@
 package com.openclassrooms.realestatemanager.Activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.MainFragment;
+import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 
@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         this.configureAndShowDetailFragment();
     }
 
-    private void configureTextViewMain(){
+    private void configureTextViewMain() {
         this.textViewMain.setTextSize(15);
         this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
     }
 
-    private void configureTextViewQuantity(){
+    private void configureTextViewQuantity() {
         int quantity = Utils.convertDollarToEuro(100);
         this.textViewQuantity.setTextSize(20);
         // Problème de typage
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void configureAndShowMainFragment() {
-      // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
+        // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
         mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
         if (mainFragment == null) {
             mainFragment = new MainFragment();
@@ -82,14 +82,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Add with Gaethan
-    public void onHouseClick(int position) {
+    public void onHouseClick(House house) {
 
         if (detailFragment != null) {
-            detailFragment.onHouseClick(position);
+            detailFragment.onHouseClick(house);
 
-            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick house Id = " + houseList.get(position).getId());
+           Log.e("Test", "MAINACTIVITY  OnHouseCLick house Id = " + house);
 
-        }   else {
+        } else {
+
+            //Smartphhone
 
             detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
             detailFragment = new DetailFragment();
@@ -97,18 +99,10 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.frame_layout_main, detailFragment)
                     .commit();
 
+            detailFragment.onHouseClick(house);
 
-           //detailFragment.onHouseClick(position);
-           //detailFragment.updateHouse(detailFragment.getHouseById(position + 1));
+            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick FRAGMENT IS NULL house Id = " + house);
 
-            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick FRAGMENT IS NULL house Id = " + houseList.get(position).getId());
-
-            position = houseList.get(position).getId();
         }
-
-
-
-
     }
-
 }

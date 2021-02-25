@@ -1,23 +1,18 @@
 package com.openclassrooms.realestatemanager.Fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.openclassrooms.realestatemanager.Activities.MainActivity;
+import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
@@ -30,22 +25,27 @@ import java.util.List;
  */
 public class DetailFragment extends Fragment {
 
-    private TextView area;
-    private TextView rooms;
-    private TextView bedrooms;
-    private TextView bathrooms;
-    private TextView pointOfInterest;
-    private TextView address;
-    private TextView description;
+    private TextView area, areaTv;
+    private TextView rooms, roomsTv;
+    private TextView bedrooms, bedroomsTv;
+    private TextView bathrooms, bathroomsTv;
+    private TextView pointOfInterest, pointOfInterestTv;
+    private TextView address, addressTv;
+    private TextView description, descriptionTv;
+    private TextView label;
+    private ImageView areaIv, roomsIv, bedroomsIv, bathroomsIv, pointOfInterestIv, addressIv, mapIv;
 
-    private List<Illustration> gallery;
+    private List<Illustration> gallery = new ArrayList<>();
+    private List<Illustration> galleryToDisplay = new ArrayList<>();
     private List<House> houseList = MainFragment.houseList;
+    // Smartphone
     private House house;
-    private RecyclerView illustrationList;
-    private int position;
 
+    private RecyclerView recyclerView;
+    private GalleryRecyclerAdapter adapter;
+
+    // Required empty public constructor
     public DetailFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -54,57 +54,110 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        gallery.add(new Illustration(1, "Salon", "https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg"));
+        gallery.add(new Illustration(1, "Cuisine", "https://v.seloger.com/s/cdn/x/visuels/2/9/8/v/298vujqnf17in31ceg5xe0af165tmlf6f6c9zjncw.jpg"));
+        gallery.add(new Illustration(1, "Suite parentale", "https://designmag.fr/wp-content/uploads/2015/09/decoration-interieur-moderne-suite-parentale-de-reve.jpg"));
+        gallery.add(new Illustration(1, "Chambre enfant", "https://camif.twic.pics/is/image/matelsom/2A_CHAMBRE_LIT_BLANC_INTERNATIONAL%20DESI_IVANOE?$RCamifFicheProduitPrincipal6$"));
+        gallery.add(new Illustration(1, "Salle de bain", "http://www.immobilier-miami-floride-usa.com/medias/images/appartement-a-vendre-sunny-isles-miami-beach-salle-de-bain.jpg?fx=r_400_267"));
+        gallery.add(new Illustration(1, "Salle d'eau", "https://v.seloger.com/s/cdn/x/visuels/1/x/9/i/1x9ixdusggwsnd6gdkq3vezjx2rrop547rd1nhce8.jpg"));
+
+        gallery.add(new Illustration(2, "Salon", "https://v.seloger.com/s/cdn/x/visuels/1/u/2/e/1u2em36fwbs8b4oe16mr54bpyxewzlty01t1wjxr4.jpg"));
+        gallery.add(new Illustration(2, "Cuisine", "https://v.seloger.com/s/cdn/x/visuels/0/l/c/c/0lccrrlmiknz1wqpwx0e7xnkyc7ultp71buygvoc8.jpg"));
+        gallery.add(new Illustration(2, "Patio", "https://v.seloger.com/s/cdn/x/visuels/1/w/v/u/1wvukylsd4imndf2g5clepeijkt0bei20r3yuwx40.jpg"));
+        gallery.add(new Illustration(2, "Chambre", "https://v.seloger.com/s/cdn/x/visuels/0/o/8/y/0o8ywjtsj6jj62o73v7hq12jhk0qopbj6uztxz4bk.jpg"));
+        gallery.add(new Illustration(2, "Chambre enfant", "https://v.seloger.com/s/cdn/x/visuels/2/0/b/3/20b3e0llpw289kj4o6aw563w06umqugpm6n16dl0g.jpg"));
+        gallery.add(new Illustration(2, "Salle de bain", "https://v.seloger.com/s/cdn/x/visuels/1/u/9/9/1u9929lkcg6n8obckei1g528oig9tak7s0tug2pi8.jpg"));
+
+
+        gallery.add(new Illustration(3, "Salon", "https://v.seloger.com/s/cdn/x/visuels/0/c/j/v/0cjvola8clg6zdnjeca93f9jcr6on3d2xwyw53619.jpg"));
+        gallery.add(new Illustration(3, "Cuisine", "https://v.seloger.com/s/cdn/x/visuels/0/y/p/f/0ypfv90b5izj7jecyfiexda8vgsd4xjjo8935elhi.jpg"));
+        gallery.add(new Illustration(3, "Chambre", "https://v.seloger.com/s/cdn/x/visuels/0/d/h/c/0dhcfz11x1qd0je6yvsubu8kpfuqfs15v2k76wbwt.jpg"));
+        gallery.add(new Illustration(3, "Salle de bain", "https://v.seloger.com/s/cdn/x/visuels/1/n/4/u/1n4ue5j0y5adxbjijghr1qo4y5xmvm5tvqfn7yces.jpg"));
+        gallery.add(new Illustration(3, "Piscine", "https://v.seloger.com/s/cdn/x/visuels/0/t/b/i/0tbiwnei8e459phso5kyqzf68ymiqg1p9h86tzdxp.jpg"));
+
+
         area = view.findViewById(R.id.tv_fragment_detail_surface_value);
+        areaTv = view.findViewById(R.id.tv_fragment_detail_surface);
+        areaIv = view.findViewById(R.id.iv_fragment_detail_surface);
+
         rooms = view.findViewById(R.id.tv_fragment_detail_rooms_value);
+        roomsTv = view.findViewById(R.id.tv_fragment_detail_rooms);
+        roomsIv = view.findViewById(R.id.iv_fragment_detail_room);
+
         bedrooms = view.findViewById(R.id.tv_fragment_detail_bedrooms_value);
+        bedroomsTv = view.findViewById(R.id.tv_fragment_detail_bedrooms);
+        bedroomsIv = view.findViewById(R.id.iv_fragment_detail_bedrooms);
+
         bathrooms = view.findViewById(R.id.tv_fragment_detail_bathrooms_value);
+        bathroomsTv = view.findViewById(R.id.tv_fragment_detail_bathrooms);
+        bathroomsIv = view.findViewById(R.id.iv_fragment_detail_bathroom);
+
         pointOfInterest = view.findViewById(R.id.tv_fragment_detail_poi_value);
+        pointOfInterestTv = view.findViewById(R.id.tv_fragment_detail_poi);
+        pointOfInterestIv = view.findViewById(R.id.iv_fragment_point_of_interest);
+
         address = view.findViewById(R.id.tv_fragment_detail_address_value);
+        addressTv = view.findViewById(R.id.tv_fragment_detail_address);
+        addressIv = view.findViewById(R.id.iv_fragment_address);
+
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
+        descriptionTv = view.findViewById(R.id.tv_fragment_detail_description);
+
+        mapIv = view.findViewById(R.id.iv_fragment_detail_mapview);
+        label = view.findViewById(R.id.lbl_no_house);
+        recyclerView = view.findViewById(R.id.rv_fragment_detail);
 
         Log.e("Test", "DETAILFRAGMENT onCreatView");
-
-        //Smartphone
-      /*  if(position == 0){
-            updateHouse(getHouseById(position + 1));
-        }*/
 
         return view;
     }
 
+    public void configureRecyclerView(List<Illustration> galleryToDisplay) {
+        this.adapter = new GalleryRecyclerAdapter(galleryToDisplay);
+        this.recyclerView.setAdapter(this.adapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+    }
+
     public House getHouseById(int houseId) {
-        for (House house: houseList) {
-            if(house.getId() == houseId)
-
+        for (House house : houseList) {
+            if (house.getId() == houseId)
                 return house;
-
-            Log.e("Test", "House district :" + house.getDistrict());
         }
         return null;
     }
 
-    public void updateHouse(House house){
+    public List<Illustration> getIllustrationByHouseId(int houseId) {
+        Log.e("Test", "gallery :" + gallery.size());
+        List<Illustration> galleryToDisplay = new ArrayList<>();
+        for (Illustration illustration : gallery) {
+            if (illustration.getHouseId() == houseId) {
+                galleryToDisplay.add(illustration);
+            }
+        }
+        Log.e("Test", "galleryToDisplay :" + galleryToDisplay.size());
+        return galleryToDisplay;
+    }
+
+    public void updateHouse(House house) {
 
         area.setText(house.getArea());
         rooms.setText(house.getNumberOfRooms());
         bedrooms.setText(house.getNumberOfBedrooms());
         bathrooms.setText(house.getNumberOfBathrooms());
-        pointOfInterest.setText(house.getPointOfInterest());
+        pointOfInterestTv.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());
     }
 
-    public void onHouseClick(int position) {
+    //Listener
 
-   //     Toast.makeText(getActivity(), "ClickOn " + position, Toast.LENGTH_LONG).show();
+    public void onHouseClick(House house) {
 
-        Log.e("Test", "DETAIL FRAGMENT onHouseClick d = " + position + 1);
-
-        this.position = position;
-
-       // Tablette
-        updateHouse(getHouseById(position + 1));
-
+        Toast.makeText(getActivity(), "ClickOn " + house.getId(), Toast.LENGTH_LONG).show();
+        // Tablette
+        updateHouse(house);
+        configureRecyclerView(getIllustrationByHouseId(house.getId()));
+        // updateList(getIllustrationByHouseId(house.getId()));
     }
 
 }

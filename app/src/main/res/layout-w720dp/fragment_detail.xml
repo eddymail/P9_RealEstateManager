@@ -166,7 +166,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_fragment_detail_bedrooms" />
 
         <ImageView
-            android:id="@+id/iv_fragment_adress"
+            android:id="@+id/iv_fragment_address"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
@@ -279,7 +279,7 @@
             android:text="@string/adresse"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_fragment_adress"
+            app:layout_constraintStart_toEndOf="@+id/iv_fragment_address"
             app:layout_constraintTop_toBottomOf="@+id/rv_fragment_detail" />
 
         <TextView
@@ -292,7 +292,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toEndOf="@+id/iv_fragment_adress"
+            app:layout_constraintStart_toEndOf="@+id/iv_fragment_address"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_address" />
 
         <TextView
@@ -324,7 +324,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_fragment_detail_mapview"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="8dp"
@@ -359,6 +359,23 @@
             map:liteMode="true"/>
         -->
 
+
+        <TextView
+            android:id="@+id/lbl_no_house"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_baseline_big_home_24"
+            android:gravity="center_horizontal"
+            android:text="@string/no_house_clicked"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

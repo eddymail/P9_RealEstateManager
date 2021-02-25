@@ -8,6 +8,7 @@
     <string name="price">Price</string>
     <string name="picture">PICTURE</string>
     <string name="no_house">No house to sell</string>
+    <string name="no_house_clicked">No house selected</string>
     <string name="surface">Surface :</string>
     <string name="nomber_of_rooms">Nomber of rooms</string>
     <string name="surface_value">TextView</string>
@@ -25,4 +26,6 @@
     <string name="adresse_detail">Adresse</string>
     <string name="description">Description :</string>
     <string name="description_details">Description details</string>
+    <string name="textview">TextView</string>
+    <string name="illustration">picture</string>
 </resources>

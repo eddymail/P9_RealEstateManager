@@ -10,26 +10,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.List;
 
-public class houseRecyclerAdapter extends RecyclerView.Adapter<houseRecyclerAdapter.ViewHolder> {
+public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdapter.ViewHolder> {
 
     private List<House> houseList;
     private OnHouseListener onHouseListener;
 
-    private DetailFragment detailFragment;
-    //private Context context;
-
-    //Use to call configureAndShowDetailFragment() from MainActivity
-   /* public ListHouseAdapter(List<House> houseList, Context context) {
-        this.houseList = houseList; this.context = context;
-    }*/
-
-    public houseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
+    public HouseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
         this.houseList = houseList;
         this.onHouseListener = onHouseListener;
     }
@@ -37,39 +28,25 @@ public class houseRecyclerAdapter extends RecyclerView.Adapter<houseRecyclerAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_main_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_main_item, parent, false);
         return new ViewHolder(view, onHouseListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       House house = houseList.get(position);
-       holder.category.setText(house.getCategory());
-       holder.district.setText(house.getDistrict());
-       holder.price.setText(house.getPrice());
+        House house = houseList.get(position);
+        holder.category.setText(house.getCategory());
+        holder.district.setText(house.getDistrict());
+        holder.price.setText(house.getPrice());
 
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()
                 .override(100, 100);
 
-       Glide.with(holder.illustration.getContext())
-               .load(house.getIllustration())
-               .apply(myOptions)
-               .into(holder.illustration);
-
-       /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               *//*if (context instanceof MainActivity) {
-                   ((MainActivity)context).configureAndShowDetailFragment();
-               }*//*
-               AppCompatActivity activity = (AppCompatActivity) view.getContext();
-               detailFragment = new DetailFragment();
-               activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, detailFragment)
-                       .addToBackStack(null)
-                       .commit();
-           }
-       });*/
+        Glide.with(holder.illustration.getContext())
+                .load(house.getIllustration())
+                .apply(myOptions)
+                .into(holder.illustration);
     }
 
     @Override
@@ -77,16 +54,18 @@ public class houseRecyclerAdapter extends RecyclerView.Adapter<houseRecyclerAdap
         return houseList.size();
     }
 
-    public void updateList(@NonNull  final List<House> houseList) {
+
+    // Verifier usage
+    public void updateList(@NonNull final List<House> houseList) {
         this.houseList = houseList;
         notifyDataSetChanged();
     }
 
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView category, district, price;
-        ImageView illustration;
-        OnHouseListener onHouseListener;
+        private TextView category, district, price;
+        private ImageView illustration;
+        private OnHouseListener onHouseListener;
 
         //Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
@@ -105,6 +84,7 @@ public class houseRecyclerAdapter extends RecyclerView.Adapter<houseRecyclerAdap
             onHouseListener.onHouseClick(getAdapterPosition());
         }
     }
+
     // Use to detect the click
     public interface OnHouseListener {
         void onHouseClick(int position);

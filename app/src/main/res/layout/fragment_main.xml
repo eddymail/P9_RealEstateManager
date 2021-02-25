@@ -6,7 +6,7 @@
     tools:context=".Fragments.MainFragment">
 
     <TextView
-        android:id="@+id/lbl_no_task"
+        android:id="@+id/lbl_no_house"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -14,8 +14,7 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:text="@string/no_house"
-        android:textSize="22sp"
-        tools:visibility="gone" />
+        android:textSize="22sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_main_recyclerview"
