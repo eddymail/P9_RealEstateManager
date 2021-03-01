@@ -57,12 +57,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_main, mainFragment)
                     .commit();
-
-            Log.e("Test", "MAINACTIVTY configureAndShowMAINFragment: Condition OK");
-        } else {
-            Log.e("Test", "MAINACTIVTY configureAndShowMAINFragment: Condition NO");
         }
-
     }
 
     public void configureAndShowDetailFragment() {
@@ -73,11 +68,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
-
-            Log.e("Test", "MAINACTIVTY configureAndShowDETAILFragment: Condition OK");
-        } else {
-
-            Log.e("Test", "MAINACTIVTY configureAndShowDETAILFragment: Condition NO");
         }
     }
 
@@ -85,24 +75,16 @@ public class MainActivity extends AppCompatActivity {
     public void onHouseClick(House house) {
 
         if (detailFragment != null) {
-            detailFragment.onHouseClick(house);
-
-           Log.e("Test", "MAINACTIVITY  OnHouseCLick house Id = " + house);
-
+            //Tablet
+            detailFragment.updateDisplayTablet(house);
         } else {
-
             //Smartphhone
-
             detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
             detailFragment = new DetailFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_layout_main, detailFragment)
                     .commit();
-
             detailFragment.onHouseClick(house);
-
-            Log.e("Test", "MAIN ACTIVITY  OnHouseCLick FRAGMENT IS NULL house Id = " + house);
-
         }
     }
 }

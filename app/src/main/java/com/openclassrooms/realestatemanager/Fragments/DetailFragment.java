@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,9 +84,17 @@ public class DetailFragment extends Fragment {
         label = view.findViewById(R.id.lbl_no_house);
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
 
-        Log.e("Test", "DETAILFRAGMENT onCreatView");
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        //Smartphone display
+        if (house != null) {
+            updateHouse(house);
+            configureRecyclerView(getIllustrationByHouseId(house.getId()));
+        }
+        super.onStart();
     }
 
     public void configureRecyclerView(List<Illustration> galleryToDisplay) {
@@ -116,8 +123,13 @@ public class DetailFragment extends Fragment {
         return galleryToDisplay;
     }
 
-    public void updateHouse(House house) {
+    //Tablet display
+    public void updateDisplayTablet(House house) {
+        updateHouse(house);
+        configureRecyclerView(getIllustrationByHouseId(house.getId()));
+    }
 
+    public void updateHouse(House house) {
         area.setText(house.getArea());
         rooms.setText(house.getNumberOfRooms());
         bedrooms.setText(house.getNumberOfBedrooms());
@@ -128,14 +140,7 @@ public class DetailFragment extends Fragment {
     }
 
     //Listener
-
     public void onHouseClick(House house) {
-
-        Toast.makeText(getActivity(), "ClickOn " + house.getId(), Toast.LENGTH_LONG).show();
-        // Tablette
-        updateHouse(house);
-        configureRecyclerView(getIllustrationByHouseId(house.getId()));
-        // updateList(getIllustrationByHouseId(house.getId()));
+        this.house = house;
     }
-
 }
