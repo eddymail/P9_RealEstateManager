@@ -1,14 +1,21 @@
 package com.openclassrooms.realestatemanager.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+import java.util.Date;
+
+@Entity
 public class House {
-    private int id;
+    @PrimaryKey
+    private long id;
     private String category;
     private String district;
-    private String price;
-    private String area;
-    private String numberOfRooms;
-    private String numberOfBathrooms;
-    private String numberOfBedrooms;
+    private int price;
+    private int area;
+    private int numberOfRooms;
+    private int numberOfBathrooms;
+    private int numberOfBedrooms;
     private String pointOfInterest;
     private String description;
     private String illustration;
@@ -18,8 +25,7 @@ public class House {
     private String dateOfSale;
     private String realEstateAgent;
 
-    public House(int id, String category, String district, String price, String area, String numberOfRooms, String numberOfBathrooms, String numberOfBedrooms,String pointOfInterest, String description, String illustration,
-                 String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
+    public House(long id, String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
         this.id = id;
         this.category = category;
         this.district = district;
@@ -38,131 +44,132 @@ public class House {
         this.realEstateAgent = realEstateAgent;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public String getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getArea() {
+    public int getArea() {
         return area;
     }
 
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getNumberOfRooms() {
+    public int getNumberOfRooms() {
         return numberOfRooms;
     }
 
-    public void setNumberOfRooms(String numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-    public String getNumberOfBathrooms() {
+    public int getNumberOfBathrooms() {
         return numberOfBathrooms;
     }
 
-    public void setNumberOfBathrooms(String numberOfBathrooms) {
-        this.numberOfBathrooms = numberOfBathrooms;
-    }
-
-    public String getNumberOfBedrooms() {
+    public int getNumberOfBedrooms() {
         return numberOfBedrooms;
-    }
-
-    public void setNumberOfBedrooms(String numberOfBedrooms) {
-        this.numberOfBedrooms = numberOfBedrooms;
     }
 
     public String getPointOfInterest() {
         return pointOfInterest;
     }
 
-    public void setPointOfInterest(String pointOfInterest) {
-        this.pointOfInterest = pointOfInterest;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getIllustration() {
         return illustration;
     }
 
-    public void setIllustration(String illustration) {
-        this.illustration = illustration;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public Boolean getAvailable() {
         return available;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
-
     public String getDateOfEntry() {
         return dateOfEntry;
-    }
-
-    public void setDateOfEntry(String dateOfEntry) {
-        this.dateOfEntry = dateOfEntry;
     }
 
     public String getDateOfSale() {
         return dateOfSale;
     }
 
-    public void setDateOfSale(String dateOfSale) {
-        this.dateOfSale = dateOfSale;
-    }
-
     public String getRealEstateAgent() {
         return realEstateAgent;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    public void setNumberOfRooms(int numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    public void setNumberOfBathrooms(int numberOfBathrooms) {
+        this.numberOfBathrooms = numberOfBathrooms;
+    }
+
+    public void setNumberOfBedrooms(int numberOfBedrooms) {
+        this.numberOfBedrooms = numberOfBedrooms;
+    }
+
+    public void setPointOfInterest(String pointOfInterest) {
+        this.pointOfInterest = pointOfInterest;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setIllustration(String illustration) {
+        this.illustration = illustration;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public void setDateOfEntry(String dateOfEntry) {
+        this.dateOfEntry = dateOfEntry;
+    }
+
+    public void setDateOfSale(String dateOfSale) {
+        this.dateOfSale = dateOfSale;
     }
 
     public void setRealEstateAgent(String realEstateAgent) {
         this.realEstateAgent = realEstateAgent;
     }
 }
+
