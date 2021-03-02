@@ -66,6 +66,15 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
 
                 db.insert("House", OnConflictStrategy.IGNORE, contentValues);
 
+                ContentValues contentValues1 = new ContentValues();
+
+                contentValues.put("id", 1);
+                contentValues.put("houseId", 1);
+                contentValues.put("description", "Salon");
+                contentValues.put("url","https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg");
+
+                db.insert("Illustration", OnConflictStrategy.IGNORE, contentValues1);
+
             }
         };
     }

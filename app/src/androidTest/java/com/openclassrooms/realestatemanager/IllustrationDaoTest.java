@@ -9,6 +9,8 @@ import com.openclassrooms.realestatemanager.Database.RealEstateManagerDatabase;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +20,9 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -59,15 +64,38 @@ public class IllustrationDaoTest {
     }
 
     @Test
+    public void insertAndUpdateHouse() throws InterruptedException {
+        //BEFORE : Adding demo house. Next, update house added & re-save it
+        this.database.houseDao().createHouse(HOUSE_DEMO);
+        House houseAdded = LiveDataTestUtil.getValue(this.database.houseDao().getHouse(HOUSE_ID));
+        houseAdded.setAvailable(false);
+        this.database.houseDao().updateHouse(houseAdded);
+
+        //TEST
+        List<House> houses = LiveDataTestUtil.getValue(this.database.houseDao().getAll());
+
+        assertEquals(false, houses.get(0).getAvailable());
+        assertTrue(houses.size() == 1);
+    }
+
+    @Test
+    public void getGalleryWhenNoIllustrationInserted() throws InterruptedException {
+        //TEST
+        List<Illustration> gallery = LiveDataTestUtil.getValue(this.database.illustrationDao().getGallery(HOUSE_ID));
+        TestCase.assertTrue(gallery.isEmpty());
+    }
+
+    @Test
     public void insertAndGetIllustration() throws InterruptedException {
         //Before: Adding demo house and demo illustration
         this.database.houseDao().createHouse(HOUSE_DEMO);
-        this.database.illustrationDao().insertIllustration(ILLUSTRATION_SALON);
-        this.database.illustrationDao().insertIllustration(ILLUSTRATION_CUISINE);
+        this.database.illustrationDao().createIllustration(ILLUSTRATION_SALON);
+        this.database.illustrationDao().createIllustration(ILLUSTRATION_CUISINE);
 
         //Test
         List<Illustration> gallery = LiveDataTestUtil.getValue(this.database.illustrationDao().getGallery(HOUSE_ID));
         Assert.assertEquals(2, gallery.size());
-
     }
+
+
 }
