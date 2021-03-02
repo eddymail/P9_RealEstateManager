@@ -13,14 +13,14 @@ public class HouseDataRepository {
 
     public HouseDataRepository(HouseDao houseDao) { this.houseDao = houseDao; }
 
+    //Create house
+    public void createHouse(House house) { houseDao.createHouse(house); }
+
     //Get house
     public LiveData<House> getHouse(long houseId ) { return this.houseDao.getHouse(houseId); }
 
     //Get all
     public LiveData<List<House>> getAll() { return this.houseDao.getAll(); }
-
-    //Create house
-    public void createHouse(House house) { houseDao.createHouse(house); }
 
     //Update house
     public void updateHouse(House house) { houseDao.updateHouse(house); }
