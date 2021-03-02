@@ -1,17 +1,14 @@
-package com.openclassrooms.realestatemanager.Ui.Activities;
+package com.openclassrooms.realestatemanager.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.openclassrooms.realestatemanager.Ui.Adapter.HouseRecyclerAdapter;
-import com.openclassrooms.realestatemanager.Ui.Fragments.DetailFragment;
-import com.openclassrooms.realestatemanager.Ui.Fragments.MainFragment;
+import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
+import com.openclassrooms.realestatemanager.Fragments.MainFragment;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-
-import static com.openclassrooms.realestatemanager.Ui.Fragments.MainFragment.houseList;
 
 public class MainActivity extends AppCompatActivity {
 

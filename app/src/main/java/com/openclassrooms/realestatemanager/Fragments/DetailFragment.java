@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Ui.Fragments;
+package com.openclassrooms.realestatemanager.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.openclassrooms.realestatemanager.Ui.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,10 +129,10 @@ public class DetailFragment extends Fragment {
     }
 
     public void updateHouse(House house) {
-        area.setText(house.getArea());
-        rooms.setText(house.getNumberOfRooms());
-        bedrooms.setText(house.getNumberOfBedrooms());
-        bathrooms.setText(house.getNumberOfBathrooms());
+        area.setText(String.valueOf(house.getArea()));
+        rooms.setText(String.valueOf(house.getNumberOfRooms()));
+        bedrooms.setText(String.valueOf(house.getNumberOfBedrooms()));
+        bathrooms.setText(String.valueOf(house.getNumberOfBathrooms()));
         pointOfInterest.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());

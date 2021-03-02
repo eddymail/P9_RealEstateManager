@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Ui.Adapter;
+package com.openclassrooms.realestatemanager.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +37,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         House house = houseList.get(position);
         holder.category.setText(house.getCategory());
         holder.district.setText(house.getDistrict());
-        holder.price.setText(house.getPrice());
+        holder.price.setText(String.valueOf(house.getPrice()));
 
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()

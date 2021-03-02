@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Ui.Fragments;
+package com.openclassrooms.realestatemanager.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.openclassrooms.realestatemanager.Ui.Activities.MainActivity;
-import com.openclassrooms.realestatemanager.Ui.Adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 
