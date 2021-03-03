@@ -142,4 +142,13 @@ public class DetailFragment extends Fragment {
     public void onHouseClick(House house) {
         this.house = house;
     }
+
+    @Override
+    public void onDestroy() {
+        MainFragment mainFragment = new MainFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_frame_layout, mainFragment)
+                .commit();
+        super.onDestroy();
+    }
 }

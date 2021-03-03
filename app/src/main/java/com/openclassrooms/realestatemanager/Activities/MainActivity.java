@@ -1,8 +1,17 @@
 package com.openclassrooms.realestatemanager.Activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.MainFragment;
@@ -10,11 +19,14 @@ import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textViewMain;
     private TextView textViewQuantity;
 
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
 
@@ -28,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         //this.configureTextViewMain();
         //this.configureTextViewQuantity();
+
+        this.configureToolBar();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
 
         this.configureAndShowMainFragment();
         this.configureAndShowDetailFragment();
@@ -47,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void configureAndShowMainFragment() {
         // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
+        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
         if (mainFragment == null) {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_main, mainFragment)
+                    .add(R.id.activity_main_frame_layout, mainFragment)
                     .commit();
         }
     }
@@ -67,6 +83,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void configureToolBar() {
+        this.toolbar = findViewById(R.id.activity_main_toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void configureDrawerLayout() {
+        this.drawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void configureNavigationView() {
+        this.navigationView = findViewById(R.id.activity_main_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
     // Add with Gaethan
     public void onHouseClick(House house) {
 
@@ -78,9 +111,55 @@ public class MainActivity extends AppCompatActivity {
             detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
             detailFragment = new DetailFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout_main, detailFragment)
+                    .replace(R.id.activity_main_frame_layout, detailFragment)
                     .commit();
             detailFragment.onHouseClick(house);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.activity_main_drawer_conversion :
+                break;
+            default:
+                break;
+        }
+        this.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle actions on menu items
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_toolbar_add:
+                Toast.makeText(this, "Ajouter nouvelle maison", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_activity_main_toolbar_modify:
+                Toast.makeText(this, "Modifier une annonce", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_activity_main_toolbar_search:
+                Toast.makeText(this, "Recherche", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 }
