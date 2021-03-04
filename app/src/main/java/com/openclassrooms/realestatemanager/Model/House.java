@@ -2,12 +2,13 @@ package com.openclassrooms.realestatemanager.Model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.Nullable;
 
 import java.util.Date;
 
 @Entity
 public class House {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String category;
     private String district;
@@ -22,6 +23,7 @@ public class House {
     private String address;
     private Boolean available;
     private String dateOfEntry;
+    @Nullable
     private String dateOfSale;
     private String realEstateAgent;
 

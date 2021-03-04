@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -141,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.menu_activity_main_toolbar_add:
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                startActivity(intent);
                 Toast.makeText(this, "Ajouter nouvelle maison", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_activity_main_toolbar_modify:
