@@ -34,7 +34,7 @@ public class DetailFragment extends Fragment {
 
     private List<Illustration> gallery = new ArrayList<>();
     private List<Illustration> galleryToDisplay = new ArrayList<>();
-    private List<House> houseList = MainFragment.houseList;
+    private List<House> houseList;
     // Smartphone
     private House house;
 
@@ -143,12 +143,12 @@ public class DetailFragment extends Fragment {
         this.house = house;
     }
 
-    @Override
+  /*  @Override
     public void onDestroy() {
         MainFragment mainFragment = new MainFragment();
         getFragmentManager().beginTransaction()
                 .replace(R.id.activity_main_frame_layout, mainFragment)
                 .commit();
         super.onDestroy();
-    }
+    }*/
 }

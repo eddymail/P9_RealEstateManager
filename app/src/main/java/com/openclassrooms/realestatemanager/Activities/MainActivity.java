@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_activity_main_toolbar_add:
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(intent);
-                Toast.makeText(this, "Ajouter nouvelle maison", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_activity_main_toolbar_modify:
                 Toast.makeText(this, "Modifier une annonce", Toast.LENGTH_LONG).show();

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
@@ -34,19 +35,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        House house = houseList.get(position);
-        holder.category.setText(house.getCategory());
-        holder.district.setText(house.getDistrict());
-        holder.price.setText(String.valueOf(house.getPrice()));
-
-        RequestOptions myOptions = new RequestOptions()
-                .centerCrop()
-                .override(100, 100);
-
-        Glide.with(holder.illustration.getContext())
-                .load(house.getIllustration())
-                .apply(myOptions)
-                .into(holder.illustration);
+        holder.updateHouse(houseList.get(position));
     }
 
     @Override
@@ -77,6 +66,22 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             this.onHouseListener = onHouseListener;
 
             itemView.setOnClickListener(this);
+        }
+
+        public void updateHouse(House house) {
+
+            category.setText(house.getCategory());
+            district.setText(house.getDistrict());
+            price.setText(String.valueOf(house.getPrice()));
+
+            RequestOptions myOptions = new RequestOptions()
+                    .centerCrop()
+                    .override(100, 100);
+
+            Glide.with(illustration.getContext())
+                    .load(house.getIllustration())
+                    .apply(myOptions)
+                    .into(illustration);
         }
 
         @Override

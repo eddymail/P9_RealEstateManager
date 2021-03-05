@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
@@ -94,7 +95,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         collectInput();
         createHouseAndAddItToDatabase();
-
-        Log.e("TEST", "House :" + this.houseViewModel.getHouse(houseToAdd.getId()));
+        Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_SHORT).show();
+        AddActivity.this.finish();
     }
 }
