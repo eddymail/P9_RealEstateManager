@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,6 +13,6 @@
         android:layout_height="match_parent"
         android:background="@android:color/background_dark"
         android:contentDescription="@string/logo"
-        tools:srcCompat="@drawable/logo_realestate"/>
+        app:srcCompat="@drawable/logo_realestate"/>
 
 </LinearLayout>

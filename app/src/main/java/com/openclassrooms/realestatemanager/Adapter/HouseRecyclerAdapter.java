@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
@@ -56,7 +55,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         private ImageView illustration;
         private OnHouseListener onHouseListener;
 
-        //Constructor
+        // Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
             super(itemView);
             category = itemView.findViewById(R.id.tv_fragment_main_item_category);

@@ -27,8 +27,28 @@ public class House {
     private String dateOfSale;
     private String realEstateAgent;
 
-    public House(long id, String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
+    //Constructor for database
+   /* public House(long id, String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
         this.id = id;
+        this.category = category;
+        this.district = district;
+        this.price = price;
+        this.area = area;
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBathrooms = numberOfBathrooms;
+        this.numberOfBedrooms = numberOfBedrooms;
+        this.pointOfInterest = pointOfInterest;
+        this.description = description;
+        this.illustration = illustration;
+        this.address = address;
+        this.available = available;
+        this.dateOfEntry = dateOfEntry;
+        this.dateOfSale = dateOfSale;
+        this.realEstateAgent = realEstateAgent;
+    }*/
+
+    //Constructor
+    public House(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
         this.price = price;

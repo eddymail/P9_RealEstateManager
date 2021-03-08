@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(foreignKeys = @ForeignKey(entity = House.class,
 parentColumns = "id",
 childColumns = "houseId"))
+
 public class Illustration {
     @PrimaryKey(autoGenerate = true)
     private long id;

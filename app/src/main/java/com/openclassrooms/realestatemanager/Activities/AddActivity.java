@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.Activities;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.Fragments.MainFragment;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -32,7 +35,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button addButton;
 
     private HouseViewModel houseViewModel;
-    private  House houseToAdd;
+    private House houseToAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +82,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         numberOfRoom = Integer.parseInt(roomInput.getText().toString());
         numberOfBedroom = Integer.parseInt(bedroomInput.getText().toString());
         numberOfBathroom = Integer.parseInt(bathroomInput.getText().toString());
-
     }
 
     private void createHouseAndAddItToDatabase() {
 
-        houseToAdd = new House(1, category, district, price, area,numberOfRoom, numberOfBathroom, numberOfBedroom, pointOfInterest, description, "https://v.seloger.com/s/width/861/visuels/0/r/i/1/0ri18eygqgnn0yj8yzyiwv9mx1f5x0yku96bf1a0w.jpg" , address, true, saleDate, null, agentName);
+        houseToAdd = new House( category, district, price, area,numberOfRoom, numberOfBathroom, numberOfBedroom, pointOfInterest, description, ContextCompat.getDrawable(this,R.drawable.ic_baseline_home_24).toString(), address, true, saleDate, null, agentName);
         this.houseViewModel.createHouse(houseToAdd);
     }
 
     @Override
     public void onClick(View view) {
-
-        Log.e("Test", "Clic ! ");
-
         collectInput();
         createHouseAndAddItToDatabase();
-        Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
         AddActivity.this.finish();
     }
 }

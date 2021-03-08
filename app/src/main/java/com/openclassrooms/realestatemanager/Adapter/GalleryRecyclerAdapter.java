@@ -31,11 +31,7 @@ public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewH
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Illustration illustration = gallery.get(position);
-        holder.description.setText(illustration.getDescription());
-        Glide.with(holder.illustration.getContext())
-                .load(illustration.getUrl())
-                .into(holder.illustration);
+        holder.updateIllustration(gallery.get(position));
     }
 
     @Override
@@ -43,16 +39,27 @@ public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewH
         return gallery.size();
     }
 
+
+    // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView description;
-        private ImageView illustration;
+        private ImageView picture;
 
+        // Constructor
         public ViewHolder(View itemView) {
             super(itemView);
 
             description = itemView.findViewById(R.id.tv_fragment_detail_item_description);
-            illustration = itemView.findViewById(R.id.iv_fragment_detail_item);
+            picture = itemView.findViewById(R.id.iv_fragment_detail_item);
 
+        }
+
+        public void updateIllustration(Illustration illustration) {
+
+            description.setText(illustration.getDescription());
+            Glide.with(picture.getContext())
+                    .load(illustration.getUrl())
+                    .into(picture);
         }
     }
 }

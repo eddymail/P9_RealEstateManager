@@ -101,18 +101,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    // Add with Gaethan
     public void onHouseClick(House house) {
 
         if (detailFragment != null) {
             //Tablet
-            detailFragment.updateDisplayTablet(house);
+            detailFragment.updateDisplay(house);
+            detailFragment.updateDisplayDetails(house);
         } else {
-            //Smartphhone
+            //Smartphone
             detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
             detailFragment = new DetailFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_main_frame_layout, detailFragment)
+                    .addToBackStack(null)
                     .commit();
             detailFragment.onHouseClick(house);
         }
