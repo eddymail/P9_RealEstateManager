@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+
+        Log.e("Test", "Mainactivity onCreate");
 
         this.configureAndShowMainFragment();
         this.configureAndShowDetailFragment();
@@ -101,12 +105,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+        return true;
+    }
+
     public void onHouseClick(House house) {
 
-        if (detailFragment != null) {
+        if (detailFragment != null && Utils.isTablet(this)) {
             //Tablet
             detailFragment.updateDisplay(house);
             detailFragment.updateDisplayDetails(house);
+            this.id = house.getId();
+            Log.e("Test", "MainActivity onClick Tablette");
+
         } else {
             //Smartphone
             detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
@@ -116,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
             detailFragment.onHouseClick(house);
+            this.id = house.getId();
+            Log.e("Test", "MainActivity onClick Smartphone");
         }
     }
 
@@ -133,12 +148,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle actions on menu items
         switch (item.getItemId()) {
@@ -147,7 +156,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 return true;
             case R.id.menu_activity_main_toolbar_modify:
-                Toast.makeText(this, "Modifier une annonce", Toast.LENGTH_LONG).show();
+                if(id != 0) {
+                    Intent intentModify = new Intent(MainActivity.this, AddActivity.class);
+                    intentModify.putExtra("id", id);
+                    startActivity(intentModify);
+                } else {
+                    Toast.makeText(this, "Selectionner un bien à vendre", Toast.LENGTH_LONG).show();
+                }
                 return true;
             case R.id.menu_activity_main_toolbar_search:
                 Toast.makeText(this, "Recherche", Toast.LENGTH_LONG).show();

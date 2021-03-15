@@ -55,6 +55,8 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         this.configureRecyclerView();
         this.getAllHousesFromDatabase();
 
+        Log.e("Test", "MainFragment onCreateView");
+
         return view;
     }
 

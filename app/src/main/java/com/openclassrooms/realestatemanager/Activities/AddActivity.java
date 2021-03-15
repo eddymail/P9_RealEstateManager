@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -25,6 +28,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,48 +36,76 @@ import java.util.Date;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final int RESULT_ADD_PICTURE = 1;
+    public static final int RESULT_TAKE_PICTURE = 2;
     private static final long HOUSE_ID = 1;
     private String category, district, pointOfInterest, address, description, agentName, saleDate, upForSale;;
     private int price, area, numberOfRoom, numberOfBedroom, numberOfBathroom;
-
+    private long id;
 
     private EditText categoryInput, districtInput, priceInput, areaInput, roomInput, bedroomInput, bathroomInput,
     pointOfInterestValue, descriptionValue, agentNameValue, addressValue;
-    private Button addButton, addPictureButton;
+    private Button addBtn, addPictureBtn, takePictureBtn;
 
+    private HouseRecyclerAdapter adapter;
     private HouseViewModel houseViewModel;
     private House houseToAdd;
+    private House houseToUpdate;
     private String illustration;
+    private String picturePath = null;
+    private String descriptionPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-    categoryInput = findViewById(R.id.et_add_activity_category);
-    districtInput = findViewById(R.id.et_add_activity_district);
-    priceInput = findViewById(R.id.et_add_activity_price);
-    areaInput = findViewById(R.id.et_add_activity_area);
-    roomInput = findViewById(R.id.et_add_activity_room);
-    bedroomInput = findViewById(R.id.et_add_activity_bedroom);
-    bathroomInput = findViewById(R.id.et_add_activity_bathroom);
-    pointOfInterestValue = findViewById(R.id.et_add_activity_pointOfInterest);
-    descriptionValue = findViewById(R.id.et_add_activity_description);
-    addressValue = findViewById(R.id.et_add_activity_address);
-    agentNameValue = findViewById(R.id.et_add_activity_agent_name);
-    addButton = findViewById(R.id.bt_add_activity);
-    addPictureButton = findViewById(R.id.bt_add_activity_add_picture);
+        configureViewModel();
 
-    configureViewModel();
+     Bundle extras = getIntent().getExtras();
+         if (extras != null) {
+             id = extras.getLong("id", -1);
+             Log.e("Test", "AddActivity = id :" + id);
+         }
+            //create
+            if (id == -1 || id == 0) {
+                this.initActivity();
+                addBtn.setText("Ajouter");
+            } else {
+                //Modify
+                this.initActivity();
+                this.getCurrentHouse(id);
+                addBtn.setText("Modifier");
+            }
 
-    addButton.setOnClickListener(this);
-    addPictureButton.setOnClickListener(this);
+        addBtn.setOnClickListener(this);
+        addPictureBtn.setOnClickListener(this);
+        takePictureBtn.setOnClickListener(this);
+
+        Log.e("Test", "AddActivity onCreate :");
     }
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
         this.houseViewModel.init(HOUSE_ID);
+    }
+
+    private void initActivity() {
+        categoryInput = findViewById(R.id.et_add_activity_category);
+        districtInput = findViewById(R.id.et_add_activity_district);
+        priceInput = findViewById(R.id.et_add_activity_price);
+        areaInput = findViewById(R.id.et_add_activity_area);
+        roomInput = findViewById(R.id.et_add_activity_room);
+        bedroomInput = findViewById(R.id.et_add_activity_bedroom);
+        bathroomInput = findViewById(R.id.et_add_activity_bathroom);
+        pointOfInterestValue = findViewById(R.id.et_add_activity_pointOfInterest);
+        descriptionValue = findViewById(R.id.et_add_activity_description);
+        addressValue = findViewById(R.id.et_add_activity_address);
+        agentNameValue = findViewById(R.id.et_add_activity_agent_name);
+        addBtn = findViewById(R.id.bt_add_activity);
+        addPictureBtn = findViewById(R.id.bt_add_activity_add_picture);
+        takePictureBtn = findViewById(R.id.bt_add_activity_take_picture);
     }
 
     private void collectInput() {
@@ -92,60 +124,26 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         numberOfBathroom = Integer.parseInt(bathroomInput.getText().toString());
     }
 
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()){
-            case  R.id.bt_add_activity :
-                //Create new house in database
-                collectInput();
-                createHouseAndAddItToDatabase();
-                Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
-                AddActivity.this.finish();
-                break;
-
-            case R.id.bt_add_activity_add_picture :
-                //Add picture from device
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, 123);
-                break;
-        }
+    private void prepopulateTextView(House houseToDisplay) {
+        categoryInput.setText(houseToDisplay.getCategory());
+        districtInput.setText(houseToDisplay.getDistrict());
+        priceInput.setText(String.valueOf(houseToDisplay.getPrice()));
+        areaInput.setText(String.valueOf(houseToDisplay.getArea()));
+        roomInput.setText(String.valueOf(houseToDisplay.getNumberOfRooms()));
+        bedroomInput.setText(String.valueOf(houseToDisplay.getNumberOfBedrooms()));
+        bathroomInput.setText(String.valueOf(houseToDisplay.getNumberOfBathrooms()));
+        pointOfInterestValue.setText(houseToDisplay.getPointOfInterest());
+        descriptionValue.setText(houseToDisplay.getDescription());
+        addressValue.setText(houseToDisplay.getAddress());
+        agentNameValue.setText(houseToDisplay.getRealEstateAgent());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            //Access to picture from data
-            Uri selectedPicture = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            //Cursor for access
-            Cursor cursor = this.getContentResolver().query(selectedPicture, filePathColumn, null, null, null);
-            //position on line (normalement une seule)
-            cursor.moveToFirst();
-            //get path
-         /*   int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String imgPath = cursor.getString(columnIndex);
-            cursor.close();*/
-            //get picture
-          //  Bitmap bmp = BitmapFactory.decodeFile((imgPath));
-            Bitmap bmp = null;
-            try {
-                bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedPicture);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("Test", "descriptionPicture : no" );
-            }
-            //set picture
-            String descriptionPicture;
-            if ( bmp != null) {
-                descriptionPicture = getStringImage(bmp);
-                Log.e("Test", "descriptionPicture : " + descriptionPicture);
-                this.illustration = descriptionPicture;
-            }
-        }
+    private void getCurrentHouse(long id) {
+        this.houseViewModel.getHouse(id).observe(this,this::prepopulateTextView);
+    }
+
+    private void getHouseToUpdate(long id) {
+        this.houseViewModel.getHouse(id).observe(this,this::updateHouseAndUpdateDatabase);
     }
 
     private void createHouseAndAddItToDatabase() {
@@ -157,6 +155,146 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         this.houseViewModel.createHouse(houseToAdd);
     }
 
+    private void updateHouseAndUpdateDatabase(House house) {
+        illustration = house.getIllustration();
+        saleDate = house.getDateOfSale();
+        upForSale = house.getDateOfEntry();
+        Log.e("Test", "Avant Modify :" + house.getArea() );
+        houseToUpdate = new House( category, district, price, area,numberOfRoom, numberOfBathroom, numberOfBedroom, pointOfInterest, description, illustration, address, true, upForSale, null, agentName);
+        Log.e("Test", "Avant Modify :" + houseToUpdate.getArea() );
+        this.houseViewModel.updateHouse(houseToUpdate);
+    }
+
+    //Start Activity for get picture from device
+    private void addPictureFromDevice() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, RESULT_ADD_PICTURE);
+    }
+
+    //Start Activity for take picture with device
+    private void takePicture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //check intent can be managed
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            //Create a unique file name
+            String time = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+            File pictureDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File pictureFile = File.createTempFile("picture"+time,".jpg", pictureDir);
+                //Save full path
+                picturePath = pictureFile.getAbsolutePath();
+                //Create uri
+                Uri pictureUri = FileProvider.getUriForFile(AddActivity.this, AddActivity.this.getApplicationContext().getPackageName()+".provider", pictureFile);
+                //Uri to intent for save picture in temporary file
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+                //Open activity
+                startActivityForResult(intent, RESULT_TAKE_PICTURE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //OnClick method
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case  R.id.bt_add_activity :
+
+                if (id == -1 || id == 0) {
+                    //Create new house in database
+                    this.collectInput();
+                    this.createHouseAndAddItToDatabase();
+                    Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
+                    adapter.notifyDataSetChanged();
+                    AddActivity.this.finish();
+                } else {
+                    //Update house in database
+                    this.collectInput();
+                    this.getHouseToUpdate(id);
+                    Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
+                    adapter.notifyDataSetChanged();
+                    AddActivity.this.finish();
+                }
+                break;
+
+            case R.id.bt_add_activity_add_picture :
+                //Add picture from device
+                this.addPictureFromDevice();
+                break;
+
+            case R.id.bt_add_activity_take_picture:
+                //Take picture with device
+                this.takePicture();
+                break;
+        }
+    }
+
+
+    //Result for Add Picture and Take Picture
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+
+                case RESULT_ADD_PICTURE :
+                    //Access to picture from data
+                    Uri selectedPicture = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    //Cursor for access
+                    Cursor cursor = this.getContentResolver().query(selectedPicture, filePathColumn, null, null, null);
+                    //position on line (normalement une seule)
+                    cursor.moveToFirst();
+                    //get path
+                    //get picture
+                    Bitmap bmp = null;
+                    try {
+                        bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedPicture);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("Test", "descriptionPicture : no" );
+                    }
+                    //set picture
+                    if ( bmp != null) {
+                        descriptionPicture = getStringImage(bmp);
+                        Log.e("Test", "descriptionPicture : " + descriptionPicture);
+                        this.illustration = descriptionPicture;
+                    }
+                    break;
+
+                case RESULT_TAKE_PICTURE :
+                    //Get picture
+                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                    //scale picture
+                    scaleBitmap(bitmap);
+                    //set picture
+                    if ( bitmap != null) {
+                        descriptionPicture = getStringImage(bitmap);
+                        Log.e("Test", "descriptionPicture : " + descriptionPicture);
+                        this.illustration = descriptionPicture;
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    //Scale bitmap
+    public Bitmap scaleBitmap(Bitmap mBitmap) {
+        int ScaleSize = 50;//max Height or width to Scale
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        float excessSizeRatio = width > height ? width / ScaleSize : height / ScaleSize;
+        Bitmap bitmap = Bitmap.createBitmap(
+                mBitmap, 0, 0,(int) (width/excessSizeRatio),(int) (height/excessSizeRatio));
+        //mBitmap.recycle(); if you are not using mBitmap Obj
+        return bitmap;
+    }
+
+    //Bitmap to String
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);

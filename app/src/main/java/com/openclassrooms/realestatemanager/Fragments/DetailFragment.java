@@ -40,6 +40,7 @@ public class DetailFragment extends Fragment {
 
     // Smartphone
     private House house;
+    private long id;
 
     private RecyclerView recyclerView;
     private GalleryRecyclerAdapter adapter;
@@ -70,6 +71,8 @@ public class DetailFragment extends Fragment {
 
         this.configureViewModel();
 
+        Log.e("Test", "DetailFragment onCreateView");
+
         return view;
     }
 
@@ -79,7 +82,7 @@ public class DetailFragment extends Fragment {
         if (house != null) {
             updateDisplay(house);
         }
-
+        Log.e("Test", "DetailFragment onStart");
         this.updateDisplayDetails(house);
 
         super.onStart();
@@ -108,7 +111,7 @@ public class DetailFragment extends Fragment {
 
     public void updateDisplayDetails(House house){
         if (house == null) {
-            Log.e("Test","" + getView());
+          // Log.e("Test","" + getView());
             getView().setVisibility(View.GONE);
         } else {
             getView().setVisibility(View.VISIBLE);
@@ -134,8 +137,11 @@ public class DetailFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+
     //Listener
     public void onHouseClick(House house) {
         this.house = house;
+        //Use for modify
+        this.id = house.getId();
     }
 }

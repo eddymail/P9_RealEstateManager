@@ -186,11 +186,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Description  :"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_agent_name" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <EditText
         android:id="@+id/et_add_activity_description"
@@ -214,22 +214,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Agent immobilier :"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <EditText
         android:id="@+id/et_add_activity_agent_name"
         android:layout_width="100dp"
         android:layout_height="36dp"
-        android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="Prénom"
         android:inputType="textPersonName"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/tv_add_activity_agent_name"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Button
         android:id="@+id/bt_add_activity"
@@ -270,19 +270,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_address" />
 
-    <Button
-        android:id="@+id/bt_add_activity_add_picture"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:text="Ajouter photo de présentation "
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/et_add_activity_description"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/et_add_activity_agent_name"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest" />
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest">
+
+        <Button
+            android:id="@+id/bt_add_activity_add_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ajouter une photo"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/bt_add_activity_take_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="prendre une photo"
+            android:textSize="10sp" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
