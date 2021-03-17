@@ -23,7 +23,8 @@ public interface HouseDao {
     @Query("SELECT * FROM House")
     LiveData<List<House>> getAll();
 
-    @Update
-    int updateHouse(House house);
+
+    @Query("UPDATE House SET category = :category,  district = :district, price = :price, area = :area, numberOfRooms = :numberOfRooms, numberOfBathrooms= :numberOfBathrooms, numberOfBedRooms = :numberOfBedRooms, pointOfInterest = :pointOfInterest, description = :description, illustration = :illustration, address = :address, available = :available, dateOfEntry = :dateOfEntry, dateOfSale = :dateOfSale, realEstateAgent = :realEstateAgent WHERE id = :id")
+    int updateHouse(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms,String pointOfInterest, String description, String illustration, String address,Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent, long id);
 
 }

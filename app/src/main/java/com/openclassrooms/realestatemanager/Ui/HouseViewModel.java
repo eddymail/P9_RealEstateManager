@@ -41,9 +41,13 @@ public class HouseViewModel extends ViewModel {
         });
     }
 
-    public void updateHouse(House house) {
+    public void updateHouse(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms,
+                            int numberOfBedRooms,String pointOfInterest, String description, String illustration, String address,
+                            Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent, long id) {
         executor.execute(() -> {
-            houseDataSource.updateHouse(house);
+            houseDataSource.updateHouse(category, district,price, area, numberOfRooms, numberOfBathrooms,
+                    numberOfBedRooms,pointOfInterest, description, illustration, address, true,
+                    dateOfEntry,dateOfSale, realEstateAgent, id);
         });
     }
 

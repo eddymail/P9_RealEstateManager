@@ -201,11 +201,12 @@
 
         <TextView
             android:id="@+id/tv_fragment_detail_poi_value"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="15dp"
             android:layout_marginStart="8dp"
             android:text="@string/poi_details"
             android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_point_of_interest"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi" />
 
@@ -257,32 +258,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description" />
 
-        <ImageView
-            android:id="@+id/iv_fragment_detail_mapview"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+        <!--
+        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:name="com.google.android.gms.maps.MapFragment"
+              android:id="@+id/iv_fragment_detail_mapview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_dialog_map"
             app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description_value"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bathrooms_value" />
-
-        <!--
-        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:id="@+id/map"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description_value"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_fragment_detail_address_value"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi_value"
             map:mapType="normal"
             map:liteMode="true"/>
         -->
+
+        <ImageView
+            android:id="@+id/iv_fragment_detail_mapview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_dialog_map"
+            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.607"
+            app:layout_constraintStart_toEndOf="@+id/tv_fragment_detail_address_value"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bathrooms_value"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/lbl_no_house"

@@ -23,6 +23,13 @@ public class HouseDataRepository {
     public LiveData<List<House>> getAll() { return this.houseDao.getAll(); }
 
     //Update house
-    public void updateHouse(House house) { houseDao.updateHouse(house); }
+    public void updateHouse(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms,
+                            String pointOfInterest, String description, String illustration, String address,Boolean available, String dateOfEntry,
+                            String dateOfSale, String realEstateAgent, long id)
+    {
+        houseDao.updateHouse(category, district,price, area, numberOfRooms, numberOfBathrooms,
+            numberOfBedRooms,pointOfInterest, description, illustration, address, true,
+            dateOfEntry,dateOfSale, realEstateAgent, id);
+    }
 
 }

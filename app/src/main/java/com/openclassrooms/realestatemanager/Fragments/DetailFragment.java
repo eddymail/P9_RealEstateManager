@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.Fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -19,6 +24,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,7 @@ public class DetailFragment extends Fragment {
     private TextView address;
     private TextView description;
     private TextView label;
+    private ImageView mapView;
 
     private List<Illustration> gallery = new ArrayList<>();
 
@@ -66,6 +73,7 @@ public class DetailFragment extends Fragment {
         address = view.findViewById(R.id.tv_fragment_detail_address_value);
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
         label = view.findViewById(R.id.lbl_no_house);
+        mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
 
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
 
@@ -80,7 +88,7 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         //Smartphone display
         if (house != null) {
-            updateDisplay(house);
+            this.updateDisplay(house);
         }
         Log.e("Test", "DetailFragment onStart");
         this.updateDisplayDetails(house);
@@ -126,6 +134,11 @@ public class DetailFragment extends Fragment {
         pointOfInterest.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());
+        /*TODO
+        Afficher carte*/
+        Glide.with(mapView.getContext())
+                .load(convertAndShowAddressOnStaticMap(house.getAddress()))
+                .into(mapView);
     }
 
     private void getGalleryHouseFromDatabase (long houseId) {
@@ -137,6 +150,34 @@ public class DetailFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    public String convertAndShowAddressOnStaticMap(String address) {
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> addresses;
+        try {
+            addresses = coder.getFromLocationName(address, 5);
+            if (addresses == null) {
+            }
+            Address location = addresses.get(0);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            LatLng latLng = new LatLng(lat,lng);
+            String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200&markers=color:black%7C" + lat + "," + lng + "&sensor=false&key=AIzaSyCr-G6_W3xWuBryD_pixeo_gqw2Kx01ZL8";
+            return url;
+
+        /*    Log.i("Lat",""+lat);
+            Log.i("Lng",""+lng);
+            LatLng latLng = new LatLng(lat,lng);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            googleMap.addMarker(markerOptions);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));*/
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    return null;
+    }
 
     //Listener
     public void onHouseClick(House house) {

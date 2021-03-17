@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -39,8 +40,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public static final int RESULT_ADD_PICTURE = 1;
     public static final int RESULT_TAKE_PICTURE = 2;
     private static final long HOUSE_ID = 1;
-    private String category, district, pointOfInterest, address, description, agentName, saleDate, upForSale;;
-    private int price, area, numberOfRoom, numberOfBedroom, numberOfBathroom;
+    private String category, district, pointOfInterest, address, description, realEstateAgent, dateOfSale, dateOfEntry;;
+    private int price, area, numberOfRooms, numberOfBedRooms, numberOfBathrooms;
     private long id;
 
     private EditText categoryInput, districtInput, priceInput, areaInput, roomInput, bedroomInput, bathroomInput,
@@ -49,6 +50,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private HouseRecyclerAdapter adapter;
     private HouseViewModel houseViewModel;
+
     private House houseToAdd;
     private House houseToUpdate;
     private String illustration;
@@ -114,14 +116,14 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         pointOfInterest = pointOfInterestValue.getText().toString();
         address = addressValue.getText().toString();
         description = descriptionValue.getText().toString();
-        agentName = agentNameValue.getText().toString();
+        realEstateAgent = agentNameValue.getText().toString();
         Date date = Calendar.getInstance().getTime();
-        upForSale = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        dateOfEntry = new SimpleDateFormat("dd-MM-yyyy").format(date);
         price = Integer.parseInt(priceInput.getText().toString());
         area = Integer.parseInt(areaInput.getText().toString());
-        numberOfRoom = Integer.parseInt(roomInput.getText().toString());
-        numberOfBedroom = Integer.parseInt(bedroomInput.getText().toString());
-        numberOfBathroom = Integer.parseInt(bathroomInput.getText().toString());
+        numberOfRooms = Integer.parseInt(roomInput.getText().toString());
+        numberOfBedRooms = Integer.parseInt(bedroomInput.getText().toString());
+        numberOfBathrooms = Integer.parseInt(bathroomInput.getText().toString());
     }
 
     private void prepopulateTextView(House houseToDisplay) {
@@ -143,6 +145,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getHouseToUpdate(long id) {
+        Log.e("Test", "getHouseToUpdate : id vaut = " + id);
         this.houseViewModel.getHouse(id).observe(this,this::updateHouseAndUpdateDatabase);
     }
 
@@ -150,19 +153,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (illustration == null) {
             illustration = "https://www.ouestfrance-immo.com/photo-vente-maison-la-roche-sur-yon-85/207/maison-a-vendre-la-roche-sur-yon-15080201_1_1603144038_f056394ffbe2dcc301aac986e8da59a7_crop_295-222_.jpg";
         }
-        houseToAdd = new House( category, district, price, area,numberOfRoom, numberOfBathroom, numberOfBedroom, pointOfInterest, description, illustration, address, true, upForSale, null, agentName);
+        houseToAdd = new House( category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest, description, illustration, address, true, dateOfEntry, null, realEstateAgent);
         Log.e("Test", "illustration : " + illustration);
         this.houseViewModel.createHouse(houseToAdd);
     }
 
     private void updateHouseAndUpdateDatabase(House house) {
+        id = house.getId();
         illustration = house.getIllustration();
-        saleDate = house.getDateOfSale();
-        upForSale = house.getDateOfEntry();
-        Log.e("Test", "Avant Modify :" + house.getArea() );
-        houseToUpdate = new House( category, district, price, area,numberOfRoom, numberOfBathroom, numberOfBedroom, pointOfInterest, description, illustration, address, true, upForSale, null, agentName);
-        Log.e("Test", "Avant Modify :" + houseToUpdate.getArea() );
-        this.houseViewModel.updateHouse(houseToUpdate);
+        dateOfSale = house.getDateOfSale();
+        dateOfEntry = house.getDateOfEntry();
+        Log.e("Test", "Avant Modify house id: "+ house.getId() + "area: " + house.getArea() );
+        houseToUpdate = new House( category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest, description, illustration, address, true, dateOfEntry, null, realEstateAgent);
+        Log.e("Test", "Après Modify  house id: " + house.getId() + "area: " + houseToUpdate.getArea());
+        this.houseViewModel.updateHouse(category, district,price, area, numberOfRooms, numberOfBathrooms,
+                numberOfBedRooms,pointOfInterest, description, illustration, address, true,
+                dateOfEntry,dateOfSale, realEstateAgent, id);
     }
 
     //Start Activity for get picture from device
@@ -213,7 +219,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     this.collectInput();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
-                    adapter.notifyDataSetChanged();
+                   // adapter.notifyDataSetChanged();
                     AddActivity.this.finish();
                 }
                 break;
