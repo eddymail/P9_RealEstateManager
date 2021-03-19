@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.Adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 
 import java.util.List;
 
@@ -42,18 +42,12 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         return houseList.size();
     }
 
-
-    // Verifier usage
-    public void updateList(@NonNull final List<House> houseList) {
-        this.houseList = houseList;
-        notifyDataSetChanged();
-    }
-
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView category, district, price;
-        private ImageView illustration;
+        private ImageView illustrationView;
         private OnHouseListener onHouseListener;
+        private String illustration;
 
         // Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
@@ -61,7 +55,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             category = itemView.findViewById(R.id.tv_fragment_main_item_category);
             district = itemView.findViewById(R.id.tv_fragment_main_item_district);
             price = itemView.findViewById(R.id.tv_fragment_main_item_price);
-            illustration = itemView.findViewById(R.id.fragment_main_item_illustration);
+            illustrationView = itemView.findViewById(R.id.fragment_main_item_illustration);
             this.onHouseListener = onHouseListener;
 
             itemView.setOnClickListener(this);
@@ -77,10 +71,16 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
                     .centerCrop()
                     .override(100, 100);
 
-            Glide.with(illustration.getContext())
-                    .load(house.getIllustration())
-                    .apply(myOptions)
-                    .into(illustration);
+            if (house.getIllustration().isEmpty()) {
+                illustrationView.setImageResource(R.drawable.sale_house);
+            } else {
+                illustration = Utils.getIllustrationFromDevice(house);
+
+                Glide.with(illustrationView.getContext())
+                        .load(illustration)
+                        .apply(myOptions)
+                        .into(illustrationView);
+            }
         }
 
         @Override

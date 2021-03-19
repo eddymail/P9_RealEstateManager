@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.model.LatLng;
+import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 
 import java.io.IOException;
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private TextView area;
     private TextView rooms;
@@ -74,12 +72,11 @@ public class DetailFragment extends Fragment {
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
         label = view.findViewById(R.id.lbl_no_house);
         mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
-
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
 
-        this.configureViewModel();
+        mapView.setOnClickListener(this);
 
-        Log.e("Test", "DetailFragment onCreateView");
+        this.configureViewModel();
 
         return view;
     }
@@ -90,9 +87,7 @@ public class DetailFragment extends Fragment {
         if (house != null) {
             this.updateDisplay(house);
         }
-        Log.e("Test", "DetailFragment onStart");
         this.updateDisplayDetails(house);
-
         super.onStart();
     }
 
@@ -117,9 +112,8 @@ public class DetailFragment extends Fragment {
         getGalleryHouseFromDatabase(house.getId());
     }
 
-    public void updateDisplayDetails(House house){
+    public void updateDisplayDetails(House house) {
         if (house == null) {
-          // Log.e("Test","" + getView());
             getView().setVisibility(View.GONE);
         } else {
             getView().setVisibility(View.VISIBLE);
@@ -134,15 +128,14 @@ public class DetailFragment extends Fragment {
         pointOfInterest.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());
-        /*TODO
-        Afficher carte*/
+        //Display house on staticMap
         Glide.with(mapView.getContext())
                 .load(convertAndShowAddressOnStaticMap(house.getAddress()))
                 .into(mapView);
     }
 
-    private void getGalleryHouseFromDatabase (long houseId) {
-        this.houseViewModel.getGallery(houseId).observe(this, this :: updateList);
+    private void getGalleryHouseFromDatabase(long houseId) {
+        this.houseViewModel.getGallery(houseId).observe(this, this::updateList);
     }
 
     private void updateList(List<Illustration> illustrations) {
@@ -154,29 +147,19 @@ public class DetailFragment extends Fragment {
         Geocoder coder = new Geocoder(getContext());
         List<Address> addresses;
         try {
-            addresses = coder.getFromLocationName(address, 5);
+            addresses = coder.getFromLocationName(address, 10);
             if (addresses == null) {
             }
             Address location = addresses.get(0);
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            LatLng latLng = new LatLng(lat,lng);
-            String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200&markers=color:black%7C" + lat + "," + lng + "&sensor=false&key=AIzaSyCr-G6_W3xWuBryD_pixeo_gqw2Kx01ZL8";
+            String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200" +
+                    "&markers=color:black%7C" + lat + "," + lng + "&sensor=false&key=AIzaSyCV1RfW578IO-3Sr5zeb8uK5xdLx_Gz_5M";
             return url;
-
-        /*    Log.i("Lat",""+lat);
-            Log.i("Lng",""+lng);
-            LatLng latLng = new LatLng(lat,lng);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            googleMap.addMarker(markerOptions);
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));*/
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-    return null;
+        return null;
     }
 
     //Listener
@@ -184,5 +167,13 @@ public class DetailFragment extends Fragment {
         this.house = house;
         //Use for modify
         this.id = house.getId();
+    }
+
+    @Override
+    public void onClick(View view) {
+        MapViewFragment mapViewFragment = new MapViewFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detail_frame_layout, mapViewFragment)
+                .commit();
     }
 }

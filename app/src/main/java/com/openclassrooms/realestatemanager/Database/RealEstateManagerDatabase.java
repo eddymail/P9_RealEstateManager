@@ -22,6 +22,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
 
     //Dao
     public abstract HouseDao houseDao();
+
     public abstract IllustrationDao illustrationDao();
 
     //Instance
@@ -30,7 +31,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
             synchronized (RealEstateManagerDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            RealEstateManagerDatabase.class,"MyDatabase.db")
+                            RealEstateManagerDatabase.class, "MyDatabase.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -53,11 +54,11 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 HouseOne.put("price", 741000);
                 HouseOne.put("area", 380);
                 HouseOne.put("numberOfRooms", 11);
-                HouseOne.put("numberOfBathrooms",2);
-                HouseOne.put("numberOfBedrooms",6);
+                HouseOne.put("numberOfBathrooms", 2);
+                HouseOne.put("numberOfBedrooms", 6);
                 HouseOne.put("pointOfInterest", "Commerce, école, métro");
                 HouseOne.put("description", "Magnifique villa à Saint Aubin de Médoc située dans un quartier recherché. Vous découvrirez une entrée, une belle pièce de vie avec salon et salle à manger, un deuxième salon séparé par une cheminée centrale, une cuisine fermée donnant sur la cuisine d'été, une buanderie, une salle de jeu, une cave. Le rez-de-chaussée est complété par une chambre avec salle d'eau, un bureau et une salle de sport avec sauna et salle d'eau. A l'étage, vous accédez à une suite parentale avec une chambre donnant sur une terrasse, une salle de bains avec baignoire et douche, un double dressing, puis trois chambres avec dressing et une salle de bains avec baignoire et douche. L'ensemble sur un jardin paysagé d'environ 1400 m² dispose d'une grande terrasse en bois, d'une cuisine d'été, d'une piscine au sel chauffée. Très belles prestations pour cette maison d'exception à quelques minutes du centre de Saint Aubin de Médoc, des écoles, collège et lycée. Situation idéale à 15 kms de Bordeaux, 35 kms de Lacanau, 7 kms d'un parcours de golf. Un coin de paradis à découvrir sans tarder.");
-                HouseOne.put("illustration","https://v.seloger.com/s/width/861/visuels/0/r/i/1/0ri18eygqgnn0yj8yzyiwv9mx1f5x0yku96bf1a0w.jpg" );
+                HouseOne.put("illustration", "");
                 HouseOne.put("address", "15 route de Hourton, 33160 Saint-Aubin-de-Médoc");
                 HouseOne.put("available", true);
                 HouseOne.put("dateOfEntry", "20/01/2021");
@@ -73,11 +74,11 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 houseTwo.put("price", 749000);
                 houseTwo.put("area", 214);
                 houseTwo.put("numberOfRooms", 6);
-                houseTwo.put("numberOfBathrooms",2);
-                houseTwo.put("numberOfBedrooms",5);
+                houseTwo.put("numberOfBathrooms", 2);
+                houseTwo.put("numberOfBedrooms", 5);
                 houseTwo.put("pointOfInterest", "Commerce, bureau, école");
                 houseTwo.put("description", "Nichée au fond d'une impasse, construite en 2015 sur une parcelle clôturée et piscinable de 1000 m² environ, très belle maison de plain pied ossature bois avec vue sur les champs. Située à 35mn en voiture de Bordeaux et des plages de Lacanau, cette maison vous charmera par sa luminosité grâce au patio central, et par la qualité de vie qu'elle propose. L'entrée dessert d'un côté la partie jour avec une vaste pièce de vie et cuisine ouverte, une buanderie, un bureau et une grande suite parentale avec dressing et salle de douche. De l'autre côté se trouve la partie enfants avec 4 chambres supplémentaires, une grande salle de bain, un WC séparé et une salle de jeu. Toute la maison tourne autour d'un joli patio de 80 m² environ, végétalisé et terrassé. L'ensemble est complété d'un garage de 15 m², de 3 places de stationnement devant la maison, une terrasse à l'ombre et un grand jardin. Arrêt de bus et ramassage scolaire au bout de la rue. 5mn en voiture de l'école élémentaire Molière et du Groupe Scolaire Jean de la Fontaine. Proximité sites aéronautiques DASSAULT et THALES.");
-                houseTwo.put("illustration","https://v.seloger.com/s/cdn/x/visuels/0/w/v/7/0wv7p12j5lugnffry96jkhoghwf43g5iqal3q1bc0.jpg" );
+                houseTwo.put("illustration", "");
                 houseTwo.put("address", "68 ter Route de Loustaou Vieil, 33160 Saint-Aubin-de-Médoc");
                 houseTwo.put("available", true);
                 houseTwo.put("dateOfEntry", "15/12/2021");
@@ -93,11 +94,11 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 houseThree.put("price", 668000);
                 houseThree.put("area", 195);
                 houseThree.put("numberOfRooms", 7);
-                houseThree.put("numberOfBathrooms",3);
-                houseThree.put("numberOfBedrooms",5);
+                houseThree.put("numberOfBathrooms", 3);
+                houseThree.put("numberOfBedrooms", 5);
                 houseThree.put("pointOfInterest", "Commerce, école, tram, parc");
                 houseThree.put("description", "Maison de 195 m² environ comprenant 5 belles chambres, toutes en parquet bois naturel. Vous serez séduit par le volume de sa chambre parentale, qui comprend un dressing équipé et sa pièce d'eau attenante disposant d'une baignoire, d'une douche à l'italienne, d'un toilette et d'une double vasque. Un ensemble de 37 m² environ entièrement pour vous. Les 4 autres chambres en parquet bois disposent toutes d'un placard. L'une d'entre elle, attenante à la pièce de vie pourra aisément se transformer en bureau afin de vous permettre d'être au calme et indépendant. Que dire de la pièce de vie de plus de 67 m², lumineuse grâce à sa double exposition Est/Ouest et ses grandes baies vitrées (5m d'un côté et 3m de l'autre), qui n'attend que vous pour se transformer en différents espaces: salle à manger, salon, coin cheminée, coin lecture.. Faites vous plaisir. La cuisine de près de 19 m² avec un îlot central et équipée, vous séduira par sa convivialité et sa luminosité grâce à un puit de lumière situé au dessus de l'îlot. Un cellier avec un accès sur le garage complète cette cuisine. Côté extérieur vous serez séduit par son terrain de plus de 1600 m² et ses arbres qui vous donnent une impression de vivre en forêt. La piscine de 4X10 exposée Ouest ajoute encore à cette quiétude. Un double garage isolé de 40 m² complète cette villa qui n'attend plus que vous me contactiez pour organiser une visite. Chauffage au sol, au gaz avec chaudière Viesmann de 2018, puit et arrosage automatique.");
-                houseThree.put("illustration","https://v.seloger.com/s/width/1613/visuels/1/g/2/z/1g2zw26el8kcz92rd2ixkbrnaujnduu8ods1scbpp.jpg" );
+                houseThree.put("illustration", "");
                 houseThree.put("address", "68 ter Route de Loustaou Vieil, 33160 Saint-Aubin-de-Médoc");
                 houseThree.put("available", true);
                 houseThree.put("dateOfEntry", "10/11/2020");
@@ -111,7 +112,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoA.put("id", 1);
                 photoA.put("houseId", 1);
                 photoA.put("description", "Salon");
-                photoA.put("url","https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg");
+                photoA.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoA);
 
@@ -120,7 +121,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoB.put("id", 2);
                 photoB.put("houseId", 1);
                 photoB.put("description", "Cuisine");
-                photoB.put("url","https://v.seloger.com/s/cdn/x/visuels/2/9/8/v/298vujqnf17in31ceg5xe0af165tmlf6f6c9zjncw.jpg");
+                photoB.put("url", "https://v.seloger.com/s/cdn/x/visuels/2/9/8/v/298vujqnf17in31ceg5xe0af165tmlf6f6c9zjncw.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoB);
 
@@ -129,7 +130,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoC.put("id", 3);
                 photoC.put("houseId", 1);
                 photoC.put("description", "Suite parentale");
-                photoC.put("url","https://designmag.fr/wp-content/uploads/2015/09/decoration-interieur-moderne-suite-parentale-de-reve.jpg");
+                photoC.put("url", "https://designmag.fr/wp-content/uploads/2015/09/decoration-interieur-moderne-suite-parentale-de-reve.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoC);
 
@@ -138,7 +139,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoD.put("id", 4);
                 photoD.put("houseId", 1);
                 photoD.put("description", "Chambre enfant");
-                photoD.put("url","https://camif.twic.pics/is/image/matelsom/2A_CHAMBRE_LIT_BLANC_INTERNATIONAL%20DESI_IVANOE?$RCamifFicheProduitPrincipal6$");
+                photoD.put("url", "https://camif.twic.pics/is/image/matelsom/2A_CHAMBRE_LIT_BLANC_INTERNATIONAL%20DESI_IVANOE?$RCamifFicheProduitPrincipal6$");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoD);
 
@@ -147,7 +148,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoE.put("id", 5);
                 photoE.put("houseId", 1);
                 photoE.put("description", "Salle de bain");
-                photoE.put("url","http://www.immobilier-miami-floride-usa.com/medias/images/appartement-a-vendre-sunny-isles-miami-beach-salle-de-bain.jpg?fx=r_400_267");
+                photoE.put("url", "http://www.immobilier-miami-floride-usa.com/medias/images/appartement-a-vendre-sunny-isles-miami-beach-salle-de-bain.jpg?fx=r_400_267");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoE);
 
@@ -156,7 +157,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoF.put("id", 6);
                 photoF.put("houseId", 2);
                 photoF.put("description", "Salon");
-                photoF.put("url","https://v.seloger.com/s/cdn/x/visuels/1/u/2/e/1u2em36fwbs8b4oe16mr54bpyxewzlty01t1wjxr4.jpg");
+                photoF.put("url", "https://v.seloger.com/s/cdn/x/visuels/1/u/2/e/1u2em36fwbs8b4oe16mr54bpyxewzlty01t1wjxr4.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoF);
 
@@ -165,7 +166,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoG.put("id", 7);
                 photoG.put("houseId", 2);
                 photoG.put("description", "Cuisine");
-                photoG.put("url","https://v.seloger.com/s/cdn/x/visuels/0/l/c/c/0lccrrlmiknz1wqpwx0e7xnkyc7ultp71buygvoc8.jpg");
+                photoG.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/l/c/c/0lccrrlmiknz1wqpwx0e7xnkyc7ultp71buygvoc8.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoG);
 
@@ -174,7 +175,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoH.put("id", 8);
                 photoH.put("houseId", 2);
                 photoH.put("description", "Patio");
-                photoH.put("url","https://v.seloger.com/s/cdn/x/visuels/1/w/v/u/1wvukylsd4imndf2g5clepeijkt0bei20r3yuwx40.jpg");
+                photoH.put("url", "https://v.seloger.com/s/cdn/x/visuels/1/w/v/u/1wvukylsd4imndf2g5clepeijkt0bei20r3yuwx40.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoH);
 
@@ -183,7 +184,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoI.put("id", 9);
                 photoI.put("houseId", 2);
                 photoI.put("description", "Chambre");
-                photoI.put("url","https://v.seloger.com/s/cdn/x/visuels/0/o/8/y/0o8ywjtsj6jj62o73v7hq12jhk0qopbj6uztxz4bk.jpg");
+                photoI.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/o/8/y/0o8ywjtsj6jj62o73v7hq12jhk0qopbj6uztxz4bk.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoI);
 
@@ -192,7 +193,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoJ.put("id", 10);
                 photoJ.put("houseId", 2);
                 photoJ.put("description", "Chambre enfant");
-                photoJ.put("url","https://v.seloger.com/s/cdn/x/visuels/2/0/b/3/20b3e0llpw289kj4o6aw563w06umqugpm6n16dl0g.jpg");
+                photoJ.put("url", "https://v.seloger.com/s/cdn/x/visuels/2/0/b/3/20b3e0llpw289kj4o6aw563w06umqugpm6n16dl0g.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoJ);
 
@@ -201,7 +202,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoK.put("id", 11);
                 photoK.put("houseId", 2);
                 photoK.put("description", "Salle de bain");
-                photoK.put("url","https://v.seloger.com/s/cdn/x/visuels/1/u/9/9/1u9929lkcg6n8obckei1g528oig9tak7s0tug2pi8.jpg");
+                photoK.put("url", "https://v.seloger.com/s/cdn/x/visuels/1/u/9/9/1u9929lkcg6n8obckei1g528oig9tak7s0tug2pi8.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoK);
 
@@ -210,7 +211,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoL.put("id", 12);
                 photoL.put("houseId", 3);
                 photoL.put("description", "Salon");
-                photoL.put("url","https://v.seloger.com/s/cdn/x/visuels/0/c/j/v/0cjvola8clg6zdnjeca93f9jcr6on3d2xwyw53619.jpg");
+                photoL.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/c/j/v/0cjvola8clg6zdnjeca93f9jcr6on3d2xwyw53619.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoL);
 
@@ -219,7 +220,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoM.put("id", 13);
                 photoM.put("houseId", 3);
                 photoM.put("description", "Cuisine");
-                photoM.put("url","https://v.seloger.com/s/cdn/x/visuels/0/y/p/f/0ypfv90b5izj7jecyfiexda8vgsd4xjjo8935elhi.jpg");
+                photoM.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/y/p/f/0ypfv90b5izj7jecyfiexda8vgsd4xjjo8935elhi.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoM);
 
@@ -228,7 +229,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoN.put("id", 14);
                 photoN.put("houseId", 3);
                 photoN.put("description", "Chambre");
-                photoN.put("url","https://v.seloger.com/s/cdn/x/visuels/0/d/h/c/0dhcfz11x1qd0je6yvsubu8kpfuqfs15v2k76wbwt.jpg");
+                photoN.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/d/h/c/0dhcfz11x1qd0je6yvsubu8kpfuqfs15v2k76wbwt.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoN);
 
@@ -237,7 +238,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoO.put("id", 15);
                 photoO.put("houseId", 3);
                 photoO.put("description", "Salle de bain");
-                photoO.put("url","https://v.seloger.com/s/cdn/x/visuels/1/n/4/u/1n4ue5j0y5adxbjijghr1qo4y5xmvm5tvqfn7yces.jpg");
+                photoO.put("url", "https://v.seloger.com/s/cdn/x/visuels/1/n/4/u/1n4ue5j0y5adxbjijghr1qo4y5xmvm5tvqfn7yces.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoO);
                 ContentValues photoP = new ContentValues();
@@ -245,7 +246,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoP.put("id", 16);
                 photoP.put("houseId", 3);
                 photoP.put("description", "Piscine");
-                photoP.put("url","https://v.seloger.com/s/cdn/x/visuels/0/t/b/i/0tbiwnei8e459phso5kyqzf68ymiqg1p9h86tzdxp.jpg");
+                photoP.put("url", "https://v.seloger.com/s/cdn/x/visuels/0/t/b/i/0tbiwnei8e459phso5kyqzf68ymiqg1p9h86tzdxp.jpg");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoP);
 

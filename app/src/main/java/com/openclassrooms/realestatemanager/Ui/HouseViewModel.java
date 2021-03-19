@@ -42,18 +42,22 @@ public class HouseViewModel extends ViewModel {
     }
 
     public void updateHouse(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms,
-                            int numberOfBedRooms,String pointOfInterest, String description, String illustration, String address,
+                            int numberOfBedRooms, String pointOfInterest, String description, String illustration, String address,
                             Boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent, long id) {
         executor.execute(() -> {
-            houseDataSource.updateHouse(category, district,price, area, numberOfRooms, numberOfBathrooms,
-                    numberOfBedRooms,pointOfInterest, description, illustration, address, true,
-                    dateOfEntry,dateOfSale, realEstateAgent, id);
+            houseDataSource.updateHouse(category, district, price, area, numberOfRooms, numberOfBathrooms,
+                    numberOfBedRooms, pointOfInterest, description, illustration, address, true,
+                    dateOfEntry, dateOfSale, realEstateAgent, id);
         });
     }
 
-    public LiveData<List<House>> getAll() { return houseDataSource.getAll(); }
+    public LiveData<List<House>> getAll() {
+        return houseDataSource.getAll();
+    }
 
-    public LiveData<House> getHouse(long houseId) { return  houseDataSource.getHouse(houseId); }
+    public LiveData<House> getHouse(long houseId) {
+        return houseDataSource.getHouse(houseId);
+    }
 
     //For illustration
     public void createIllustration(Illustration illustration) {
@@ -62,5 +66,7 @@ public class HouseViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Illustration>> getGallery(long houseId) { return illustrationDataSource.getGallery(houseId); }
+    public LiveData<List<Illustration>> getGallery(long houseId) {
+        return illustrationDataSource.getGallery(houseId);
+    }
 }

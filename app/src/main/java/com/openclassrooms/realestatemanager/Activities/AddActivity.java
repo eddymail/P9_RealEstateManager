@@ -3,17 +3,14 @@ package com.openclassrooms.realestatemanager.Activities;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +18,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
-import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,12 +35,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public static final int RESULT_ADD_PICTURE = 1;
     public static final int RESULT_TAKE_PICTURE = 2;
     private static final long HOUSE_ID = 1;
-    private String category, district, pointOfInterest, address, description, realEstateAgent, dateOfSale, dateOfEntry;;
+    private String category, district, pointOfInterest, address, description, realEstateAgent, dateOfSale, dateOfEntry;
+
     private int price, area, numberOfRooms, numberOfBedRooms, numberOfBathrooms;
     private long id;
 
     private EditText categoryInput, districtInput, priceInput, areaInput, roomInput, bedroomInput, bathroomInput,
-    pointOfInterestValue, descriptionValue, agentNameValue, addressValue;
+            pointOfInterestValue, descriptionValue, agentNameValue, addressValue;
     private Button addBtn, addPictureBtn, takePictureBtn;
 
     private HouseRecyclerAdapter adapter;
@@ -55,7 +51,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private House houseToUpdate;
     private String illustration;
     private String picturePath = null;
-    private String descriptionPicture;
+    private Uri selectedPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +60,21 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         configureViewModel();
 
-     Bundle extras = getIntent().getExtras();
-         if (extras != null) {
-             id = extras.getLong("id", -1);
-             Log.e("Test", "AddActivity = id :" + id);
-         }
-            //create
-            if (id == -1 || id == 0) {
-                this.initActivity();
-                addBtn.setText("Ajouter");
-            } else {
-                //Modify
-                this.initActivity();
-                this.getCurrentHouse(id);
-                addBtn.setText("Modifier");
-            }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getLong("id", -1);
+            Log.e("Test", "AddActivity = id :" + id);
+        }
+        //create
+        if (id == -1 || id == 0) {
+            this.initActivity();
+            addBtn.setText("Ajouter");
+        } else {
+            //Modify
+            this.initActivity();
+            this.getCurrentHouse(id);
+            addBtn.setText("Modifier");
+        }
 
         addBtn.setOnClickListener(this);
         addPictureBtn.setOnClickListener(this);
@@ -141,34 +137,37 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getCurrentHouse(long id) {
-        this.houseViewModel.getHouse(id).observe(this,this::prepopulateTextView);
+        this.houseViewModel.getHouse(id).observe(this, this::prepopulateTextView);
     }
 
     private void getHouseToUpdate(long id) {
         Log.e("Test", "getHouseToUpdate : id vaut = " + id);
-        this.houseViewModel.getHouse(id).observe(this,this::updateHouseAndUpdateDatabase);
+        this.houseViewModel.getHouse(id).observe(this, this::updateHouseAndUpdateDatabase);
     }
 
     private void createHouseAndAddItToDatabase() {
         if (illustration == null) {
-            illustration = "https://www.ouestfrance-immo.com/photo-vente-maison-la-roche-sur-yon-85/207/maison-a-vendre-la-roche-sur-yon-15080201_1_1603144038_f056394ffbe2dcc301aac986e8da59a7_crop_295-222_.jpg";
+            illustration = "";
         }
-        houseToAdd = new House( category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest, description, illustration, address, true, dateOfEntry, null, realEstateAgent);
+        houseToAdd = new House(category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+                description, illustration, address, true, dateOfEntry, null, realEstateAgent);
         Log.e("Test", "illustration : " + illustration);
         this.houseViewModel.createHouse(houseToAdd);
     }
 
     private void updateHouseAndUpdateDatabase(House house) {
         id = house.getId();
-        illustration = house.getIllustration();
+        if (illustration == null) {
+            illustration = house.getIllustration();
+        }
         dateOfSale = house.getDateOfSale();
         dateOfEntry = house.getDateOfEntry();
-        Log.e("Test", "Avant Modify house id: "+ house.getId() + "area: " + house.getArea() );
-        houseToUpdate = new House( category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest, description, illustration, address, true, dateOfEntry, null, realEstateAgent);
-        Log.e("Test", "Après Modify  house id: " + house.getId() + "area: " + houseToUpdate.getArea());
-        this.houseViewModel.updateHouse(category, district,price, area, numberOfRooms, numberOfBathrooms,
-                numberOfBedRooms,pointOfInterest, description, illustration, address, true,
-                dateOfEntry,dateOfSale, realEstateAgent, id);
+        houseToUpdate = new House(category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+                description, illustration, address, true, dateOfEntry, null, realEstateAgent);
+        Log.e("Test", "Après Modify  illustration vaut : " + illustration);
+        this.houseViewModel.updateHouse(category, district, price, area, numberOfRooms, numberOfBathrooms,
+                numberOfBedRooms, pointOfInterest, description, illustration, address, true,
+                dateOfEntry, dateOfSale, realEstateAgent, id);
     }
 
     //Start Activity for get picture from device
@@ -181,16 +180,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //check intent can be managed
-        if(intent.resolveActivity(getPackageManager()) != null) {
+        if (intent.resolveActivity(getPackageManager()) != null) {
             //Create a unique file name
             String time = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
             File pictureDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
-                File pictureFile = File.createTempFile("picture"+time,".jpg", pictureDir);
+                File pictureFile = File.createTempFile("picture" + time, ".jpg", pictureDir);
                 //Save full path
                 picturePath = pictureFile.getAbsolutePath();
                 //Create uri
-                Uri pictureUri = FileProvider.getUriForFile(AddActivity.this, AddActivity.this.getApplicationContext().getPackageName()+".provider", pictureFile);
+                Uri pictureUri = FileProvider.getUriForFile(AddActivity.this, AddActivity.this.getApplicationContext().getPackageName() + ".provider", pictureFile);
                 //Uri to intent for save picture in temporary file
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
                 //Open activity
@@ -204,8 +203,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     //OnClick method
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case  R.id.bt_add_activity :
+        switch (view.getId()) {
+            case R.id.bt_add_activity:
 
                 if (id == -1 || id == 0) {
                     //Create new house in database
@@ -219,12 +218,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     this.collectInput();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
-                   // adapter.notifyDataSetChanged();
+                    // adapter.notifyDataSetChanged();
                     AddActivity.this.finish();
                 }
                 break;
 
-            case R.id.bt_add_activity_add_picture :
+            case R.id.bt_add_activity_add_picture:
                 //Add picture from device
                 this.addPictureFromDevice();
                 break;
@@ -236,7 +235,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-
     //Result for Add Picture and Take Picture
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -246,65 +244,34 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
 
-                case RESULT_ADD_PICTURE :
+                case RESULT_ADD_PICTURE:
                     //Access to picture from data
-                    Uri selectedPicture = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    //Cursor for access
-                    Cursor cursor = this.getContentResolver().query(selectedPicture, filePathColumn, null, null, null);
-                    //position on line (normalement une seule)
-                    cursor.moveToFirst();
-                    //get path
-                    //get picture
-                    Bitmap bmp = null;
-                    try {
-                        bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedPicture);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e("Test", "descriptionPicture : no" );
-                    }
-                    //set picture
-                    if ( bmp != null) {
-                        descriptionPicture = getStringImage(bmp);
-                        Log.e("Test", "descriptionPicture : " + descriptionPicture);
-                        this.illustration = descriptionPicture;
-                    }
+                    selectedPicture = data.getData();
+                    Log.e("Test", "imgPath for database : " + selectedPicture);
+                    getPathFromUri(selectedPicture);
                     break;
 
-                case RESULT_TAKE_PICTURE :
+                case RESULT_TAKE_PICTURE:
                     //Get picture
-                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                    //scale picture
-                    scaleBitmap(bitmap);
-                    //set picture
-                    if ( bitmap != null) {
-                        descriptionPicture = getStringImage(bitmap);
-                        Log.e("Test", "descriptionPicture : " + descriptionPicture);
-                        this.illustration = descriptionPicture;
-                    }
+                    illustration = picturePath;
                     break;
             }
         }
-
     }
 
-    //Scale bitmap
-    public Bitmap scaleBitmap(Bitmap mBitmap) {
-        int ScaleSize = 50;//max Height or width to Scale
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        float excessSizeRatio = width > height ? width / ScaleSize : height / ScaleSize;
-        Bitmap bitmap = Bitmap.createBitmap(
-                mBitmap, 0, 0,(int) (width/excessSizeRatio),(int) (height/excessSizeRatio));
-        //mBitmap.recycle(); if you are not using mBitmap Obj
-        return bitmap;
-    }
+    private String getPathFromUri(Uri uri) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        //Cursor for access
+        Cursor cursor = this.getContentResolver().query(uri, filePathColumn, null, null, null);
+        //position on line (normalement une seule)
+        cursor.moveToFirst();
+        //get path
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String imgPath = cursor.getString(columnIndex);
+        cursor.close();
+        this.illustration = imgPath;
+        Log.e("Test", "imgPath for database : " + imgPath);
 
-    //Bitmap to String
-    public String getStringImage(Bitmap bmp) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imageBytes = byteArrayOutputStream.toByteArray();
-        return "data:image/jpeg;base64," + Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return illustration;
     }
 }
