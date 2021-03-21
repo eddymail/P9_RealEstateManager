@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+        Utils.context = this;
 
         Log.e("Test", "Mainactivity onCreate");
 

@@ -12,8 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
@@ -21,6 +25,7 @@ import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -104,6 +109,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         this.houseViewModel.init(HOUSE_ID);
     }
 
+    private void checkConnectivity() {
+        if(Utils.haveNetwork()) {
+            //Start mapViewFragment
+            MapViewFragment mapViewFragment = new MapViewFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_frame_layout, mapViewFragment)
+                    .commit();
+        } else {
+            Toast.makeText(getContext(),"Vous êtes connecté à aucun réseau",Toast.LENGTH_LONG).show();
+        }
+    }
+
     //Tablet display
     public void updateDisplay(House house) {
         updateHouse(house);
@@ -171,9 +188,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        MapViewFragment mapViewFragment = new MapViewFragment();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_frame_layout, mapViewFragment)
-                .commit();
+      checkConnectivity();
     }
 }

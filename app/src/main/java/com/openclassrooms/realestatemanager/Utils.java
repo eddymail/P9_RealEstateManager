@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Base64;
 
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +23,8 @@ import java.util.Date;
  */
 
 public class Utils {
+
+    public static MainActivity context = null;
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -39,7 +44,8 @@ public class Utils {
      * @return
      */
     public static String getTodayDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        // DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
 
@@ -53,6 +59,25 @@ public class Utils {
     public static Boolean isInternetAvailable(Context context) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
+    }
+
+    public static boolean haveNetwork() {
+        boolean have_WIFI = false;
+        boolean have_MobileData = false;
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+
+        for (NetworkInfo info : networkInfos) {
+            if (info.getTypeName().equalsIgnoreCase("WIFI"))
+                if (info.isConnected())
+                    have_WIFI = true;
+
+            if (info.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (info.isConnected())
+                    have_MobileData = true;
+        }
+        return have_MobileData || have_WIFI;
     }
 
     /**
