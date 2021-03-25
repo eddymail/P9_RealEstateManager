@@ -4,14 +4,13 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 @Entity
 public class House {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private Long id;
     private String category;
     private String district;
+    private boolean isEuro;
     private int price;
     private int area;
     private int numberOfRooms;
@@ -28,9 +27,10 @@ public class House {
     private String realEstateAgent;
 
     //Constructor
-    public House(String category, String district, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
+    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
+        this.isEuro = isEuro;
         this.price = price;
         this.area = area;
         this.numberOfRooms = numberOfRooms;
@@ -46,7 +46,7 @@ public class House {
         this.realEstateAgent = realEstateAgent;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -60,6 +60,10 @@ public class House {
 
     public int getPrice() {
         return price;
+    }
+
+    public boolean isEuro() {
+        return isEuro;
     }
 
     public int getArea() {
@@ -110,7 +114,9 @@ public class House {
         return realEstateAgent;
     }
 
-    public void setId(long id) {
+    //Setter
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -124,6 +130,10 @@ public class House {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setEuro(boolean euro) {
+        isEuro = euro;
     }
 
     public void setArea(int area) {
@@ -166,7 +176,7 @@ public class House {
         this.dateOfEntry = dateOfEntry;
     }
 
-    public void setDateOfSale(String dateOfSale) {
+    public void setDateOfSale(@Nullable String dateOfSale) {
         this.dateOfSale = dateOfSale;
     }
 

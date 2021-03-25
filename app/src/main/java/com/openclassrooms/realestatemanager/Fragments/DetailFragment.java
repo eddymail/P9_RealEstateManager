@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
@@ -181,9 +182,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     //Listener
     public void onHouseClick(House house) {
-        this.house = house;
-        //Use for modify
-        this.id = house.getId();
+        if(house != null)
+        {
+            this.house = house;
+            //Use for modify
+            this.id = house.getId();
+        }
     }
 
     @Override

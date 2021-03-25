@@ -4,19 +4,24 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Base64;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -34,7 +39,17 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.812);
+        return (int) Math.round(dollars * 0.84);
+    }
+
+    /**
+     * Conversion d'un prix d'un bien immobilier (Euros vers Dollars)
+     *
+     * @param euros
+     * @return
+     */
+    public static int convertEuroToDollars(int euros) {
+        return (int) Math.round(euros * 1.19);
     }
 
     /**
@@ -61,6 +76,11 @@ public class Utils {
         return wifi.isWifiEnabled();
     }
 
+    /**
+     * Vérification de la connexion réseau et wifi
+     *
+     * @return boolean
+     */
     public static boolean haveNetwork() {
         boolean have_WIFI = false;
         boolean have_MobileData = false;
@@ -82,7 +102,6 @@ public class Utils {
 
     /**
      * Detect device is Android phone or Android tablet
-     *
      * @param context
      * @return
      */
@@ -94,7 +113,7 @@ public class Utils {
 
     /**
      * Get the picture stock in device
-     *
+     * @param house
      * @return picture
      */
     public static String getIllustrationFromDevice(House house) {
@@ -109,7 +128,7 @@ public class Utils {
 
     /**
      * Convert a bitmap into a string
-     *
+     * @param bitmap
      * @return a string
      */
     public static String getStringImage(Bitmap bitmap) {
@@ -118,4 +137,28 @@ public class Utils {
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
         return "data:image/jpeg;base64," + Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
+
+    /**
+     * Get latitude and longitude from an adress
+     * @param address
+     * @return latitude and longitude
+     */
+    public static LatLng getLatLngFromAddress(String address) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> addresses;
+        try {
+            addresses = coder.getFromLocationName(address, 10);
+            if (addresses == null) {
+            }
+            Address location = addresses.get(0);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            LatLng latLng = new LatLng(lat, lng);
+            return latLng;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

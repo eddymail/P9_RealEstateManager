@@ -3,12 +3,15 @@ package com.openclassrooms.realestatemanager.Activities;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.Fragments.MainFragment;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -27,8 +31,10 @@ import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,10 +53,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private HouseRecyclerAdapter adapter;
     private HouseViewModel houseViewModel;
 
+    private List<House> houseList = new ArrayList<>();
     private House houseToAdd;
     private House houseToUpdate;
     private String illustration;
     private String picturePath = null;
+   // private String descriptionPicture;
+   // private Bitmap bitmap;
     private Uri selectedPicture;
 
     @Override
@@ -145,11 +154,20 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         this.houseViewModel.getHouse(id).observe(this, this::updateHouseAndUpdateDatabase);
     }
 
+    private void getAllHousesFromDatabase() {
+        this.houseViewModel.getAll().observe(this, this::updateList);
+    }
+
+    private void updateList(List<House> houses) {
+        houseList = new ArrayList<>();
+        houseList.addAll(houses);
+        Log.e("Test", "houseList = " + houseList.size());
+
+    }
+
     private void createHouseAndAddItToDatabase() {
-        if (illustration == null) {
-            illustration = "";
-        }
-        houseToAdd = new House(category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+        if (illustration == null) { illustration = ""; }
+        houseToAdd = new House(category, district,true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
                 description, illustration, address, true, dateOfEntry, null, realEstateAgent);
         Log.e("Test", "illustration : " + illustration);
         this.houseViewModel.createHouse(houseToAdd);
@@ -162,10 +180,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
         dateOfSale = house.getDateOfSale();
         dateOfEntry = house.getDateOfEntry();
-        houseToUpdate = new House(category, district, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+        houseToUpdate = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
                 description, illustration, address, true, dateOfEntry, null, realEstateAgent);
         Log.e("Test", "Après Modify  illustration vaut : " + illustration);
-        this.houseViewModel.updateHouse(category, district, price, area, numberOfRooms, numberOfBathrooms,
+        this.houseViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms,
                 numberOfBedRooms, pointOfInterest, description, illustration, address, true,
                 dateOfEntry, dateOfSale, realEstateAgent, id);
     }
@@ -211,14 +229,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     this.collectInput();
                     this.createHouseAndAddItToDatabase();
                     Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
-                    adapter.notifyDataSetChanged();
+                    MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+                    mainFragment.updateList(houseList);
                     AddActivity.this.finish();
                 } else {
                     //Update house in database
                     this.collectInput();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
-                    // adapter.notifyDataSetChanged();
+                    MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+                    mainFragment.updateList(houseList);
                     AddActivity.this.finish();
                 }
                 break;

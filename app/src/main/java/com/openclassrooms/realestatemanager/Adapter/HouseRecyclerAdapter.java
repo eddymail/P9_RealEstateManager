@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.Adapter;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -19,6 +23,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     private List<House> houseList;
     private OnHouseListener onHouseListener;
+  //  private boolean isEuro;
 
     public HouseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
         this.houseList = houseList;
@@ -34,6 +39,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.e("Test", "onBindViewHolder");
         holder.updateHouse(houseList.get(position));
     }
 
@@ -45,17 +51,20 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView category, district, price;
-        private ImageView illustrationView;
+        private ImageView illustrationView, changeView;
         private OnHouseListener onHouseListener;
         private String illustration;
+        public Resources res;
 
         // Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
             super(itemView);
+         //   res = itemView.getResources();
             category = itemView.findViewById(R.id.tv_fragment_main_item_category);
             district = itemView.findViewById(R.id.tv_fragment_main_item_district);
             price = itemView.findViewById(R.id.tv_fragment_main_item_price);
             illustrationView = itemView.findViewById(R.id.fragment_main_item_illustration);
+            changeView = itemView.findViewById(R.id.iv_fragment_main_item_change);
             this.onHouseListener = onHouseListener;
 
             itemView.setOnClickListener(this);
@@ -65,11 +74,22 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
             category.setText(house.getCategory());
             district.setText(house.getDistrict());
-            price.setText(String.valueOf(house.getPrice()));
 
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
                     .override(100, 100);
+
+            boolean isEuro = house.isEuro();
+
+
+            if (isEuro == true) {
+                price.setText(String.valueOf(house.getPrice()));
+                changeView.setImageResource(R.drawable.ic_baseline_eur_24);
+            }
+            else if (isEuro == false) {
+                price.setText(String.valueOf(Utils.convertEuroToDollars(house.getPrice())));
+                changeView.setImageResource(R.drawable.ic_baseline_price_change_24);
+            }
 
             if (house.getIllustration().isEmpty()) {
                 illustrationView.setImageResource(R.drawable.sale_house);
@@ -81,6 +101,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
                         .apply(myOptions)
                         .into(illustrationView);
             }
+            Log.e("Test", "updateHouse");
         }
 
         @Override

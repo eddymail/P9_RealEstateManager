@@ -28,7 +28,8 @@
     <string name="description_details">Description details</string>
     <string name="textview">TextView</string>
     <string name="illustration">picture</string>
-    <string name="conversion">Conversion</string>
+    <string name="conversion_euro_dollars" >Conversion Euros/Dollars</string>
+    <string name="conversion_dollars_euro" >Conversion Dollars/Euros</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

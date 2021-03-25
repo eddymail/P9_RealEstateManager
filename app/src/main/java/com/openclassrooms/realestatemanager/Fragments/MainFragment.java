@@ -92,7 +92,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         this.houseViewModel.getAll().observe(this, this::updateList);
     }
 
-    private void updateList(List<House> houses) {
+    public void updateList(List<House> houses) {
         houseList.addAll(houses);
         adapter.notifyDataSetChanged();
         this.updateDisplayList();
@@ -100,9 +100,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
     @Override
     public void onHouseClick(int position) {
-
         ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
-
-
     }
 }

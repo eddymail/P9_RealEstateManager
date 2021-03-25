@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.Activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,20 +16,33 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.MainFragment;
+import com.openclassrooms.realestatemanager.Injection.Injection;
+import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
 import com.openclassrooms.realestatemanager.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textViewMain;
     private TextView textViewQuantity;
 
+    private static final long HOUSE_ID = 1;
+    private HouseViewModel houseViewModel;
+    private List<House> houseList = new ArrayList<>();
+
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    private HouseRecyclerAdapter adapter;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
     private long id;
@@ -47,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+
+        this.configureViewModel();
+        this.getAllHousesFromDatabase();
+
         Utils.context = this;
 
         Log.e("Test", "Mainactivity onCreate");
@@ -135,11 +153,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void getAllHousesFromDatabase() {
+        this.houseViewModel.getAll().observe(this, this::updateList);
+    }
+
+    private void updateList(List<House> houses) {
+        houseList = new ArrayList<>();
+        houseList.addAll(houses);
+        Log.e("Test", "houseList = " + houseList.size());
+
+    }
+
+    private void changeCurrencyToDollarsAndUpdateDataBase(List<House> houses) {
+        if (houses != null) {
+            for (House house : houses) {
+                long houseId = house.getId();
+                this.houseViewModel.updateIsEuro(false, houseId);
+            }
+        }
+    }
+
+    private void changeCurrencyToEuroAndUpdateDataBase(List<House> houses) {
+        if (houses != null) {
+            for (House house : houses) {
+                long houseId = house.getId();
+                this.houseViewModel.updateIsEuro(true, houseId);
+            }
+        }
+    }
+
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
+        this.houseViewModel.init(HOUSE_ID);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        switch (id){
-            case R.id.activity_main_drawer_conversion :
+
+        switch (id) {
+            case R.id.activity_main_drawer_conversion_euro_dollars:
+                this.changeCurrencyToDollarsAndUpdateDataBase(houseList);
+             /*   MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+                mainFragment.updateList(houseList);*/
+                Toast.makeText(this, "Prix en dollars", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.activity_main_drawer_conversion_dollars_euro:
+                this.changeCurrencyToEuroAndUpdateDataBase(houseList);
+                Toast.makeText(this, "Prix en euros", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
@@ -157,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 return true;
             case R.id.menu_activity_main_toolbar_modify:
-                if(id != 0) {
+                if (id != 0) {
                     Intent intentModify = new Intent(MainActivity.this, AddActivity.class);
                     intentModify.putExtra("id", id);
                     startActivity(intentModify);

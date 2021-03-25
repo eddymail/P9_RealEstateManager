@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -24,10 +25,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -39,15 +43,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MapViewFragment extends Fragment implements OnMapReadyCallback {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap googleMap;
     private FusedLocationProviderClient client;
     private HouseViewModel houseViewModel;
     private List<House> houseList = new ArrayList<>();
-    private House house;
     private LatLng houseLatLng;
     private LatLng currentPosition;
+    private Marker marker;
     private static final long HOUSE_ID = 1;
 
     @Override
@@ -61,6 +65,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         if (supportMapFragment != null) {
             supportMapFragment.getMapAsync(MapViewFragment.this);
         }
+
         //Initialize location client
         client = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -99,9 +104,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                     if (location != null) {
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
-
                         currentPosition = new LatLng(lat, lng);
-
                         setMarker();
                     }
                 }
@@ -109,40 +112,34 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-    }
-
     private void setMarker() {
-
         for (House house : houseList) {
             String address = house.getAddress();
-
             Geocoder coder = new Geocoder(getContext());
             List<Address> addresses;
             try {
                 addresses = coder.getFromLocationName(address, 10);
-
                 if (addresses == null) {
                 }
                 Log.e("Test", "addresse  = " + addresses);
                 Address location = addresses.get(0);
                 double lat = location.getLatitude();
                 double lng = location.getLongitude();
-
                 houseLatLng = new LatLng(lat, lng);
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(houseLatLng);
                 if (houseLatLng != null) {
-                    this.googleMap.addMarker(markerOptions);
+                    marker = googleMap.addMarker(new MarkerOptions()
+                            .position(houseLatLng));
+                    marker.setTag(house.getId());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (currentPosition != null) {
+            marker = googleMap.addMarker(new MarkerOptions()
+                    .position(currentPosition)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Ma position"));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 12));
         } else if (houseLatLng != null) {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(houseLatLng, 12));
@@ -156,7 +153,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private void updateList(List<House> houses) {
         houseList = new ArrayList<>();
         houseList.addAll(houses);
-
         Log.e("Test", "houseList = " + houseList.size());
     }
 
@@ -165,5 +161,33 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
         this.houseViewModel.init(HOUSE_ID);
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.setOnMarkerClickListener(this);
+        setMarker();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Long id = (Long) marker.getTag();
+        if (id != null) {
+            ((MainActivity) getActivity()).onHouseClick(getHouseById(id));
+        }
+        else{
+            Toast.makeText(getContext(),"Ceci est ma position", Toast.LENGTH_LONG).show();
+        }
+
+        return false;
+    }
+
+    public House getHouseById(Long id) {
+        for (House house : houseList) {
+            if (house.getId() == id)
+                return house;
+        }
+        return null;
     }
 }
