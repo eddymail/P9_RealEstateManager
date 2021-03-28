@@ -15,17 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 import com.openclassrooms.realestatemanager.Utils;
 
 import java.io.IOException;
@@ -55,7 +51,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private GalleryRecyclerAdapter adapter;
-    private HouseViewModel houseViewModel;
+    private RealEstateManagerViewModel realEstateManagerViewModel;
 
     private static final long HOUSE_ID = 1;
 
@@ -106,8 +102,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
-        this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
-        this.houseViewModel.init(HOUSE_ID);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
     }
 
     private void checkConnectivity() {
@@ -153,7 +149,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getGalleryHouseFromDatabase(long houseId) {
-        this.houseViewModel.getGallery(houseId).observe(this, this::updateList);
+        this.realEstateManagerViewModel.getGallery(houseId).observe(this, this::updateList);
     }
 
     private void updateList(List<Illustration> illustrations) {

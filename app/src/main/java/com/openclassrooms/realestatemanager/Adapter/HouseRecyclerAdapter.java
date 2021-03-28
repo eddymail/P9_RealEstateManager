@@ -48,6 +48,16 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         return houseList.size();
     }
 
+    public void setData(List<House> newData) {
+        if (houseList != null) {
+            houseList.clear();
+            houseList.addAll(newData);
+            notifyDataSetChanged();
+        } else {
+            houseList = newData;
+        }
+    }
+
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView category, district, price;
@@ -92,7 +102,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             }
 
             if (house.getIllustration().isEmpty()) {
-                illustrationView.setImageResource(R.drawable.sale_house);
+                illustrationView.setImageResource(R.drawable.sell_house);
             } else {
                 illustration = Utils.getIllustrationFromDevice(house);
 

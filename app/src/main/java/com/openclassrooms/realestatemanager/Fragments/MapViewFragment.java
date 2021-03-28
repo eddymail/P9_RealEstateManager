@@ -36,7 +36,7 @@ import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
 
     private GoogleMap googleMap;
     private FusedLocationProviderClient client;
-    private HouseViewModel houseViewModel;
+    private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
     private LatLng houseLatLng;
     private LatLng currentPosition;
@@ -147,7 +147,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     private void getAllHousesFromDatabase() {
-        this.houseViewModel.getAll().observe(this, this::updateList);
+        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
     }
 
     private void updateList(List<House> houses) {
@@ -158,8 +158,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
-        this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
-        this.houseViewModel.init(HOUSE_ID);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
 
     }
 

@@ -5,24 +5,24 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(foreignKeys = @ForeignKey(entity = House.class,
-parentColumns = "id",
-childColumns = "houseId"))
+        parentColumns = "id",
+        childColumns = "houseId"))
 
 public class Illustration {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private Long id;
     private long houseId;
     private String description;
-    private String url;
+    private String picture;
 
-    public Illustration(long id, long houseId, String description, String url) {
-        this.id = id;
+    public Illustration(long houseId, String description, String picture) {
         this.houseId = houseId;
         this.description = description;
-        this.url = url;
+        this.picture = picture;
     }
 
-    public long getId() {
+    //Getter
+    public Long getId() {
         return id;
     }
 
@@ -34,11 +34,12 @@ public class Illustration {
         return description;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setId(long id) {
+    //Setter
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,7 +51,7 @@ public class Illustration {
         this.description = description;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

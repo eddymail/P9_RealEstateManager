@@ -37,4 +37,6 @@ public class HouseDataRepository {
             dateOfEntry,dateOfSale, realEstateAgent, id);
     }
 
+    //For search
+    public LiveData<List<House>> searchDatabase(String searchQuery) { return this.houseDao.searchDatabase(searchQuery);}
 }

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.openclassrooms.realestatemanager.Repositories.HouseDataRepository;
 import com.openclassrooms.realestatemanager.Repositories.IllustrationDataRepository;
-import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 
 import java.util.concurrent.Executor;
 
@@ -26,8 +26,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if(modelClass.isAssignableFrom(HouseViewModel.class)) {
-            return (T) new HouseViewModel(houseDataSource, illustrationDataSource,executor);
+        if(modelClass.isAssignableFrom(RealEstateManagerViewModel.class)) {
+            return (T) new RealEstateManagerViewModel(houseDataSource, illustrationDataSource,executor);
         }
         throw new IllegalArgumentException("Unknow ViewModel class");
     }

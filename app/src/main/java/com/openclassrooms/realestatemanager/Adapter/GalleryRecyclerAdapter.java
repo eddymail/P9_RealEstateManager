@@ -57,9 +57,14 @@ public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewH
         public void updateIllustration(Illustration illustration) {
 
             description.setText(illustration.getDescription());
-            Glide.with(picture.getContext())
-                    .load(illustration.getUrl())
-                    .into(picture);
+
+            if (illustration.getPicture().isEmpty()) {
+                picture.setImageResource(R.drawable.add_picture);
+            } else {
+                Glide.with(picture.getContext())
+                        .load(illustration.getPicture())
+                        .into(picture);
+            }
         }
     }
 }

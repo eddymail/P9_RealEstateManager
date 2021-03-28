@@ -12,7 +12,7 @@ import com.openclassrooms.realestatemanager.Repositories.IllustrationDataReposit
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public class HouseViewModel extends ViewModel {
+public class RealEstateManagerViewModel extends ViewModel {
 
     //Repositories
     private final HouseDataRepository houseDataSource;
@@ -22,7 +22,7 @@ public class HouseViewModel extends ViewModel {
     //Data
     private LiveData<House> currentHouse;
 
-    public HouseViewModel(HouseDataRepository houseDataSource, IllustrationDataRepository illustrationDataSource, Executor executor) {
+    public RealEstateManagerViewModel(HouseDataRepository houseDataSource, IllustrationDataRepository illustrationDataSource, Executor executor) {
         this.houseDataSource = houseDataSource;
         this.illustrationDataSource = illustrationDataSource;
         this.executor = executor;

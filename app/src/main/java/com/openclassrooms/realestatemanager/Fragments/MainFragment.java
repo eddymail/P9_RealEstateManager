@@ -17,7 +17,7 @@ import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private List<House> houseList = new ArrayList<>();
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
-    private HouseViewModel houseViewModel;
+    private RealEstateManagerViewModel realEstateManagerViewModel;
 
     private static final long HOUSE_ID = 1;
 
@@ -53,7 +53,13 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         this.configureViewModel();
         this.configureRecyclerView();
-        this.getAllHousesFromDatabase();
+      //this.getAllHousesFromDatabase();
+
+        realEstateManagerViewModel.getAll().observe(this, houseList -> {
+            adapter.setData(houseList);
+            updateDisplayList();
+        });
+       //this.updateDisplayList();
 
         Log.e("Test", "MainFragment onCreateView");
 
@@ -72,8 +78,8 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private void configureViewModel() {
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
-        this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
-        this.houseViewModel.init(HOUSE_ID);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
 
     }
 
@@ -87,9 +93,10 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
+/*
 
     private void getAllHousesFromDatabase() {
-        this.houseViewModel.getAll().observe(this, this::updateList);
+        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
     }
 
     public void updateList(List<House> houses) {
@@ -97,6 +104,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         adapter.notifyDataSetChanged();
         this.updateDisplayList();
     }
+*/
 
     @Override
     public void onHouseClick(int position) {

@@ -23,7 +23,7 @@ import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.HouseViewModel;
+import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 import com.openclassrooms.realestatemanager.Utils;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView textViewQuantity;
 
     private static final long HOUSE_ID = 1;
-    private HouseViewModel houseViewModel;
+    private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
 
     private Toolbar toolbar;
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getAllHousesFromDatabase() {
-        this.houseViewModel.getAll().observe(this, this::updateList);
+        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
     }
 
     private void updateList(List<House> houses) {
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (houses != null) {
             for (House house : houses) {
                 long houseId = house.getId();
-                this.houseViewModel.updateIsEuro(false, houseId);
+                this.realEstateManagerViewModel.updateIsEuro(false, houseId);
             }
         }
     }
@@ -177,15 +177,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (houses != null) {
             for (House house : houses) {
                 long houseId = house.getId();
-                this.houseViewModel.updateIsEuro(true, houseId);
+                this.realEstateManagerViewModel.updateIsEuro(true, houseId);
             }
         }
     }
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.houseViewModel = ViewModelProviders.of(this, viewModelFactory).get(HouseViewModel.class);
-        this.houseViewModel.init(HOUSE_ID);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
     }
 
     @Override

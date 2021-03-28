@@ -283,11 +283,13 @@
         app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest">
 
         <Button
-            android:id="@+id/bt_add_activity_add_picture"
+            android:id="@+id/bt_add_activity_add_description_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ajouter une photo"
+            android:drawableLeft="@drawable/ic_baseline_photo_24"
+            android:text="description"
+            android:textAlignment="center"
             android:textSize="10sp" />
 
         <Button
@@ -295,7 +297,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="prendre une photo"
+            android:drawableLeft="@drawable/ic_baseline_photo_library_24"
+            android:text="gallerie"
             android:textSize="10sp" />
     </LinearLayout>
 
