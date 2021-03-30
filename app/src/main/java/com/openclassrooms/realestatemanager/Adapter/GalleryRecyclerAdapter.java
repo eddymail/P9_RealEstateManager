@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewHolder> {
 
-    private List<Illustration> gallery;
+    private final List<Illustration> gallery;
 
     public GalleryRecyclerAdapter(List<Illustration> gallery) {
         this.gallery = gallery;
@@ -42,8 +42,8 @@ public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewH
 
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView description;
-        private ImageView picture;
+        private final TextView description;
+        private final ImageView picture;
 
         // Constructor
         public ViewHolder(View itemView) {

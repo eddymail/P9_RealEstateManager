@@ -65,19 +65,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        area = view.findViewById(R.id.tv_fragment_detail_surface_value);
-        rooms = view.findViewById(R.id.tv_fragment_detail_rooms_value);
-        bedrooms = view.findViewById(R.id.tv_fragment_detail_bedrooms_value);
-        bathrooms = view.findViewById(R.id.tv_fragment_detail_bathrooms_value);
-        pointOfInterest = view.findViewById(R.id.tv_fragment_detail_poi_value);
-        address = view.findViewById(R.id.tv_fragment_detail_address_value);
-        description = view.findViewById(R.id.tv_fragment_detail_description_value);
-        label = view.findViewById(R.id.lbl_no_house);
-        mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
-        recyclerView = view.findViewById(R.id.rv_fragment_detail);
-
-        mapView.setOnClickListener(this);
-
+        this.initActivity(view);
         this.configureViewModel();
 
         return view;
@@ -91,6 +79,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
         this.updateDisplayDetails(house);
         super.onStart();
+    }
+
+    private void initActivity(View view) {
+        area = view.findViewById(R.id.tv_fragment_detail_surface_value);
+        rooms = view.findViewById(R.id.tv_fragment_detail_rooms_value);
+        bedrooms = view.findViewById(R.id.tv_fragment_detail_bedrooms_value);
+        bathrooms = view.findViewById(R.id.tv_fragment_detail_bathrooms_value);
+        pointOfInterest = view.findViewById(R.id.tv_fragment_detail_poi_value);
+        address = view.findViewById(R.id.tv_fragment_detail_address_value);
+        description = view.findViewById(R.id.tv_fragment_detail_description_value);
+        label = view.findViewById(R.id.lbl_no_house);
+        mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
+        recyclerView = view.findViewById(R.id.rv_fragment_detail);
+
+        mapView.setOnClickListener(this);
     }
 
     public void configureRecyclerView() {
@@ -107,14 +110,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void checkConnectivity() {
-        if(Utils.haveNetwork()) {
+        if (Utils.haveNetwork()) {
             //Start mapViewFragment
             MapViewFragment mapViewFragment = new MapViewFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_frame_layout, mapViewFragment)
                     .commit();
         } else {
-            Toast.makeText(getContext(),"Vous êtes connecté à aucun réseau",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -178,8 +181,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     //Listener
     public void onHouseClick(House house) {
-        if(house != null)
-        {
+        if (house != null) {
             this.house = house;
             //Use for modify
             this.id = house.getId();
@@ -188,6 +190,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-      checkConnectivity();
+        checkConnectivity();
     }
 }

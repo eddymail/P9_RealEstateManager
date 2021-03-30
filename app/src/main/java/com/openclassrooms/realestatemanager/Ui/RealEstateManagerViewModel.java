@@ -62,6 +62,8 @@ public class RealEstateManagerViewModel extends ViewModel {
 
     public LiveData<House> getHouse(long houseId) { return  houseDataSource.getHouse(houseId); }
 
+    public LiveData<List<House>> searchDatabase(String district, String miniPrice, String maxiPrice, int miniArea,int maxiArea, String pointOfInterest,String dateOfEntry, String dateOfSale) { return houseDataSource.searchDatabase(district,miniPrice,maxiPrice,miniArea,maxiArea,pointOfInterest,dateOfEntry,dateOfSale); }
+
     //For illustration
     public void createIllustration(Illustration illustration) {
         executor.execute(() -> {

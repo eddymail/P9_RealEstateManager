@@ -22,7 +22,7 @@ import java.util.List;
 public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdapter.ViewHolder> {
 
     private List<House> houseList;
-    private OnHouseListener onHouseListener;
+    private final OnHouseListener onHouseListener;
   //  private boolean isEuro;
 
     public HouseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
@@ -60,9 +60,12 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView category, district, price;
-        private ImageView illustrationView, changeView;
-        private OnHouseListener onHouseListener;
+        private final TextView category;
+        private final TextView district;
+        private final TextView price;
+        private final ImageView illustrationView;
+        private final ImageView changeView;
+        private final OnHouseListener onHouseListener;
         private String illustration;
         public Resources res;
 

@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.Activities.MainActivity;
+import com.openclassrooms.realestatemanager.Activities.SearchResultsActivity;
 import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
@@ -26,7 +26,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener {
+public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener, SearchResultsActivity.SearchListener {
 
     private RecyclerView recyclerView;
     private List<House> houseList = new ArrayList<>();
@@ -35,7 +35,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private RealEstateManagerViewModel realEstateManagerViewModel;
 
     private static final long HOUSE_ID = 1;
-
 
     public MainFragment() {
         // Required empty public constructor
@@ -59,9 +58,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
             adapter.setData(houseList);
             updateDisplayList();
         });
-       //this.updateDisplayList();
-
-        Log.e("Test", "MainFragment onCreateView");
 
         return view;
     }
@@ -93,21 +89,14 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
-/*
-
-    private void getAllHousesFromDatabase() {
-        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
-    }
-
-    public void updateList(List<House> houses) {
-        houseList.addAll(houses);
-        adapter.notifyDataSetChanged();
-        this.updateDisplayList();
-    }
-*/
 
     @Override
     public void onHouseClick(int position) {
         ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
+    }
+
+    @Override
+    public void onSearch(List<House> houseList) {
+        this.houseList = houseList;
     }
 }

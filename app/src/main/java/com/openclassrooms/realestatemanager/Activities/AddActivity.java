@@ -69,7 +69,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             id = extras.getLong("id", -1);
-            Log.e("Test", "AddActivity = id :" + id);
         }
         //create
         if (id == -1 || id == 0) {
@@ -86,7 +85,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         descriptionPictureBtn.setOnClickListener(this);
         galleryPictureBtn.setOnClickListener(this);
 
-        Log.e("Test", "AddActivity onCreate :");
     }
 
     private void configureViewModel() {
@@ -152,7 +150,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getHouseToUpdate(long id) {
-        Log.e("Test", "getHouseToUpdate : id vaut = " + id);
         this.realEstateManagerViewModel.getHouse(id).observe(this, this::updateHouseAndUpdateDatabase);
     }
 
@@ -163,8 +160,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private void updateList(List<House> houses) {
         houseList = new ArrayList<>();
         houseList.addAll(houses);
-        Log.e("Test", "houseList = " + houseList.size());
-
     }
 
     private void createHouseAndAddItToDatabase() {
@@ -173,7 +168,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
         houseToAdd = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
                 description, picture, address, true, dateOfEntry, null, realEstateAgent);
-        Log.e("Test", "illustration : " + picture);
         this.realEstateManagerViewModel.createHouse(houseToAdd);
     }
 
@@ -194,7 +188,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         dateOfEntry = house.getDateOfEntry();
         houseToUpdate = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
                 description, picture, address, true, dateOfEntry, null, realEstateAgent);
-        Log.e("Test", "Après Modify  illustration vaut : " + picture);
+
         this.realEstateManagerViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms,
                 numberOfBedRooms, pointOfInterest, description, picture, address, true,
                 dateOfEntry, dateOfSale, realEstateAgent, id);
@@ -298,7 +292,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 case RESULT_ADD_PICTURE:
                     //Access to picture from data
                     selectedPicture = data.getData();
-                    Log.e("Test", "imgPath for database : " + selectedPicture);
                     getPathFromUri(selectedPicture);
                     break;
 
@@ -321,7 +314,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         String imgPath = cursor.getString(columnIndex);
         cursor.close();
         this.picture = imgPath;
-        Log.e("Test", "imgPath for database : " + imgPath);
 
         return picture;
     }

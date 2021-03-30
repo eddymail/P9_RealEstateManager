@@ -28,6 +28,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCV1RfW578IO-3Sr5zeb8uK5xdLx_Gz_5M"/>
 
+        <activity android:name=".Activities.SearchResultsActivity"></activity>
         <activity android:name=".Activities.AddActivity"></activity>
         <activity android:name=".Activities.MainActivity">
             <intent-filter>

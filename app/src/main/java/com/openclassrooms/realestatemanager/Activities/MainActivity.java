@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.Activities;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.getAllHousesFromDatabase();
 
         Utils.context = this;
-
-        Log.e("Test", "Mainactivity onCreate");
 
         this.configureAndShowMainFragment();
         this.configureAndShowDetailFragment();
@@ -127,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+
+       /* // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.menu_activity_main_toolbar_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));*/
+
         return true;
     }
 
@@ -137,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             detailFragment.updateDisplay(house);
             detailFragment.updateDisplayDetails(house);
             this.id = house.getId();
-            Log.e("Test", "MainActivity onClick Tablette");
 
         } else {
             //Smartphone
@@ -149,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
             detailFragment.onHouseClick(house);
             this.id = house.getId();
-            Log.e("Test", "MainActivity onClick Smartphone");
         }
     }
 
@@ -160,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateList(List<House> houses) {
         houseList = new ArrayList<>();
         houseList.addAll(houses);
-        Log.e("Test", "houseList = " + houseList.size());
-
     }
 
     private void changeCurrencyToDollarsAndUpdateDataBase(List<House> houses) {
@@ -228,7 +231,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 return true;
             case R.id.menu_activity_main_toolbar_search:
-                Toast.makeText(this, "Recherche", Toast.LENGTH_LONG).show();
+                Intent searchActivityIntent = new Intent(MainActivity.this, SearchResultsActivity.class);
+                startActivity(searchActivityIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

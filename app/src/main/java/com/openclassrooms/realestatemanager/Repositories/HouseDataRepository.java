@@ -38,5 +38,5 @@ public class HouseDataRepository {
     }
 
     //For search
-    public LiveData<List<House>> searchDatabase(String searchQuery) { return this.houseDao.searchDatabase(searchQuery);}
+    public LiveData<List<House>> searchDatabase(String district, String miniPrice, String maxiPrice, int miniArea,int maxiArea, String pointOfInterest,String dateOfEntry, String dateOfSale) { return this.houseDao.searchDatabase(district,miniPrice,maxiPrice, miniArea,maxiArea,pointOfInterest,dateOfEntry,dateOfSale);}
 }
