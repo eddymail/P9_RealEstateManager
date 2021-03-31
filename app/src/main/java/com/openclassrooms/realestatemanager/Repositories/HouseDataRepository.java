@@ -29,11 +29,11 @@ public class HouseDataRepository {
 
     //Update house
     public void updateHouse(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms,
-                            String pointOfInterest, String description, String illustration, String address,Boolean available, String dateOfEntry,
+                            String pointOfInterest, String description, String illustration, String address,boolean available, String dateOfEntry,
                             String dateOfSale, String realEstateAgent, long id)
     {
         houseDao.updateHouse(category, district, price, isEuro, area, numberOfRooms, numberOfBathrooms,
-            numberOfBedRooms,pointOfInterest, description, illustration, address, true,
+            numberOfBedRooms,pointOfInterest, description, illustration, address,available,
             dateOfEntry,dateOfSale, realEstateAgent, id);
     }
 

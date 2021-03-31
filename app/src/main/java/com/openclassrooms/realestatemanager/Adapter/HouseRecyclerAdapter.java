@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.Adapter;
 
-import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -23,7 +22,6 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     private List<House> houseList;
     private final OnHouseListener onHouseListener;
-  //  private boolean isEuro;
 
     public HouseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
         this.houseList = houseList;
@@ -63,6 +61,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         private final TextView category;
         private final TextView district;
         private final TextView price;
+        private final TextView sale;
         private final ImageView illustrationView;
         private final ImageView changeView;
         private final OnHouseListener onHouseListener;
@@ -72,12 +71,12 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         // Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
             super(itemView);
-         //   res = itemView.getResources();
             category = itemView.findViewById(R.id.tv_fragment_main_item_category);
             district = itemView.findViewById(R.id.tv_fragment_main_item_district);
             price = itemView.findViewById(R.id.tv_fragment_main_item_price);
             illustrationView = itemView.findViewById(R.id.fragment_main_item_illustration);
             changeView = itemView.findViewById(R.id.iv_fragment_main_item_change);
+            sale = itemView.findViewById(R.id.tv_fragment_main_item_sale);
             this.onHouseListener = onHouseListener;
 
             itemView.setOnClickListener(this);
@@ -87,6 +86,11 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
             category.setText(house.getCategory());
             district.setText(house.getDistrict());
+
+            if(!house.isAvailable()) {
+                sale.setVisibility(View.VISIBLE);
+                sale.setText("VENDU LE " + house.getDateOfSale());
+            }
 
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
@@ -98,14 +102,18 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             if (isEuro == true) {
                 price.setText(String.valueOf(house.getPrice()));
                 changeView.setImageResource(R.drawable.ic_baseline_eur_24);
-            }
-            else if (isEuro == false) {
+            } else if (isEuro == false) {
                 price.setText(String.valueOf(Utils.convertEuroToDollars(house.getPrice())));
                 changeView.setImageResource(R.drawable.ic_baseline_price_change_24);
             }
 
             if (house.getIllustration().isEmpty()) {
                 illustrationView.setImageResource(R.drawable.sell_house);
+
+                if (house.isAvailable() == false) {
+                    int color = Color.parseColor("#80FF333F");
+                    illustrationView.setColorFilter(color);
+                }
             } else {
                 illustration = Utils.getIllustrationFromDevice(house);
 
@@ -113,6 +121,10 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
                         .load(illustration)
                         .apply(myOptions)
                         .into(illustrationView);
+                if (house.isAvailable() == false) {
+                    int color = Color.parseColor("#80FF333F");
+                    illustrationView.setColorFilter(color);
+                }
             }
             Log.e("Test", "updateHouse");
         }

@@ -40,12 +40,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public static final int RESULT_TAKE_PICTURE = 2;
     private static final long HOUSE_ID = 1;
     private String category, district, pointOfInterest, address, description, realEstateAgent, dateOfSale, dateOfEntry;
-
+    private boolean available = true;
     private int price, area, numberOfRooms, numberOfBedRooms, numberOfBathrooms;
     private long id;
 
     private EditText categoryInput, districtInput, priceInput, areaInput, roomInput, bedroomInput, bathroomInput,
-            pointOfInterestValue, descriptionValue, agentNameValue, addressValue;
+            pointOfInterestValue, descriptionValue, agentNameValue, addressValue, etDateOfSale;
     private Button addBtn, descriptionPictureBtn, galleryPictureBtn;
 
     private RealEstateManagerViewModel realEstateManagerViewModel;
@@ -70,13 +70,18 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (extras != null) {
             id = extras.getLong("id", -1);
         }
-        //create
+        //create or mofify
         if (id == -1 || id == 0) {
+            //Create
             this.initActivity();
+            galleryPictureBtn.setVisibility(View.GONE);
+            etDateOfSale.setVisibility(View.GONE);
             addBtn.setText("Ajouter");
         } else {
             //Modify
             this.initActivity();
+            galleryPictureBtn.setVisibility(View.VISIBLE);
+            etDateOfSale.setVisibility(View.VISIBLE);
             this.getCurrentHouse(id);
             addBtn.setText("Modifier");
         }
@@ -108,6 +113,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         addBtn = findViewById(R.id.bt_add_activity);
         descriptionPictureBtn = findViewById(R.id.bt_add_activity_add_description_picture);
         galleryPictureBtn = findViewById(R.id.bt_add_activity_take_picture);
+        etDateOfSale = findViewById(R.id.et_add_activity_date_of_sale);
     }
 
     private void collectInputForHouse() {
@@ -124,6 +130,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         numberOfRooms = Integer.parseInt(roomInput.getText().toString());
         numberOfBedRooms = Integer.parseInt(bedroomInput.getText().toString());
         numberOfBathrooms = Integer.parseInt(bathroomInput.getText().toString());
+        dateOfSale = etDateOfSale.getText().toString();
     }
 
     private void collectInputForIllustration() {
@@ -167,7 +174,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             picture = "";
         }
         houseToAdd = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
-                description, picture, address, true, dateOfEntry, null, realEstateAgent);
+                description, picture, address, available, dateOfEntry, null, realEstateAgent);
         this.realEstateManagerViewModel.createHouse(houseToAdd);
     }
 
@@ -182,15 +189,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private void updateHouseAndUpdateDatabase(House house) {
         id = house.getId();
         if (picture == null) {
-            picture = house.getIllustration();
+            picture = house.getIllustration(); }
+        if (dateOfSale != null) {
+            available = false;
         }
-        dateOfSale = house.getDateOfSale();
         dateOfEntry = house.getDateOfEntry();
         houseToUpdate = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
-                description, picture, address, true, dateOfEntry, null, realEstateAgent);
+                description, picture, address, available, dateOfEntry, dateOfSale, realEstateAgent);
 
         this.realEstateManagerViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms,
-                numberOfBedRooms, pointOfInterest, description, picture, address, true,
+                numberOfBedRooms, pointOfInterest, description, picture, address, available,
                 dateOfEntry, dateOfSale, realEstateAgent, id);
     }
 

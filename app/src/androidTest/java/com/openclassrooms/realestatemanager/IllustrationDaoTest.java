@@ -32,11 +32,11 @@ public class IllustrationDaoTest {
 
     //Data set for Test
     private static final long HOUSE_ID = 1;
-    private static final House HOUSE_DEMO = new House(HOUSE_ID, "Maison", "Hourton", 741000, 380, 11, 2, 6, "Commerce, école, métro", "Magnifique villa à Saint Aubin de Médoc située dans un quartier recherché. Vous découvrirez une entrée, une belle pièce de vie avec salon et salle à manger, un deuxième salon séparé par une cheminée centrale, une cuisine fermée donnant sur la cuisine d'été, une buanderie, une salle de jeu, une cave. Le rez-de-chaussée est complété par une chambre avec salle d'eau, un bureau et une salle de sport avec sauna et salle d'eau. A l'étage, vous accédez à une suite parentale avec une chambre donnant sur une terrasse, une salle de bains avec baignoire et douche, un double dressing, puis trois chambres avec dressing et une salle de bains avec baignoire et douche. L'ensemble sur un jardin paysagé d'environ 1400 m² dispose d'une grande terrasse en bois, d'une cuisine d'été, d'une piscine au sel chauffée. Très belles prestations pour cette maison d'exception à quelques minutes du centre de Saint Aubin de Médoc, des écoles, collège et lycée. Situation idéale à 15 kms de Bordeaux, 35 kms de Lacanau, 7 kms d'un parcours de golf. Un coin de paradis à découvrir sans tarder."
+    private static final House HOUSE_DEMO = new House(HOUSE_ID, "Maison",true, "Hourton",741000, 380, 11, 2, 6, "Commerce, école, métro", "Magnifique villa à Saint Aubin de Médoc située dans un quartier recherché. Vous découvrirez une entrée, une belle pièce de vie avec salon et salle à manger, un deuxième salon séparé par une cheminée centrale, une cuisine fermée donnant sur la cuisine d'été, une buanderie, une salle de jeu, une cave. Le rez-de-chaussée est complété par une chambre avec salle d'eau, un bureau et une salle de sport avec sauna et salle d'eau. A l'étage, vous accédez à une suite parentale avec une chambre donnant sur une terrasse, une salle de bains avec baignoire et douche, un double dressing, puis trois chambres avec dressing et une salle de bains avec baignoire et douche. L'ensemble sur un jardin paysagé d'environ 1400 m² dispose d'une grande terrasse en bois, d'une cuisine d'été, d'une piscine au sel chauffée. Très belles prestations pour cette maison d'exception à quelques minutes du centre de Saint Aubin de Médoc, des écoles, collège et lycée. Situation idéale à 15 kms de Bordeaux, 35 kms de Lacanau, 7 kms d'un parcours de golf. Un coin de paradis à découvrir sans tarder."
             , "https://v.seloger.com/s/width/861/visuels/0/r/i/1/0ri18eygqgnn0yj8yzyiwv9mx1f5x0yku96bf1a0w.jpg", "15 route de Hourton, 33160 Saint-Aubin-de-Médoc",
             true, "20/01/2021", null, "Eddy");
-    private static final Illustration ILLUSTRATION_SALON = new Illustration(1, HOUSE_ID, "Salon", "https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg");
-    private static final Illustration ILLUSTRATION_CUISINE = new Illustration(2, HOUSE_ID, "Cuisine", "https://v.seloger.com/s/cdn/x/visuels/2/9/8/v/298vujqnf17in31ceg5xe0af165tmlf6f6c9zjncw.jpg");
+    private static final Illustration ILLUSTRATION_SALON = new Illustration(HOUSE_ID, "Salon", "https://v.seloger.com/s/cdn/x/visuels/0/m/2/v/0m2v0q1zbvnr9zhz2zpadwxwn2h2s4wc800plrsw0.jpg");
+    private static final Illustration ILLUSTRATION_CUISINE = new Illustration( HOUSE_ID, "Cuisine", "https://v.seloger.com/s/cdn/x/visuels/2/9/8/v/298vujqnf17in31ceg5xe0af165tmlf6f6c9zjncw.jpg");
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -61,21 +61,6 @@ public class IllustrationDaoTest {
         //Test
         House house = LiveDataTestUtil.getValue(this.database.houseDao().getHouse(HOUSE_ID));
         assertTrue(house.getAddress().equals(HOUSE_DEMO.getAddress()) && house.getId() == HOUSE_ID);
-    }
-
-    @Test
-    public void insertAndUpdateHouse() throws InterruptedException {
-        //BEFORE : Adding demo house. Next, update house added & re-save it
-        this.database.houseDao().createHouse(HOUSE_DEMO);
-        House houseAdded = LiveDataTestUtil.getValue(this.database.houseDao().getHouse(HOUSE_ID));
-        houseAdded.setAvailable(false);
-        this.database.houseDao().updateHouse(houseAdded);
-
-        //TEST
-        List<House> houses = LiveDataTestUtil.getValue(this.database.houseDao().getAll());
-
-        assertEquals(false, houses.get(0).getAvailable());
-        assertTrue(houses.size() == 1);
     }
 
     @Test

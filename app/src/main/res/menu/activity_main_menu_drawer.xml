@@ -13,6 +13,11 @@
             android:icon="@drawable/ic_baseline_eur_24"
             android:title="@string/conversion_dollars_euro" />
 
+        <item
+            android:id="@+id/activity_main_drawer_loan_calculator"
+            android:icon="@drawable/ic_baseline_calculate_24"
+            android:title="@string/loan_calculator" />
+
     </group>
 
 </menu>

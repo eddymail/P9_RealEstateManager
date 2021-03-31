@@ -186,11 +186,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Description  :"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_agent_name" />
 
     <EditText
         android:id="@+id/et_add_activity_description"
@@ -301,5 +301,20 @@
             android:text="gallerie"
             android:textSize="10sp" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_add_activity_date_of_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Date de vente"
+        android:visibility="gone"
+        android:inputType="date"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/et_add_activity_agent_name"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </android.support.constraint.ConstraintLayout>

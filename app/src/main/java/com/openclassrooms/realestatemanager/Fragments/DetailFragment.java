@@ -112,10 +112,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private void checkConnectivity() {
         if (Utils.haveNetwork()) {
             //Start mapViewFragment
+
             MapViewFragment mapViewFragment = new MapViewFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_frame_layout, mapViewFragment)
                     .commit();
+
         } else {
             Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
         }

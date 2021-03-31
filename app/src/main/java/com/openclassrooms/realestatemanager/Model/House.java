@@ -20,14 +20,14 @@ public class House {
     private String description;
     private String illustration;
     private String address;
-    private Boolean available;
+    private boolean available;
     private String dateOfEntry;
     @Nullable
     private String dateOfSale;
     private String realEstateAgent;
 
     //Constructor
-    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, Boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
+    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
         this.isEuro = isEuro;
@@ -98,7 +98,7 @@ public class House {
         return address;
     }
 
-    public Boolean getAvailable() {
+    public boolean isAvailable() {
         return available;
     }
 
@@ -168,7 +168,7 @@ public class House {
         this.address = address;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(boolean available) {
         this.available = available;
     }
 

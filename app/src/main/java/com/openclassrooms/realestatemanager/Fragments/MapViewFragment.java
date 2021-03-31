@@ -69,8 +69,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
         client = LocationServices.getFusedLocationProviderClient(getActivity());
 
         this.configureViewModel();
-        this.getAllHousesFromDatabase();
-        this.checkCondition();
+       // this.getAllHousesFromDatabase();
+       // this.checkCondition();
 
         return view;
     }
@@ -84,6 +84,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                         == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         }
+        Toast.makeText(getContext(), "Vous n'êtes pas géolocalisé, activez la géolocalistion! ", Toast.LENGTH_LONG).show();
     }
 
     @SuppressLint("MissingPermission")
@@ -104,7 +105,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         currentPosition = new LatLng(lat, lng);
-                        setMarker();
+                       // setMarker();
                     }
                 }
             });
@@ -151,6 +152,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     private void updateList(List<House> houses) {
         houseList = new ArrayList<>();
         houseList.addAll(houses);
+        setMarker();
     }
 
     private void configureViewModel() {
@@ -163,8 +165,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        checkCondition();
+        getAllHousesFromDatabase();
         googleMap.setOnMarkerClickListener(this);
-        setMarker();
     }
 
     @Override
