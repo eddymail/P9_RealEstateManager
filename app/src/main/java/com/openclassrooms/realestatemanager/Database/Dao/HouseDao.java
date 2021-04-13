@@ -1,12 +1,11 @@
 package com.openclassrooms.realestatemanager.Database.Dao;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
-
-import com.google.android.gms.maps.model.LatLng;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+import android.database.Cursor;
 import com.openclassrooms.realestatemanager.Model.House;
 
 import java.util.List;
@@ -19,6 +18,9 @@ public interface HouseDao {
 
     @Query("SELECT * FROM House WHERE id = :houseId")
     LiveData<House> getHouse(long houseId);
+
+    @Query("SELECT * FROM House WHERE id = :houseId")
+    Cursor getHouseWithCursor(long houseId);
 
     @Query("SELECT * FROM House")
     LiveData<List<House>> getAll();

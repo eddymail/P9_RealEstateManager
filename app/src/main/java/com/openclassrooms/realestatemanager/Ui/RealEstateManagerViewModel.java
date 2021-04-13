@@ -1,9 +1,10 @@
 package com.openclassrooms.realestatemanager.Ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 
-import com.google.android.gms.maps.model.LatLng;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.Repositories.HouseDataRepository;

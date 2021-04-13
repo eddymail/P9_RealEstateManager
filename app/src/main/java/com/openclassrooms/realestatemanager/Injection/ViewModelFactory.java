@@ -1,8 +1,7 @@
 package com.openclassrooms.realestatemanager.Injection;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.Repositories.HouseDataRepository;
 import com.openclassrooms.realestatemanager.Repositories.IllustrationDataRepository;
@@ -22,10 +21,19 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.executor = executor;
     }
 
-
+/*
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        if(modelClass.isAssignableFrom(RealEstateManagerViewModel.class)) {
+            return (T) new RealEstateManagerViewModel(houseDataSource, illustrationDataSource,executor);
+        }
+        throw new IllegalArgumentException("Unknow ViewModel class");
+    }*/
+
+    @androidx.annotation.NonNull
+    @Override
+    public <T extends ViewModel> T create(@androidx.annotation.NonNull Class<T> modelClass) {
         if(modelClass.isAssignableFrom(RealEstateManagerViewModel.class)) {
             return (T) new RealEstateManagerViewModel(houseDataSource, illustrationDataSource,executor);
         }

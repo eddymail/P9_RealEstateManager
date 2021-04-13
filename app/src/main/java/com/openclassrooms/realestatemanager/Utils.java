@@ -14,6 +14,7 @@ import android.util.Base64;
 import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.Activities.MainActivity;
 import com.openclassrooms.realestatemanager.Model.House;
+import com.openclassrooms.realestatemanager.Model.Illustration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -112,9 +113,9 @@ public class Utils {
     }
 
     /**
-     * Get the picture stock in device
+     * Get the illustration stock in device
      * @param house
-     * @return picture
+     * @return illustration
      */
     public static String getIllustrationFromDevice(House house) {
         File file = new File(house.getIllustration());
@@ -122,6 +123,21 @@ public class Utils {
         if (bitmap != null) {
             String illustration = getStringImage(bitmap);
             return illustration;
+        }
+        return null;
+    }
+
+    /**
+     * Get the picture stock in device
+     * @param illustration
+     * @return illustrationGallery
+     */
+    public static String getIllustrationGalleryFromDevice(Illustration illustration) {
+        File file = new File(illustration.getPicture());
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        if (bitmap != null) {
+            String illustrationGallery = getStringImage(bitmap);
+            return illustrationGallery;
         }
         return null;
     }

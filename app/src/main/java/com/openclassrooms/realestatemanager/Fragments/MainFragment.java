@@ -1,10 +1,11 @@
 package com.openclassrooms.realestatemanager.Fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         this.configureViewModel();
         this.configureRecyclerView();
-      //this.getAllHousesFromDatabase();
 
-        realEstateManagerViewModel.getAll().observe(this, houseList -> {
-            adapter.setData(houseList);
-            updateDisplayList();
-        });
 
         return view;
     }
@@ -74,8 +70,19 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private void configureViewModel() {
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
+        realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+
+        realEstateManagerViewModel.getAll().observe((LifecycleOwner) this, houseList -> {
+            adapter.setData(houseList);
+            updateDisplayList();
+        });
+
+        /*
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
         this.realEstateManagerViewModel.init(HOUSE_ID);
+*/
 
     }
 

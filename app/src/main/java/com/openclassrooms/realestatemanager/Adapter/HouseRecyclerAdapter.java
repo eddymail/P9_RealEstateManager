@@ -2,7 +2,8 @@ package com.openclassrooms.realestatemanager.Adapter;
 
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +103,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             if (isEuro == true) {
                 price.setText(String.valueOf(house.getPrice()));
                 changeView.setImageResource(R.drawable.ic_baseline_eur_24);
-            } else if (isEuro == false) {
+            } else if (!isEuro) {
                 price.setText(String.valueOf(Utils.convertEuroToDollars(house.getPrice())));
                 changeView.setImageResource(R.drawable.ic_baseline_price_change_24);
             }
@@ -126,7 +127,6 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
                     illustrationView.setColorFilter(color);
                 }
             }
-            Log.e("Test", "updateHouse");
         }
 
         @Override

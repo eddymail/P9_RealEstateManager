@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.Model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import android.content.ContentValues;
 
 @Entity
 public class House {
@@ -27,6 +29,9 @@ public class House {
     private String realEstateAgent;
 
     //Constructor
+    @Ignore
+    public House() {};
+
     public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
@@ -46,6 +51,13 @@ public class House {
         this.realEstateAgent = realEstateAgent;
     }
 
+    //Constructor for Test
+    @Ignore
+    public House(long houseId, String maison, boolean b, String hourton, int i, int i1, int i2, int i3, int i4, String s, String s1, String s2, String s3, boolean b1, String s4, Object o, String eddy) {
+    }
+
+
+    //Getter
     public Long getId() {
         return id;
     }
@@ -182,6 +194,28 @@ public class House {
 
     public void setRealEstateAgent(String realEstateAgent) {
         this.realEstateAgent = realEstateAgent;
+    }
+
+    //Utils
+    public static House fromContentValues(ContentValues values) {
+        final House house = new House();
+        if(values.containsKey("category")) house.setCategory(values.getAsString("category"));
+        if(values.containsKey("district")) house.setDistrict(values.getAsString("district"));
+        if(values.containsKey("isEuro")) house.setEuro(values.getAsBoolean("isEuro"));
+        if(values.containsKey("price")) house.setCategory(values.getAsString("price"));
+        if(values.containsKey("area")) house.setArea(values.getAsInteger("area"));
+        if(values.containsKey("numberOfRooms")) house.setNumberOfRooms(values.getAsInteger("numberOfRooms"));
+        if(values.containsKey("numberOfBathrooms")) house.setNumberOfBathrooms(values.getAsInteger("numberOfBathrooms"));
+        if(values.containsKey("numberOfBedrooms")) house.setNumberOfBedrooms(values.getAsInteger("numberOfBedrooms"));
+        if(values.containsKey("pointOfInterest")) house.setPointOfInterest(values.getAsString("pointOfInterest"));
+        if(values.containsKey("description")) house.setDescription(values.getAsString("description"));
+        if(values.containsKey("illustration")) house.setIllustration(values.getAsString("illustration"));
+        if(values.containsKey("address")) house.setAddress(values.getAsString("address"));
+        if(values.containsKey("dateOfEntry")) house.setDateOfEntry(values.getAsString("dateOfEntry"));
+        if(values.containsKey("available")) house.setAvailable(values.getAsBoolean("available"));
+        if(values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
+        if(values.containsKey("realEstateAgent")) house.setRealEstateAgent(values.getAsString("realEstateAgent"));
+        return house;
     }
 }
 

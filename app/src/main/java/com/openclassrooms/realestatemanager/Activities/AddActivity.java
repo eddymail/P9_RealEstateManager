@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.Activities;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,14 +7,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.openclassrooms.realestatemanager.Fragments.DescriptionPictureDialog;
 import com.openclassrooms.realestatemanager.Fragments.GalleryPictureDialog;
@@ -182,7 +185,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (picture == null) {
             picture = "";
         }
-        illustrationToAdd = new Illustration(id, picture, tvDescription);
+        illustrationToAdd = new Illustration(id, tvDescription, picture);
+        Log.e("Test", "ToDatabase description = " + tvDescription);
         this.realEstateManagerViewModel.createIllustration(illustrationToAdd);
     }
 
@@ -247,7 +251,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     mainFragment.updateList(houseList);*/
                     AddActivity.this.finish();
                 } else {
-                    if( view.getId() == R.id.bt_add_activity_add_description_picture)
+                    if( galleryPictureBtn.isClickable())
                     {
                         createIllustrationAndAddItToDatabase(id);
                         Toast.makeText(this, "La photo a été ajoutée dans la galerie ", Toast.LENGTH_LONG).show();
@@ -329,5 +333,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void applyDescription(String pictureDescription) {
        tvDescription = pictureDescription;
+        Log.e("Test", "tvDescription = " + tvDescription);
     }
 }

@@ -1,21 +1,22 @@
 package com.openclassrooms.realestatemanager.Activities;
 
-import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
 import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.MainFragment;
@@ -126,14 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
 
-       /* // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menu_activity_main_toolbar_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));*/
-
         return true;
     }
 
@@ -198,13 +191,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.activity_main_drawer_conversion_euro_dollars:
                 this.changeCurrencyToDollarsAndUpdateDataBase(houseList);
-             /*   MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-                mainFragment.updateList(houseList);*/
                 Toast.makeText(this, "Prix en dollars", Toast.LENGTH_LONG).show();
                 break;
             case R.id.activity_main_drawer_conversion_dollars_euro:
                 this.changeCurrencyToEuroAndUpdateDataBase(houseList);
                 Toast.makeText(this, "Prix en euros", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.activity_main_drawer_loan_calculator:
+                Intent intentCalculator = new Intent(MainActivity.this, LoanCalculatorActivity.class);
+                startActivity(intentCalculator);
                 break;
             default:
                 break;
@@ -218,8 +213,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.menu_activity_main_toolbar_add:
-                Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(intent);
+                Intent intentAdd = new Intent(MainActivity.this, AddActivity.class);
+                startActivity(intentAdd);
                 return true;
             case R.id.menu_activity_main_toolbar_modify:
                 if (id != 0) {

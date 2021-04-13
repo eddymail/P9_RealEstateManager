@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.openclassrooms.realestatemanager.Activities.AddActivity;
 import com.openclassrooms.realestatemanager.R;
@@ -34,6 +36,7 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
             public void onClick(DialogInterface dialogInterface, int i) {
                 String pictureDescription = description.getText().toString();
                 dialogListener.applyDescription(pictureDescription);
+                Log.e("Test", "description récupéré = " + pictureDescription);
             }
         });
         builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -42,9 +45,9 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
             }
         });
 
-        takePicture = view.findViewById(R.id.bt_description_dialog_take_picture);
-        selectPicture = view.findViewById(R.id.bt_description_dialog_select_picture);
-        description = view.findViewById(R.id.et_gallerydialog_select_picturedialog_select_picture);
+        takePicture = view.findViewById(R.id.bt_gallery_picture_dialog_take_picture);
+        selectPicture = view.findViewById(R.id.bt_gallery_picture_dialog_select_picture);
+        description = view.findViewById(R.id.et_gallery_picture_dialog_description);
 
         takePicture.setOnClickListener(this);
         selectPicture.setOnClickListener(this);
@@ -70,12 +73,12 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_description_dialog_take_picture:
+            case R.id.bt_gallery_picture_dialog_take_picture:
                 //TODO gallery picture
                 ((AddActivity) getActivity()).takePicture();
                 
                 break;
-            case R.id.bt_description_dialog_select_picture:
+            case R.id.bt_gallery_picture_dialog_select_picture:
                 //TODO gallery picture
                 ((AddActivity) getActivity()).addPictureFromDevice();
 

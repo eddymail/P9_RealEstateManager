@@ -1,22 +1,23 @@
 package com.openclassrooms.realestatemanager.Adapter;
-
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 
 import java.util.List;
 
-public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewHolder> {
+public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecyclerAdapter.ViewHolder> {
 
-    private final List<Illustration> gallery;
+    private List<Illustration> gallery;
 
     public GalleryRecyclerAdapter(List<Illustration> gallery) {
         this.gallery = gallery;
@@ -39,31 +40,44 @@ public class GalleryRecyclerAdapter extends Adapter<GalleryRecyclerAdapter.ViewH
         return gallery.size();
     }
 
+    public void setData(List<Illustration> newData) {
+        if (gallery != null) {
+            gallery.clear();
+            gallery.addAll(newData);
+        } else {
+            gallery = newData;
+        }
+    }
+
 
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView description;
-        private final ImageView picture;
+        private final ImageView illustrationView;
+        private String picture;
 
         // Constructor
         public ViewHolder(View itemView) {
             super(itemView);
 
             description = itemView.findViewById(R.id.tv_fragment_detail_item_description);
-            picture = itemView.findViewById(R.id.iv_fragment_detail_item);
+            illustrationView = itemView.findViewById(R.id.iv_fragment_detail_item);
 
         }
 
         public void updateIllustration(Illustration illustration) {
 
             description.setText(illustration.getDescription());
+            Log.e("Test", "description = " + illustration.getDescription());
 
             if (illustration.getPicture().isEmpty()) {
-                picture.setImageResource(R.drawable.add_picture);
+                illustrationView.setImageResource(R.drawable.add_picture);
             } else {
-                Glide.with(picture.getContext())
-                        .load(illustration.getPicture())
-                        .into(picture);
+                picture = Utils.getIllustrationGalleryFromDevice(illustration);
+
+                Glide.with(illustrationView.getContext())
+                        .load(picture)
+                        .into(illustrationView);
             }
         }
     }
