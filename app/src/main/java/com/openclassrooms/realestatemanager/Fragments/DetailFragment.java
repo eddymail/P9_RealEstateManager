@@ -4,6 +4,7 @@ package com.openclassrooms.realestatemanager.Fragments;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +79,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         //Smartphone display
         if (house != null) {
-            this.updateDisplay(house);
+            this.updateData(house);
         }
-        this.updateDisplayDetails(house);
+        this.updateDisplay(house);
         super.onStart();
     }
 
@@ -100,10 +101,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     public void configureRecyclerView() {
-        this.gallery = new ArrayList<>();
+       // this.gallery = new ArrayList<>();
         this.adapter = new GalleryRecyclerAdapter(this.gallery);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        Log.e("Test", "Test galerie dans configureRecyclerView() " + " Size = " + gallery.size());
     }
 
     private void configureViewModel() {
@@ -112,29 +114,32 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         this.realEstateManagerViewModel.init(HOUSE_ID);
     }
 
-    private void checkConnectivity() {
-        if (Utils.haveNetwork()) {
-            //Start mapViewFragment
-
-            MapViewFragment mapViewFragment = new MapViewFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_frame_layout, mapViewFragment)
-                    .commit();
-
-        } else {
-            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
-        }
+    private void getGalleryHouseFromDatabase(long houseId) {
+        this.realEstateManagerViewModel.getGallery(houseId).observe((LifecycleOwner) this, illustrations -> {
+            adapter.setData(illustrations);
+            updateDisplayList();
+        });
     }
 
     //Tablet display
-    public void updateDisplay(House house) {
+    public void updateData(House house) {
         updateHouse(house);
         configureViewModel();
         configureRecyclerView();
         getGalleryHouseFromDatabase(house.getId());
     }
 
-    public void updateDisplayDetails(House house) {
+    private void updateDisplayList() {
+        Log.e("Test", "Taille galery = " + gallery.size());
+        if (gallery.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            configureRecyclerView();
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void updateDisplay(House house) {
         if (house == null) {
             getView().setVisibility(View.GONE);
         } else {
@@ -156,23 +161,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 .into(mapView);
     }
 
-    private void getGalleryHouseFromDatabase(long houseId) {
-        this.realEstateManagerViewModel.getGallery(houseId).observe((LifecycleOwner) this, illustrations -> {
-            adapter.setData(illustrations);
-            updateDisplayList();
-        });
-    }
-
-
-    private void updateDisplayList() {
-
-        if (gallery.size() == 0) {
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-    }
-
     public String convertAndShowAddressOnStaticMap(String address) {
         Geocoder coder = new Geocoder(getContext());
         List<Address> addresses;
@@ -190,6 +178,20 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void checkConnectivity() {
+        if (Utils.haveNetwork()) {
+            //Start mapViewFragment
+
+            MapViewFragment mapViewFragment = new MapViewFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_frame_layout, mapViewFragment)
+                    .commit();
+
+        } else {
+            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
+        }
     }
 
     //Listener
