@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +61,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     private void configureRecyclerView() {
-
+        Log.e("Test", "configure RecyclerView");
         this.houseList = new ArrayList<>();
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
@@ -71,22 +73,20 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
-
         realEstateManagerViewModel.getAll().observe((LifecycleOwner) this, houseList -> {
+            Log.e("Test", "onSearch RecyclerView List size : "  + houseList.size());
             adapter.setData(houseList);
-            updateDisplayList();
+            updateDisplay();
         });
 
         /*
-
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
         this.realEstateManagerViewModel.init(HOUSE_ID);
-*/
-
+        */
     }
 
-    private void updateDisplayList() {
+    private void updateDisplay() {
 
         if (houseList.size() == 0) {
             lblNoHouse.setVisibility(View.VISIBLE);
@@ -103,7 +103,13 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     @Override
-    public void onSearch(List<House> houseList) {
-        this.houseList = houseList;
+    public void onSearch(List<House> searchedList) {
+
+        this.houseList = searchedList;
+        Log.e("Test", "onSearch searchedList size : "  + searchedList.size());
+        // this.adapter = new HouseRecyclerAdapter(houseList,this);
+        // adapter.notifyDataSetChanged();
+        // Log.e("Test", "onSearch adapter : "  + adapter);
+        // adapter.setData(houseList);
     }
 }

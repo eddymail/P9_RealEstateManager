@@ -283,23 +283,36 @@
         app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest">
 
         <Button
-            android:id="@+id/bt_add_activity_add_description_picture"
-            android:layout_width="match_parent"
+            android:id="@+id/bt_add_activity_select_description_picture"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableLeft="@drawable/ic_baseline_photo_24"
             android:text="description"
             android:textAlignment="center"
             android:textSize="10sp" />
 
         <Button
-            android:id="@+id/bt_add_activity_take_picture"
-            android:layout_width="match_parent"
+            android:id="@+id/bt_add_activity_add_description_picture"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="Ok"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <Button
+            android:id="@+id/bt_add_activity_select_gallerie_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_baseline_photo_library_24"
             android:text="gallerie"
             android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/bt_add_activity_add_gallerie_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
     </LinearLayout>
 
     <EditText

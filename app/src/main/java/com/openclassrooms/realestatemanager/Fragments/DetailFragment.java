@@ -105,7 +105,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         this.adapter = new GalleryRecyclerAdapter(this.gallery);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        Log.e("Test", "Test galerie dans configureRecyclerView() " + " Size = " + gallery.size());
     }
 
     private void configureViewModel() {
@@ -130,7 +129,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateDisplayList() {
-        Log.e("Test", "Taille galery = " + gallery.size());
         if (gallery.size() == 0) {
             recyclerView.setVisibility(View.GONE);
         } else {

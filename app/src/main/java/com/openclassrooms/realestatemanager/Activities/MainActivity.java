@@ -134,8 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (detailFragment != null && Utils.isTablet(this)) {
             //Tablet
+            detailFragment.updateData(house);
             detailFragment.updateDisplay(house);
-            detailFragment.updateDisplayDetails(house);
             this.id = house.getId();
 
         } else {

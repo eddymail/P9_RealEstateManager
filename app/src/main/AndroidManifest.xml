@@ -30,6 +30,7 @@
 
     <activity android:name="com.openclassrooms.realestatemanager.Activities.LoanCalculatorActivity"></activity>
     <activity android:name=".Activities.AddActivity"></activity>
+    <activity android:name=".Activities.SearchResultsActivity"></activity>
     <activity android:name=".Activities.MainActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

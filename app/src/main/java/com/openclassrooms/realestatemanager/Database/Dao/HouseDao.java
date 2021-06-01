@@ -28,9 +28,70 @@ public interface HouseDao {
     @Query("UPDATE House SET isEuro = :isEuro WHERE id = :id")
     int updateIsEuro(boolean isEuro, long id);
 
-    @Query("UPDATE House SET category = :category,  district = :district,isEuro = :isEuro, price = :price, area = :area,numberOfRooms = :numberOfRooms, numberOfBathrooms= :numberOfBathrooms, numberOfBedRooms = :numberOfBedRooms, pointOfInterest = :pointOfInterest, description = :description, illustration = :illustration, address = :address, available = :available, dateOfEntry = :dateOfEntry, dateOfSale = :dateOfSale, realEstateAgent = :realEstateAgent WHERE id = :id")
-    int updateHouse(String category, String district, int price, boolean isEuro,int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms,String pointOfInterest, String description, String illustration, String address,boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent, long id);
+    @Query("UPDATE House SET category = :category," +
+            "district = :district," +
+            "isEuro = :isEuro," +
+            "price = :price," +
+            "area = :area," +
+            "numberOfRooms = :numberOfRooms," +
+            "numberOfBathrooms= :numberOfBathrooms," +
+            "numberOfBedRooms = :numberOfBedRooms," +
+            "pointOfInterest = :pointOfInterest," +
+            "description = :description," +
+            "address = :address," +
+            "available = :available," +
+            "dateOfEntry = :dateOfEntry," +
+            "dateOfSale = :dateOfSale," +
+            "realEstateAgent = :realEstateAgent WHERE id = :id")
 
-    @Query("SELECT * FROM House WHERE district LIKE :district OR price BETWEEN :miniPrice AND :maxiPrice OR area BETWEEN :miniArea AND :maxiArea OR pointOfInterest LIKE :pointOfInterest OR dateOfEntry LIKE :dateOfEntry OR dateOfSale LIKE :dateOfSale")
-    LiveData<List<House>> searchDatabase(String district, String miniPrice, String maxiPrice, int miniArea, int maxiArea, String pointOfInterest,String dateOfEntry, String dateOfSale);
+    int updateHouse(String category,
+                    String district,
+                    int price,
+                    boolean isEuro,
+                    int area,
+                    int numberOfRooms,
+                    int numberOfBathrooms,
+                    int numberOfBedRooms,
+                    String pointOfInterest,
+                    String description,
+                    String address,
+                    boolean available,
+                    String dateOfEntry,
+                    String dateOfSale,
+                    String realEstateAgent,
+                    long id);
+
+    @Query("UPDATE House SET illustration = :illustration WHERE id =:id")
+    int updateIllustration(String illustration, long id);
+
+    @Query("SELECT * FROM House WHERE district = :district" +
+            " AND price BETWEEN :miniPrice AND :maxiPrice " +
+            " AND area BETWEEN :miniArea AND :maxiArea" +
+            " AND pointOfInterest = :pointOfInterest " +
+            "AND dateOfEntry >= :dateOfEntry " +
+            "AND dateOfSale >= :dateOfSale")
+
+    LiveData<List<House>> getSearchedHouse(String district,
+                                           String miniPrice,
+                                           String maxiPrice,
+                                           int miniArea,
+                                           int maxiArea,
+                                           String pointOfInterest,
+                                           String dateOfEntry,
+                                           String dateOfSale);
+
+  /*  @Query("SELECT * FROM House WHERE district = :district " +
+            "AND price BETWEEN :miniPrice AND :maxiPrice " +
+            "AND area BETWEEN :miniArea AND :maxiArea " +
+            +
+           )
+
+    LiveData<List<House>> getSearchedHouse(String district,
+                                           String miniPrice,
+                                           String maxiPrice,
+                                           int miniArea,
+                                           int maxiArea,
+                                           String pointOfInterest,
+                                           );*/
+
 }

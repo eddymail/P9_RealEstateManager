@@ -49,13 +49,45 @@ public class RealEstateManagerViewModel extends ViewModel {
         });
     }
 
-    public void updateHouse(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms,
-                            int numberOfBedRooms,String pointOfInterest, String description, String illustration, String address,
-                            boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent, long id) {
+    public void updateHouse(String category,
+                            String district,
+                            boolean isEuro,
+                            int price,
+                            int area,
+                            int numberOfRooms,
+                            int numberOfBathrooms,
+                            int numberOfBedRooms,
+                            String pointOfInterest,
+                            String description,
+                            String address,
+                            boolean available,
+                            String dateOfEntry,
+                            String dateOfSale,
+                            String realEstateAgent,
+                            long id) {
         executor.execute(() -> {
-            houseDataSource.updateHouse(category, district, isEuro, price, area, numberOfRooms, numberOfBathrooms,
-                    numberOfBedRooms,pointOfInterest, description, illustration, address, available,
-                    dateOfEntry,dateOfSale, realEstateAgent, id);
+            houseDataSource.updateHouse(category,
+                    district,
+                    isEuro,
+                    price,
+                    area,
+                    numberOfRooms,
+                    numberOfBathrooms,
+                    numberOfBedRooms,
+                    pointOfInterest,
+                    description,
+                    address,
+                    available,
+                    dateOfEntry,
+                    dateOfSale,
+                    realEstateAgent,
+                    id);
+        });
+    }
+
+    public void updateIllustration(String illustration, long id) {
+        executor.execute(() -> {
+            houseDataSource.updateIllustration(illustration, id);
         });
     }
 
@@ -63,7 +95,22 @@ public class RealEstateManagerViewModel extends ViewModel {
 
     public LiveData<House> getHouse(long houseId) { return  houseDataSource.getHouse(houseId); }
 
-    public LiveData<List<House>> searchDatabase(String district, String miniPrice, String maxiPrice, int miniArea,int maxiArea, String pointOfInterest,String dateOfEntry, String dateOfSale) { return houseDataSource.searchDatabase(district,miniPrice,maxiPrice,miniArea,maxiArea,pointOfInterest,dateOfEntry,dateOfSale); }
+    public LiveData<List<House>> getSearchedHouse(String district,
+                                                  String miniPrice,
+                                                  String maxiPrice,
+                                                  int miniArea,
+                                                  int maxiArea,
+                                                  String pointOfInterest,
+                                                  String dateOfEntry,
+                                                  String dateOfSale) {
+        return houseDataSource.getSearchedHouse(district,
+                miniPrice,
+                maxiPrice,
+                miniArea,
+                maxiArea,
+                pointOfInterest,
+                dateOfEntry,
+                dateOfSale);}
 
     //For illustration
     public void createIllustration(Illustration illustration) {

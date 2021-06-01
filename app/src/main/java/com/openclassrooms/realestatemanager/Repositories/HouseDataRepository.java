@@ -28,16 +28,77 @@ public class HouseDataRepository {
         houseDao.updateIsEuro(isEuro, id);
     }
 
+    //Update illustration
+    public void updateIllustration(String illustration, long id) {houseDao.updateIllustration(illustration, id); }
+
     //Update house
-    public void updateHouse(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms,
-                            String pointOfInterest, String description, String illustration, String address,boolean available, String dateOfEntry,
-                            String dateOfSale, String realEstateAgent, long id)
+    public void updateHouse(String category,
+                            String district,
+                            boolean isEuro,
+                            int price,
+                            int area,
+                            int numberOfRooms,
+                            int numberOfBathrooms,
+                            int numberOfBedRooms,
+                            String pointOfInterest,
+                            String description,
+                            String address,
+                            boolean available,
+                            String dateOfEntry,
+                            String dateOfSale,
+                            String realEstateAgent,
+                            long id)
     {
-        houseDao.updateHouse(category, district, price, isEuro, area, numberOfRooms, numberOfBathrooms,
-            numberOfBedRooms,pointOfInterest, description, illustration, address,available,
-            dateOfEntry,dateOfSale, realEstateAgent, id);
+        houseDao.updateHouse(category,
+                district,
+                price,
+                isEuro,
+                area,
+                numberOfRooms,
+                numberOfBathrooms,
+                numberOfBedRooms,
+                pointOfInterest,
+                description,
+                address,
+                available,
+                dateOfEntry,
+                dateOfSale,
+                realEstateAgent,
+                id);
     }
 
     //For search
-    public LiveData<List<House>> searchDatabase(String district, String miniPrice, String maxiPrice, int miniArea,int maxiArea, String pointOfInterest,String dateOfEntry, String dateOfSale) { return this.houseDao.searchDatabase(district,miniPrice,maxiPrice, miniArea,maxiArea,pointOfInterest,dateOfEntry,dateOfSale);}
+    public LiveData<List<House>> getSearchedHouse(String district,
+                                                  String miniPrice,
+                                                  String maxiPrice,
+                                                  int miniArea,
+                                                  int maxiArea,
+                                                  String pointOfInterest,
+                                                  String dateOfEntry,
+                                                  String dateOfSale) {
+
+        return this.houseDao.getSearchedHouse(district,
+                miniPrice,
+                maxiPrice,
+                miniArea,
+                maxiArea,
+                pointOfInterest,
+                dateOfEntry,
+                dateOfSale);}
+
+   /* public LiveData<List<House>> getSearchedHouse(String district,
+                                                  String miniPrice,
+                                                  String maxiPrice,
+                                                  int miniArea,
+                                                  int maxiArea,
+                                                  ,
+                                                ) {
+
+        return this.houseDao.getSearchedHouse(district,
+                miniPrice,
+                maxiPrice,
+                miniArea,
+                maxiArea,
+                pointOfInterest,
+               );}*/
 }

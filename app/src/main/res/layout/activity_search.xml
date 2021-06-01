@@ -53,7 +53,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_sell_date_search_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/et_date_of_sale_search_activity" />
 
   <TextView
       android:id="@+id/textView2"
@@ -151,7 +151,7 @@
       app:layout_constraintTop_toBottomOf="@+id/et_poi_two_search_activity" />
 
   <EditText
-      android:id="@+id/et_on_sale_date_search_activity"
+      android:id="@+id/et_date_of_entry_search_activity"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
@@ -172,10 +172,10 @@
       android:textSize="10dp"
       android:text="Date de vente"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_on_sale_date_search_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/et_date_of_entry_search_activity" />
 
   <EditText
-      android:id="@+id/et_sell_date_search_activity"
+      android:id="@+id/et_date_of_sale_search_activity"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"

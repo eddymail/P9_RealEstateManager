@@ -79,13 +79,14 @@
         android:layout_marginBottom="8dp"
         android:text="VENDU LE dd/mm/yyyy"
         android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:textStyle="bold|italic"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_fragment_main_item_category"
+        app:layout_constraintStart_toEndOf="@+id/fragment_main_item_illustration"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
