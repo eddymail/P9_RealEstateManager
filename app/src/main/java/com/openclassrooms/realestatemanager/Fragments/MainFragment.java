@@ -36,7 +36,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
-
+    
     private static final long HOUSE_ID = 1;
 
     public MainFragment() {
@@ -103,13 +103,8 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     @Override
-    public void onSearch(List<House> searchedList) {
-
-        this.houseList = searchedList;
-        Log.e("Test", "onSearch searchedList size : "  + searchedList.size());
-        // this.adapter = new HouseRecyclerAdapter(houseList,this);
-        // adapter.notifyDataSetChanged();
-        // Log.e("Test", "onSearch adapter : "  + adapter);
-        // adapter.setData(houseList);
+    public void onSearch(List<House> resultList) {
+        houseList = resultList;
+        Log.e("Test", "onSearch searchedList size : "  + resultList.size());
     }
 }

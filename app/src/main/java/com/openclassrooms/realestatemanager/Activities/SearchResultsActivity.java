@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,17 +26,42 @@ import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText etMiniPrice, etMaxiPrice, etDistrict, etMiniArea,etMaxiArea , etPoi1, etPoi2, etDateOfEntry, etDateOfSale;
-    private Button btFilter;
-    private String miniPrice, maxiPrice, district, poi1, poi2, dateOfEntry, dateOfSale;
-    private int miniArea, maxiArea;
-    private String[] queries;
     private RealEstateManagerViewModel realEstateManagerViewModel;
-
-    private static final long HOUSE_ID = 1;
-    private List<House> houseList = new ArrayList<>();
     private SearchListener searchListener;
     private MainFragment fragment;
+
+    //For Data
+    private String district;
+    private int school = 0;
+    private int shopping = 0;
+    private int publicTransport = 0;
+    private int swimmingPool = 0;
+    private int miniArea;
+    private int maxiArea;
+    private int miniRoom;
+    private int maxiRoom;
+    // private String[] queries;
+    private static final long HOUSE_ID = 1;
+    private List<House> houseList = new ArrayList<>();
+
+    //For Design
+    private EditText etMiniPrice;
+    private EditText etMaxiPrice;
+    private EditText etDistrict;
+    private EditText etMiniArea;
+    private EditText etMaxiArea;
+    private EditText etMiniRoom;
+    private EditText etMaxiRoom;
+    private Button btFilter;
+    private CheckBox schoolCb;
+    private CheckBox shoppingCb;
+    private CheckBox publicTransportCb;
+    private CheckBox swimmingPoolCb;
+
+    // TODO
+    // Changer le type du prix
+    private int miniPrice;
+    private int maxiPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +73,21 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initActivity() {
-        etMiniPrice = findViewById(R.id.et_price_mini_search_activity);
-        etMaxiPrice = findViewById(R.id.et_price_max_search_activity);
-        etDistrict = findViewById(R.id.et_search_district_activity);
-        btFilter = findViewById(R.id.bt_filter_search_activity);
-        etMiniArea = findViewById(R.id.et_mini_area_search_activity);
-        etMaxiArea = findViewById(R.id.et_maxi_area_search_activity);
-        etPoi1 = findViewById(R.id.et_poi_search_activity);
-        etPoi2 = findViewById(R.id.et_poi_two_search_activity);
-        etDateOfEntry = findViewById(R.id.et_date_of_entry_search_activity);
-        etDateOfSale = findViewById(R.id.et_date_of_sale_search_activity);
+        etMiniPrice = findViewById(R.id.et_search_activity_price_mini);
+        etMaxiPrice = findViewById(R.id.et_search_activity_price_max);
+        etDistrict = findViewById(R.id.et_search_activity_district);
+        etMiniArea = findViewById(R.id.et_search_activity_mini_area);
+        etMaxiArea = findViewById(R.id.et_search_activity_maxi_area);
+        etMiniRoom = findViewById(R.id.et_search_activity_mini_room);
+        etMaxiRoom = findViewById(R.id.et_search_activity_maxi_room);
 
+        schoolCb = findViewById(R.id.cb_search_activity_school);
+        shoppingCb = findViewById(R.id.cb_search_activity_shopping);
+        publicTransportCb = findViewById(R.id.cb_search_activity_public_transport);
+        swimmingPoolCb = findViewById(R.id.cb_search_activity_swimming_pool);
+
+        btFilter = findViewById(R.id.bt_search_activity_filter_);
+        
         btFilter.setOnClickListener(this);
     }
 
@@ -69,34 +99,58 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
 
     private void getDataFromEditText() {
         district = etDistrict.getText().toString();
-        miniPrice = etMiniPrice.getText().toString();
-        maxiPrice = etMaxiPrice.getText().toString();
-      String miniInput = etMiniArea.getText().toString();
-        String maxiInput = etMaxiArea.getText().toString();
-        if(miniInput == "" & maxiInput == ""){
+        String miniPriceInput = etMiniPrice.getText().toString();
+        String maxiPriceInput = etMaxiPrice.getText().toString();
+        String miniAreaInput = etMiniArea.getText().toString();
+        String maxiAreaInput = etMaxiArea.getText().toString();
+        String miniRoomInput = etMiniRoom.getText().toString();
+        String maxiRoomInput = etMaxiRoom.getText().toString();
+        if(miniPriceInput == "" & maxiPriceInput == "") {
+            miniPrice = 0;
+            maxiPrice = 0;
+        } else {
+            miniPrice = Integer.parseInt(miniPriceInput);
+            maxiPrice = Integer.parseInt(maxiPriceInput);
+        }
+        if(miniAreaInput == "" & maxiAreaInput == "") {
             miniArea = 0;
             maxiArea = 0;
         } else {
-            miniArea = Integer.parseInt(miniInput);
-            maxiArea = Integer.parseInt(maxiInput);
+            miniArea = Integer.parseInt(miniAreaInput);
+            maxiArea = Integer.parseInt(maxiAreaInput);
         }
-        poi1 = etPoi1.getText().toString();
-        poi2 = etPoi2.getText().toString();
-        dateOfSale = etDateOfEntry.getText().toString();
-        dateOfEntry = etDateOfSale.getText().toString();
-        Log.e("Test", " SAISIE saleDate = " + dateOfEntry);
-        if(dateOfEntry.isEmpty()) {
-            dateOfEntry = null;
-            Log.e("Test", " SAISIE saleDate = " + dateOfEntry);
+        if(miniRoomInput == "" & maxiRoomInput == "") {
+            miniRoom = 0;
+            maxiRoom = 0;
+        } else {
+            miniRoom = Integer.parseInt(miniRoomInput);
+            maxiRoom = Integer.parseInt(maxiRoomInput);
         }
+        if (schoolCb.isChecked()) {
+            school = 1;
+        }
+        if (shoppingCb.isChecked()) {
+            shopping = 1;
+        }
+        if (publicTransportCb.isChecked()) {
+            publicTransport = 1;
+        }
+        if (swimmingPoolCb.isChecked()) {
+            swimmingPool = 1;
+        }
+
         Log.e("Test", " SAISIE district, = " + district);
         Log.e("Test", " SAISIE miniPrice = " + miniPrice);
         Log.e("Test", " SAISIE maxiPrice = " + maxiPrice);
         Log.e("Test", " SAISIE miniArea = " + miniArea);
         Log.e("Test", " SAISIE maxiArea = " + maxiArea);
-        Log.e("Test", " SAISIE poi1 = " + poi1);
-        Log.e("Test", " SAISIE dateOfSale = " + dateOfSale);
-        Log.e("Test", " SAISIE saleDate = " + dateOfEntry);
+        Log.e("Test", " SAISIE miniRoom = " + miniRoom);
+        Log.e("Test", " SAISIE maxiRoom = " + maxiRoom);
+        Log.e("Test", " SAISIE school = " + school);
+        Log.e("Test", " SAISIE shopping = " + shopping);
+        Log.e("Test", " SAISIE publicTransport = " + publicTransport);
+        Log.e("Test", " SAISIE swimmingPool = " + swimmingPool);
+
     }
 
     private void getSearchedList(List<House> houseList) {
@@ -104,9 +158,9 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
         Log.e("Test", " getHouses houseList: " + houseList.size());
         if (houseList.isEmpty()) {
             Toast.makeText(this, "Aucun bien ne correspond", Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             fragment = new MainFragment();
-            searchListener = fragment;
+            searchListener = (SearchListener) fragment;
             searchListener.onSearch(houseList);
             Log.e("Test", " searchListner : " + searchListener);
         }
@@ -122,18 +176,25 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
                 maxiPrice,
                 miniArea,
                 maxiArea,
-                poi1,
-                dateOfSale,
-                dateOfEntry).observe(this, this::getSearchedList);
+                miniRoom,
+                maxiRoom,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool).observe(this, this::getSearchedList);
 
         Log.e("Test", " RECHERCHE district, = " + district);
         Log.e("Test", " RECHERCHE miniPrice = " + miniPrice);
         Log.e("Test", " RECHERCHE maxiPrice = " + maxiPrice);
         Log.e("Test", " RECHERCHE miniArea = " + miniArea);
         Log.e("Test", " RECHERCHE maxiArea = " + maxiArea);
-        Log.e("Test", " RECHERCHE poi1 = " + poi1);
-        Log.e("Test", " RECHERCHE dateOfSale = " + dateOfSale);
-        Log.e("Test", " RECHERCHE saleDate = " + dateOfEntry);
+        Log.e("Test", " RECHERCHE miniRoom = " + miniRoom);
+        Log.e("Test", " RECHERCHE maxiRoom = " + maxiRoom);
+        Log.e("Test", " RECHERCHE school = " + school);
+        Log.e("Test", " RECHERCHE shopping = " + shopping);
+        Log.e("Test", " RECHERCHE publicTransport = " + publicTransport);
+        Log.e("Test", " RECHERCHE swimmingPool = " + swimmingPool);
+
     }
 
     @Override
@@ -142,7 +203,6 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
 
         fragment = new MainFragment();
         searchListener = (SearchListener) fragment;
-
     }
 
     public interface SearchListener {

@@ -36,7 +36,10 @@ public interface HouseDao {
             "numberOfRooms = :numberOfRooms," +
             "numberOfBathrooms= :numberOfBathrooms," +
             "numberOfBedRooms = :numberOfBedRooms," +
-            "pointOfInterest = :pointOfInterest," +
+            "school = :school," +
+            "shopping = :shopping," +
+            "publicTransport = :publicTransport," +
+            "swimmingPool = :swimmingPool," +
             "description = :description," +
             "address = :address," +
             "available = :available," +
@@ -52,7 +55,10 @@ public interface HouseDao {
                     int numberOfRooms,
                     int numberOfBathrooms,
                     int numberOfBedRooms,
-                    String pointOfInterest,
+                    int school,
+                    int shopping,
+                    int publicTransport,
+                    int swimmingPool,
                     String description,
                     String address,
                     boolean available,
@@ -67,31 +73,22 @@ public interface HouseDao {
     @Query("SELECT * FROM House WHERE district = :district" +
             " AND price BETWEEN :miniPrice AND :maxiPrice " +
             " AND area BETWEEN :miniArea AND :maxiArea" +
-            " AND pointOfInterest = :pointOfInterest " +
-            "AND dateOfEntry >= :dateOfEntry " +
-            "AND dateOfSale >= :dateOfSale")
+            " AND numberOfRooms BETWEEN :miniRoom AND :maxiRoom" +
+            " AND school LIKE :school" +
+            " AND shopping LIKE :shopping" +
+            " AND publicTransport LIKE :publicTransport" +
+            " AND swimmingPool LIKE :swimmingPool")
 
     LiveData<List<House>> getSearchedHouse(String district,
-                                           String miniPrice,
-                                           String maxiPrice,
+                                           int miniPrice,
+                                           int maxiPrice,
                                            int miniArea,
                                            int maxiArea,
-                                           String pointOfInterest,
-                                           String dateOfEntry,
-                                           String dateOfSale);
-
-  /*  @Query("SELECT * FROM House WHERE district = :district " +
-            "AND price BETWEEN :miniPrice AND :maxiPrice " +
-            "AND area BETWEEN :miniArea AND :maxiArea " +
-            +
-           )
-
-    LiveData<List<House>> getSearchedHouse(String district,
-                                           String miniPrice,
-                                           String maxiPrice,
-                                           int miniArea,
-                                           int maxiArea,
-                                           String pointOfInterest,
-                                           );*/
+                                           int miniRoom,
+                                           int maxiRoom,
+                                           int school,
+                                           int shopping,
+                                           int publicTransport,
+                                           int swimmingPool);
 
 }

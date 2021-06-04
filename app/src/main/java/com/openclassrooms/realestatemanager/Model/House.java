@@ -18,7 +18,10 @@ public class House {
     private int numberOfRooms;
     private int numberOfBathrooms;
     private int numberOfBedrooms;
-    private String pointOfInterest;
+    private int school;
+    private int shopping;
+    private int publicTransport;
+    private int swimmingPool;
     private String description;
     private String illustration;
     private String address;
@@ -32,7 +35,7 @@ public class House {
     @Ignore
     public House() {};
 
-    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, String pointOfInterest, String description, String illustration, String address, boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
+    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, int school, int shopping, int publicTransport, int swimmingPool, String description, String illustration, String address, boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
         this.isEuro = isEuro;
@@ -41,7 +44,10 @@ public class House {
         this.numberOfRooms = numberOfRooms;
         this.numberOfBathrooms = numberOfBathrooms;
         this.numberOfBedrooms = numberOfBedrooms;
-        this.pointOfInterest = pointOfInterest;
+        this.school = school;
+        this.shopping = shopping;
+        this.publicTransport = publicTransport;
+        this.swimmingPool = swimmingPool;
         this.description = description;
         this.illustration = illustration;
         this.address = address;
@@ -51,13 +57,8 @@ public class House {
         this.realEstateAgent = realEstateAgent;
     }
 
-    //Constructor for Test
-    @Ignore
-    public House(long houseId, String maison, boolean b, String hourton, int i, int i1, int i2, int i3, int i4, String s, String s1, String s2, String s3, boolean b1, String s4, Object o, String eddy) {
-    }
-
-
     //Getter
+
     public Long getId() {
         return id;
     }
@@ -70,12 +71,12 @@ public class House {
         return district;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
     public boolean isEuro() {
         return isEuro;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     public int getArea() {
@@ -94,8 +95,20 @@ public class House {
         return numberOfBedrooms;
     }
 
-    public String getPointOfInterest() {
-        return pointOfInterest;
+    public int getSchool() {
+        return school;
+    }
+
+    public int getShopping() {
+        return shopping;
+    }
+
+    public int getPublicTransport() {
+        return publicTransport;
+    }
+
+    public int getSwimmingPool() {
+        return swimmingPool;
     }
 
     public String getDescription() {
@@ -118,6 +131,7 @@ public class House {
         return dateOfEntry;
     }
 
+    @Nullable
     public String getDateOfSale() {
         return dateOfSale;
     }
@@ -127,6 +141,7 @@ public class House {
     }
 
     //Setter
+
 
     public void setId(Long id) {
         this.id = id;
@@ -140,12 +155,12 @@ public class House {
         this.district = district;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public void setEuro(boolean euro) {
         isEuro = euro;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public void setArea(int area) {
@@ -164,8 +179,20 @@ public class House {
         this.numberOfBedrooms = numberOfBedrooms;
     }
 
-    public void setPointOfInterest(String pointOfInterest) {
-        this.pointOfInterest = pointOfInterest;
+    public void setSchool(int school) {
+        this.school = school;
+    }
+
+    public void setShopping(int shopping) {
+        this.shopping = shopping;
+    }
+
+    public void setPublicTransport(int publicTransport) {
+        this.publicTransport = publicTransport;
+    }
+
+    public void setSwimmingPool(int swimmingPool) {
+        this.swimmingPool = swimmingPool;
     }
 
     public void setDescription(String description) {
@@ -207,7 +234,10 @@ public class House {
         if(values.containsKey("numberOfRooms")) house.setNumberOfRooms(values.getAsInteger("numberOfRooms"));
         if(values.containsKey("numberOfBathrooms")) house.setNumberOfBathrooms(values.getAsInteger("numberOfBathrooms"));
         if(values.containsKey("numberOfBedrooms")) house.setNumberOfBedrooms(values.getAsInteger("numberOfBedrooms"));
-        if(values.containsKey("pointOfInterest")) house.setPointOfInterest(values.getAsString("pointOfInterest"));
+        if(values.containsKey("school")) house.setSchool(values.getAsInteger("school"));
+        if(values.containsKey("shopping")) house.setShopping(values.getAsInteger("shopping"));
+        if(values.containsKey("publicTransport")) house.setPublicTransport(values.getAsInteger("publicTransport"));
+        if(values.containsKey("swimmingPool")) house.setSwimmingPool(values.getAsInteger("swimmingPool"));
         if(values.containsKey("description")) house.setDescription(values.getAsString("description"));
         if(values.containsKey("illustration")) house.setIllustration(values.getAsString("illustration"));
         if(values.containsKey("address")) house.setAddress(values.getAsString("address"));

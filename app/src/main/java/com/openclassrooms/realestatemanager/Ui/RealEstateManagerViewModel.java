@@ -57,7 +57,10 @@ public class RealEstateManagerViewModel extends ViewModel {
                             int numberOfRooms,
                             int numberOfBathrooms,
                             int numberOfBedRooms,
-                            String pointOfInterest,
+                            int school,
+                            int shopping,
+                            int publicTransport,
+                            int swimmingPool,
                             String description,
                             String address,
                             boolean available,
@@ -74,7 +77,10 @@ public class RealEstateManagerViewModel extends ViewModel {
                     numberOfRooms,
                     numberOfBathrooms,
                     numberOfBedRooms,
-                    pointOfInterest,
+                    school,
+                    shopping,
+                    publicTransport,
+                    swimmingPool,
                     description,
                     address,
                     available,
@@ -96,21 +102,27 @@ public class RealEstateManagerViewModel extends ViewModel {
     public LiveData<House> getHouse(long houseId) { return  houseDataSource.getHouse(houseId); }
 
     public LiveData<List<House>> getSearchedHouse(String district,
-                                                  String miniPrice,
-                                                  String maxiPrice,
+                                                  int miniPrice,
+                                                  int maxiPrice,
                                                   int miniArea,
                                                   int maxiArea,
-                                                  String pointOfInterest,
-                                                  String dateOfEntry,
-                                                  String dateOfSale) {
+                                                  int miniRoom,
+                                                  int maxiRoom,
+                                                  int school,
+                                                  int shopping,
+                                                  int publicTransport,
+                                                  int swimmingPool) {
         return houseDataSource.getSearchedHouse(district,
                 miniPrice,
                 maxiPrice,
                 miniArea,
                 maxiArea,
-                pointOfInterest,
-                dateOfEntry,
-                dateOfSale);}
+                miniRoom,
+                maxiRoom,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool);}
 
     //For illustration
     public void createIllustration(Illustration illustration) {

@@ -14,46 +14,47 @@
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:layout_weight="50"
-      android:text="Prix en euros"
+      android:text="Budget"
       android:textSize="10sp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_search_district_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/et_search_activity_district" />
 
   <EditText
-      android:id="@+id/et_price_mini_search_activity"
+      android:id="@+id/et_search_activity_price_mini"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:layout_weight="50"
+      android:hint="Prix  minimum"
       android:inputType="number"
-      android:hint="Prix  minimum en euros"
       android:textSize="10sp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/tv_price_search_activity" />
 
   <EditText
-      android:id="@+id/et_price_max_search_activity"
+      android:id="@+id/et_search_activity_price_max"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:layout_weight="50"
+      android:hint="Prix  maximum"
       android:inputType="number"
-      android:hint="Prix  maximum en euros"
       android:textSize="10sp"
-      app:layout_constraintStart_toEndOf="@+id/et_price_mini_search_activity"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/et_search_activity_price_mini"
       app:layout_constraintTop_toBottomOf="@+id/tv_price_search_activity" />
 
   <Button
-      android:id="@+id/bt_filter_search_activity"
+      android:id="@+id/bt_search_activity_filter_"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Filtrer"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_date_of_sale_search_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
   <TextView
       android:id="@+id/textView2"
@@ -67,15 +68,17 @@
       app:layout_constraintTop_toTopOf="parent" />
 
   <EditText
-      android:id="@+id/et_search_district_activity"
+      android:id="@+id/et_search_activity_district"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:ems="10"
-      android:inputType="textPersonName"
       android:hint="District"
+      android:inputType="textPersonName"
       android:textSize="10sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -88,10 +91,10 @@
       android:textSize="10dp"
       android:text="@string/surface"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_price_mini_search_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/et_search_activity_price_mini" />
 
   <EditText
-      android:id="@+id/et_mini_area_search_activity"
+      android:id="@+id/et_search_activity_mini_area"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
@@ -108,94 +111,94 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
+      android:text="Nombre de pièces"
       android:textSize="10dp"
-      android:text="Point d'intérêts"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_mini_area_search_activity" />
+      app:layout_constraintTop_toBottomOf="@+id/et_search_activity_mini_area" />
 
   <EditText
-      android:id="@+id/et_poi_search_activity"
+      android:id="@+id/et_search_activity_mini_room"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:ems="10"
+      android:hint="Nombre de pièces minimum"
       android:inputType="textPersonName"
-      android:hint="Point d'intérêts"
       android:textSize="10sp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
   <EditText
-      android:id="@+id/et_poi_two_search_activity"
+      android:id="@+id/et_search_activity_maxi_room"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:ems="10"
+      android:hint="Nombre de pièces maximum"
       android:inputType="textPersonName"
-      android:hint="Point d'intérêts"
       android:textSize="10sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_poi_search_activity" />
-
-  <TextView
-      android:id="@+id/textView5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:textSize="10dp"
-      android:text="Date de mise en vente"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_poi_two_search_activity" />
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/et_search_activity_mini_room"
+      app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
   <EditText
-      android:id="@+id/et_date_of_entry_search_activity"
+      android:id="@+id/et_search_activity_maxi_area"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
-      android:ems="10"
-      android:textSize="10sp"
-      android:hint="Date de mise en vente"
-      android:inputType="date"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-  <TextView
-      android:id="@+id/textView6"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:textSize="10dp"
-      android:text="Date de vente"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_date_of_entry_search_activity" />
-
-  <EditText
-      android:id="@+id/et_date_of_sale_search_activity"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:ems="10"
-      android:inputType="date"
-      android:textSize="10sp"
-      android:hint="Date de vente"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-  <EditText
-      android:id="@+id/et_maxi_area_search_activity"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:textSize="10sp"
       android:hint="Surface maximum en m2"
       android:inputType="number"
-      app:layout_constraintStart_toEndOf="@+id/et_mini_area_search_activity"
+      android:textSize="10sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/et_search_activity_mini_area"
       app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+  <LinearLayout
+      android:id="@+id/linearLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="2dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="2dp"
+      android:orientation="horizontal"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/et_search_activity_mini_room">
+
+    <CheckBox
+        android:id="@+id/cb_search_activity_school"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Ecole"
+        android:textSize="10sp" />
+
+    <CheckBox
+        android:id="@+id/cb_search_activity_shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Commerce"
+        android:textSize="10sp" />
+
+    <CheckBox
+        android:id="@+id/cb_search_activity_public_transport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Transport "
+        android:textSize="10sp" />
+
+    <CheckBox
+        android:id="@+id/cb_search_activity_swimming_pool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Piscine"
+        android:textSize="10sp" />
+
+  </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

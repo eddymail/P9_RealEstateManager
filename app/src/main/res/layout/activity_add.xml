@@ -156,30 +156,53 @@
         app:layout_constraintStart_toEndOf="@+id/et_add_activity_bedroom"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_room" />
 
-    <TextView
-        android:id="@+id/tv_add_activity_pointOfInterst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Point d'intérêt à proximité :"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_room" />
-
-    <EditText
-        android:id="@+id/et_add_activity_pointOfInterest"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
         android:ems="10"
         android:hint="Point d'intérêt"
         android:inputType="textPersonName"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_pointOfInterst" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_bedroom" >
+
+        <CheckBox
+            android:id="@+id/cb_add_activity_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ecole"
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/cb_add_activity_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Commerce"
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/cb_add_activity_public_transport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Transport "
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/cb_add_activity_swimming_pool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Piscine"
+            android:textSize="10sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_add_activity_description"
@@ -280,7 +303,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_pointOfInterest">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
             android:id="@+id/bt_add_activity_select_description_picture"

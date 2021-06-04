@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,26 +40,59 @@ import java.util.List;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, GalleryPictureDialog.DialogListener {
 
-    public static final int RESULT_ADD_PICTURE = 1;
-    public static final int RESULT_TAKE_PICTURE = 2;
-    private static final long HOUSE_ID = 1;
-    private String category, district, pointOfInterest, address, description, realEstateAgent, dateOfSale, dateOfEntry;
-    private boolean available = true;
-    private int price, area, numberOfRooms, numberOfBedRooms, numberOfBathrooms;
-    private long id;
-
-    private EditText categoryInput, districtInput, priceInput, areaInput, roomInput, bedroomInput, bathroomInput,
-            pointOfInterestValue, descriptionValue, agentNameValue, addressValue, etDateOfSale;
-    private Button addBtn, selectDescriptionPictureBtn, selectGalleryPictureBtn, addDescriptionPictureBtn, addGalleryPictureBtn;
-
     private RealEstateManagerViewModel realEstateManagerViewModel;
 
+    //For Data
+    private String category;
+    private String district;
+    private String address;
+    private String description;
+    private String realEstateAgent;
+    private String dateOfSale;
+    private String dateOfEntry;
+    private String picture;
+    private String tvDescription;
+    private boolean available = true;
+    private int school = 0;
+    private int shopping = 0;
+    private int publicTransport = 0;
+    private int swimmingPool = 0;
+    private int price;
+    private int area;
+    private int numberOfRooms;
+    private int numberOfBedRooms;
+    private int numberOfBathrooms;
+    private long id;
     private List<House> houseList = new ArrayList<>();
     private House houseToAdd;
     private House houseToUpdate;
-    private String picture;
-    private String tvDescription;
     private Illustration illustrationToAdd;
+
+    //For Design
+    private EditText categoryInput;
+    private EditText districtInput;
+    private EditText priceInput;
+    private EditText areaInput;
+    private EditText roomInput;
+    private EditText bedroomInput;
+    private EditText bathroomInput;
+    private EditText descriptionValue;
+    private EditText agentNameValue;
+    private EditText addressValue;
+    private EditText etDateOfSale;
+    private Button addBtn;
+    private Button selectDescriptionPictureBtn;
+    private Button selectGalleryPictureBtn;
+    private Button addDescriptionPictureBtn;
+    private Button addGalleryPictureBtn;
+    private CheckBox schoolCb;
+    private CheckBox shoppingCb;
+    private CheckBox publicTransportCb;
+    private CheckBox swimmingPoolCb;
+
+    public static final int RESULT_ADD_PICTURE = 1;
+    public static final int RESULT_TAKE_PICTURE = 2;
+    private static final long HOUSE_ID = 1;
     private String picturePath = null;
     private Uri selectedPicture;
 
@@ -73,7 +107,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (extras != null) {
             id = extras.getLong("id", -1);
         }
-        //create or mofify
+        //create display or modify display
         if (id == -1 || id == 0) {
             //Create
             this.initActivity();
@@ -97,7 +131,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         selectGalleryPictureBtn.setOnClickListener(this);
         addDescriptionPictureBtn.setOnClickListener(this);
         addGalleryPictureBtn.setOnClickListener(this);
-
     }
 
     private void configureViewModel() {
@@ -114,10 +147,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         roomInput = findViewById(R.id.et_add_activity_room);
         bedroomInput = findViewById(R.id.et_add_activity_bedroom);
         bathroomInput = findViewById(R.id.et_add_activity_bathroom);
-        pointOfInterestValue = findViewById(R.id.et_add_activity_pointOfInterest);
+
+        schoolCb = findViewById(R.id.cb_add_activity_school);
+        shoppingCb = findViewById(R.id.cb_add_activity_shopping);
+        publicTransportCb = findViewById(R.id.cb_add_activity_public_transport);
+        swimmingPoolCb = findViewById(R.id.cb_add_activity_swimming_pool);
+
         descriptionValue = findViewById(R.id.et_add_activity_description);
         addressValue = findViewById(R.id.et_add_activity_address);
         agentNameValue = findViewById(R.id.et_add_activity_agent_name);
+
         addBtn = findViewById(R.id.bt_add_activity);
         selectDescriptionPictureBtn = findViewById(R.id.bt_add_activity_select_description_picture);
         addDescriptionPictureBtn = findViewById(R.id.bt_add_activity_add_description_picture);
@@ -126,21 +165,35 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         etDateOfSale = findViewById(R.id.et_add_activity_date_of_sale);
     }
 
-    private void collectInputForHouse() {
+    private void collectInputUser() {
         category = categoryInput.getText().toString();
         district = districtInput.getText().toString();
-        pointOfInterest = pointOfInterestValue.getText().toString();
         address = addressValue.getText().toString();
         description = descriptionValue.getText().toString();
         realEstateAgent = agentNameValue.getText().toString();
+        dateOfSale = etDateOfSale.getText().toString();
+
         Date date = Calendar.getInstance().getTime();
         dateOfEntry = new SimpleDateFormat("dd-MM-yyyy").format(date);
+
         price = Integer.parseInt(priceInput.getText().toString());
         area = Integer.parseInt(areaInput.getText().toString());
         numberOfRooms = Integer.parseInt(roomInput.getText().toString());
         numberOfBedRooms = Integer.parseInt(bedroomInput.getText().toString());
         numberOfBathrooms = Integer.parseInt(bathroomInput.getText().toString());
-        dateOfSale = etDateOfSale.getText().toString();
+
+        if (schoolCb.isChecked()) {
+            school = 1;
+        }
+        if (shoppingCb.isChecked()) {
+            shopping = 1;
+        }
+        if (publicTransportCb.isChecked()) {
+            publicTransport = 1;
+        }
+        if (swimmingPoolCb.isChecked()) {
+            swimmingPool = 1;
+        }
     }
 
     private void collectInputForIllustration() {
@@ -151,15 +204,28 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private void prepopulateTextView(House houseToDisplay) {
         categoryInput.setText(houseToDisplay.getCategory());
         districtInput.setText(houseToDisplay.getDistrict());
+        descriptionValue.setText(houseToDisplay.getDescription());
+        addressValue.setText(houseToDisplay.getAddress());
+        agentNameValue.setText(houseToDisplay.getRealEstateAgent());
+
         priceInput.setText(String.valueOf(houseToDisplay.getPrice()));
         areaInput.setText(String.valueOf(houseToDisplay.getArea()));
         roomInput.setText(String.valueOf(houseToDisplay.getNumberOfRooms()));
         bedroomInput.setText(String.valueOf(houseToDisplay.getNumberOfBedrooms()));
         bathroomInput.setText(String.valueOf(houseToDisplay.getNumberOfBathrooms()));
-        pointOfInterestValue.setText(houseToDisplay.getPointOfInterest());
-        descriptionValue.setText(houseToDisplay.getDescription());
-        addressValue.setText(houseToDisplay.getAddress());
-        agentNameValue.setText(houseToDisplay.getRealEstateAgent());
+
+        if (houseToDisplay.getSchool() == 1) {
+            schoolCb.setChecked(true);
+        }
+        if (houseToDisplay.getShopping() == 1) {
+            shoppingCb.setChecked(true);
+        }
+        if (houseToDisplay.getPublicTransport() == 1) {
+            publicTransportCb.setChecked(true);
+        }
+        if (houseToDisplay.getSwimmingPool() == 1) {
+            swimmingPoolCb.setChecked(true);
+        }
     }
 
     private void getCurrentHouse(long id) {
@@ -190,7 +256,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (picture == null) {
             picture = "";
         }
-        houseToAdd = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+        houseToAdd = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, school, shopping, publicTransport, swimmingPool,
                 description, picture, address, available, dateOfEntry, null, realEstateAgent);
         Log.e("Test", "TEST PHOTO DESCRIPTION " + picture);
         this.realEstateManagerViewModel.createHouse(houseToAdd);
@@ -211,18 +277,30 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             available = false;
         }
         dateOfEntry = house.getDateOfEntry();
-        houseToUpdate = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, pointOfInterest,
+        houseToUpdate = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool,
                 description, picture, address, available, dateOfEntry, dateOfSale, realEstateAgent);
 
-        this.realEstateManagerViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms,
-                numberOfBedRooms, pointOfInterest, description, address, available,
-                dateOfEntry, dateOfSale, realEstateAgent, id);
+        this.realEstateManagerViewModel.updateHouse(category, district,true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool,
+                description,
+                address,
+                available,
+                dateOfEntry,
+                dateOfSale,
+                realEstateAgent,
+                id);
     }
 
     private void updateHouseIllustrationInDatabase() {
-        if (picture != null)
-        {
-           this.realEstateManagerViewModel.updateIllustration(picture, id);
+        if (picture != null) {
+            this.realEstateManagerViewModel.updateIllustration(picture, id);
         }
     }
 
@@ -257,7 +335,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     //OnClick method
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -265,7 +342,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
                 if (id == -1 || id == 0) {
                     //Create new house in database
-                    this.collectInputForHouse();
+                    this.collectInputUser();
                     this.createHouseAndAddItToDatabase();
                     Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
                 /*    MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
@@ -273,7 +350,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     AddActivity.this.finish();
                 } else {
                     //Update house in database
-                    this.collectInputForHouse();
+                    this.collectInputUser();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
                    /* MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
@@ -309,9 +386,26 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(this, "Click Select gallery ", Toast.LENGTH_LONG).show();
                 // this.takePicture();
                 break;
+/*
+            case R.id.cb_add_activity_school:
+                school = true;
+                break;
+
+            case R.id.cb_add_activity_shopping:
+                shopping = true;
+                break;
+
+            case R.id.cb_add_activity_public_transport:
+                publicTransport = true;
+                break;
+
+            case R.id.cb_add_activity_swimming_pool:
+                swimmingPool = true;
+                break;*/
         }
     }
 
+    //Picture dialog
     private void openGalleryPictureDialog() {
         GalleryPictureDialog galleryPictureDialog = new GalleryPictureDialog();
         galleryPictureDialog.show(getSupportFragmentManager(), "gallery picture dialog");

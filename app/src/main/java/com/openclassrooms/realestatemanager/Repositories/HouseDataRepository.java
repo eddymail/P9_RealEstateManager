@@ -40,7 +40,10 @@ public class HouseDataRepository {
                             int numberOfRooms,
                             int numberOfBathrooms,
                             int numberOfBedRooms,
-                            String pointOfInterest,
+                            int school,
+                            int shopping,
+                            int publicTransport,
+                            int swimmingPool,
                             String description,
                             String address,
                             boolean available,
@@ -57,7 +60,10 @@ public class HouseDataRepository {
                 numberOfRooms,
                 numberOfBathrooms,
                 numberOfBedRooms,
-                pointOfInterest,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool,
                 description,
                 address,
                 available,
@@ -69,36 +75,27 @@ public class HouseDataRepository {
 
     //For search
     public LiveData<List<House>> getSearchedHouse(String district,
-                                                  String miniPrice,
-                                                  String maxiPrice,
+                                                  int miniPrice,
+                                                  int maxiPrice,
                                                   int miniArea,
                                                   int maxiArea,
-                                                  String pointOfInterest,
-                                                  String dateOfEntry,
-                                                  String dateOfSale) {
+                                                  int miniRoom,
+                                                  int maxiRoom,
+                                                  int school,
+                                                  int shopping,
+                                                  int publicTransport,
+                                                  int swimmingPool) {
 
         return this.houseDao.getSearchedHouse(district,
                 miniPrice,
                 maxiPrice,
                 miniArea,
                 maxiArea,
-                pointOfInterest,
-                dateOfEntry,
-                dateOfSale);}
+                miniRoom,
+                maxiRoom,
+                school,
+                shopping,
+                publicTransport,
+                swimmingPool);}
 
-   /* public LiveData<List<House>> getSearchedHouse(String district,
-                                                  String miniPrice,
-                                                  String maxiPrice,
-                                                  int miniArea,
-                                                  int maxiArea,
-                                                  ,
-                                                ) {
-
-        return this.houseDao.getSearchedHouse(district,
-                miniPrice,
-                maxiPrice,
-                miniArea,
-                maxiArea,
-                pointOfInterest,
-               );}*/
 }

@@ -150,7 +150,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         rooms.setText(String.valueOf(house.getNumberOfRooms()));
         bedrooms.setText(String.valueOf(house.getNumberOfBedrooms()));
         bathrooms.setText(String.valueOf(house.getNumberOfBathrooms()));
-        pointOfInterest.setText(house.getPointOfInterest());
         address.setText(house.getAddress());
         description.setText(house.getDescription());
         //Display house on staticMap
