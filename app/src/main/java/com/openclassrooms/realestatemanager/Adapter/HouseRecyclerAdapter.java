@@ -38,7 +38,6 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e("Test", "onBindViewHolder");
         holder.updateHouse(houseList.get(position));
     }
 

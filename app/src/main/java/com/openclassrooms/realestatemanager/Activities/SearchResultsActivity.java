@@ -206,7 +206,7 @@ public class SearchResultsActivity extends AppCompatActivity implements View.OnC
     }
 
     public interface SearchListener {
-        void onSearch(List<House> resultList);
+        void onSearch(List<House> searchResult);
     }
 
 }

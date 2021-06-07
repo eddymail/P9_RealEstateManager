@@ -31,13 +31,11 @@ import java.util.List;
  */
 public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener, SearchResultsActivity.SearchListener {
 
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private List<House> houseList = new ArrayList<>();
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    
-    private static final long HOUSE_ID = 1;
 
     public MainFragment() {
         // Required empty public constructor
@@ -79,11 +77,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
             updateDisplay();
         });
 
-        /*
-        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
-        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
-        this.realEstateManagerViewModel.init(HOUSE_ID);
-        */
     }
 
     private void updateDisplay() {
@@ -106,5 +99,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     public void onSearch(List<House> resultList) {
         houseList = resultList;
         Log.e("Test", "onSearch searchedList size : "  + resultList.size());
+        // adapter.notifyDataSetChanged();
+        // adapter.setData(resultList);
     }
 }
