@@ -31,8 +31,9 @@ import java.util.List;
  */
 public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener, SearchResultsActivity.SearchListener {
 
-    public RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private List<House> houseList = new ArrayList<>();
+    private List<House> searchResult;
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         this.configureViewModel();
         this.configureRecyclerView();
 
+        Log.e("Test", "onCreateMainfragment");
 
         return view;
     }
@@ -64,7 +66,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        Log.e("Test", "configure RecyclerView adapter value :" + adapter);
     }
 
     private void configureViewModel() {
@@ -72,7 +74,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
         realEstateManagerViewModel.getAll().observe((LifecycleOwner) this, houseList -> {
-            Log.e("Test", "onSearch RecyclerView List size : "  + houseList.size());
             adapter.setData(houseList);
             updateDisplay();
         });
@@ -96,10 +97,12 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     @Override
-    public void onSearch(List<House> resultList) {
-        houseList = resultList;
-        Log.e("Test", "onSearch searchedList size : "  + resultList.size());
-        // adapter.notifyDataSetChanged();
-        // adapter.setData(resultList);
+    public void onSearch(List<House> searchResult) {
+
+        this.adapter = new HouseRecyclerAdapter(this.searchResult, this);
+        Log.e("Test", "configure OnSearch adapter value :" + adapter);
+        adapter.setData(searchResult);
+        Log.e("Test", "onSearch searchedList size : "  + searchResult.size());
+        adapter.notifyDataSetChanged();
     }
 }
