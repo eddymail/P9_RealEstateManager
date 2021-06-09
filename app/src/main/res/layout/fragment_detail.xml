@@ -202,7 +202,7 @@
         <TextView
             android:id="@+id/tv_fragment_detail_poi_value"
             android:layout_width="0dp"
-            android:layout_height="15dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/poi_details"
             android:textSize="12sp"
@@ -227,36 +227,57 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/adresse_detail"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_detail_scroller_id"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_address"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_address" />
 
-        <TextView
-            android:id="@+id/tv_fragment_detail_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/description"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_fragment_address" />
-
-        <TextView
-            android:id="@+id/tv_fragment_detail_description_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/description_details"
-            android:textAlignment="viewStart"
+        <ScrollView
+            android:id="@+id/fragment_detail_scroller_id"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description" />
+            app:layout_constraintTop_toBottomOf="@id/iv_fragment_detail_mapview">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/description"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_description_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/description_details"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description" />
+            </LinearLayout>
+
+        </ScrollView>
 
         <ImageView
             android:id="@+id/iv_fragment_detail_mapview"
@@ -267,12 +288,12 @@
             android:layout_marginBottom="8dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_dialog_map"
-            app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_description_value"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_detail_scroller_id"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.607"
+            app:layout_constraintHorizontal_bias="0.434"
             app:layout_constraintStart_toEndOf="@+id/tv_fragment_detail_address_value"
             app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_bathrooms_value"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/lbl_no_house"
@@ -283,8 +304,8 @@
             android:drawableTop="@drawable/ic_baseline_big_home_24"
             android:gravity="center_horizontal"
             android:text="@string/no_house_clicked"
-            android:visibility="gone"
             android:textSize="30sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

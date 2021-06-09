@@ -99,10 +99,10 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     @Override
     public void onSearch(List<House> searchResult) {
 
-        this.adapter = new HouseRecyclerAdapter(this.searchResult, this);
+      //  this.adapter = new HouseRecyclerAdapter(this.searchResult, this);
         Log.e("Test", "configure OnSearch adapter value :" + adapter);
-        adapter.setData(searchResult);
+       // adapter.setData(searchResult);
         Log.e("Test", "onSearch searchedList size : "  + searchResult.size());
-        adapter.notifyDataSetChanged();
+       // adapter.notifyDataSetChanged();
     }
 }

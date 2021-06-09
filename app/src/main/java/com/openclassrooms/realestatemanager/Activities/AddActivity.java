@@ -22,7 +22,9 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openclassrooms.realestatemanager.Fragments.DescriptionPictureDialog;
+import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
 import com.openclassrooms.realestatemanager.Fragments.GalleryPictureDialog;
+import com.openclassrooms.realestatemanager.Fragments.MainFragment;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.Model.House;
@@ -167,7 +169,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private void collectInputUser() {
         category = categoryInput.getText().toString();
-        district = districtInput.getText().toString();
+        district = districtInput.getText().toString().toUpperCase();
         address = addressValue.getText().toString();
         description = descriptionValue.getText().toString();
         realEstateAgent = agentNameValue.getText().toString();
@@ -345,16 +347,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     this.collectInputUser();
                     this.createHouseAndAddItToDatabase();
                     Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
-                /*    MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-                    mainFragment.updateList(houseList);*/
                     AddActivity.this.finish();
                 } else {
                     //Update house in database
                     this.collectInputUser();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
-                   /* MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-                    mainFragment.updateList(houseList);*/
                     AddActivity.this.finish();
                 }
                 break;
@@ -363,45 +361,23 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 //Update description picture in database
                 this.updateHouseIllustrationInDatabase();
                 Toast.makeText(this, "L'image de description a été modifiée ", Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "Click Add description ", Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.bt_add_activity_add_gallerie_picture:
                 //Add illustration picture in database
                 createIllustrationAndAddItToDatabase(id);
                 Toast.makeText(this, "La photo a été ajoutée dans la galerie ", Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "Click Add gallery ", Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.bt_add_activity_select_description_picture:
                 //Add picture from device
                 openDescriptionPictureDialog();
-                Toast.makeText(this, "Click Select description ", Toast.LENGTH_LONG).show();
-                //   this.addPictureFromDevice();
                 break;
 
             case R.id.bt_add_activity_select_gallerie_picture:
                 //Take picture with device
                 openGalleryPictureDialog();
-                Toast.makeText(this, "Click Select gallery ", Toast.LENGTH_LONG).show();
-                // this.takePicture();
                 break;
-/*
-            case R.id.cb_add_activity_school:
-                school = true;
-                break;
-
-            case R.id.cb_add_activity_shopping:
-                shopping = true;
-                break;
-
-            case R.id.cb_add_activity_public_transport:
-                publicTransport = true;
-                break;
-
-            case R.id.cb_add_activity_swimming_pool:
-                swimmingPool = true;
-                break;*/
         }
     }
 

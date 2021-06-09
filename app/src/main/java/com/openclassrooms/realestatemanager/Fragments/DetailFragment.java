@@ -30,6 +30,7 @@ import com.openclassrooms.realestatemanager.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -101,7 +102,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     public void configureRecyclerView() {
-       // this.gallery = new ArrayList<>();
+        // this.gallery = new ArrayList<>();
         this.adapter = new GalleryRecyclerAdapter(this.gallery);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -150,6 +151,26 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         rooms.setText(String.valueOf(house.getNumberOfRooms()));
         bedrooms.setText(String.valueOf(house.getNumberOfBedrooms()));
         bathrooms.setText(String.valueOf(house.getNumberOfBathrooms()));
+        Log.e("Test", "Nbre de ch =" + house.getNumberOfRooms());
+        List<String> pois = new ArrayList<>();
+        if (house.getSchool() == 1) {
+            pois.add("école");
+        }
+        if (house.getShopping() == 1) {
+            pois.add("commerce");
+        }
+        if (house.getPublicTransport() == 1) {
+            pois.add("transport");
+        }
+        if (house.getSwimmingPool() == 1) {
+            pois.add("piscine");
+        }
+        String list = "";
+        for (String poi : pois) {
+            list = list + " " + poi;
+        }
+
+        pointOfInterest.setText(list);
         address.setText(house.getAddress());
         description.setText(house.getDescription());
         //Display house on staticMap
@@ -157,6 +178,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 .load(convertAndShowAddressOnStaticMap(house.getAddress()))
                 .into(mapView);
     }
+
 
     public String convertAndShowAddressOnStaticMap(String address) {
         Geocoder coder = new Geocoder(getContext());
