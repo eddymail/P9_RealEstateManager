@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.Activities;
 
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,12 +41,12 @@ public class LoanCalculatorActivity extends AppCompatActivity implements View.On
     public void showLoanPayments() {
 
         double loanAmount = Integer.parseInt(etAmount.getText().toString());
-        double interestRate = Integer.parseInt(etRate.getText().toString());
+        double interestRate = Double.parseDouble(String.valueOf(etRate.getText()));
         double loanPeriod = Integer.parseInt(etPeriod.getText().toString()) * 12;
         double r = interestRate/1200;
         double r1 = Math.pow(r+1,loanPeriod);
 
-        double monthlyPayment = (double) ((r+(r/(r1-1))) * loanAmount);
+        double monthlyPayment = (r + (r / (r1 - 1))) * loanAmount;
         double totalPayment = monthlyPayment * loanPeriod;
 
 
