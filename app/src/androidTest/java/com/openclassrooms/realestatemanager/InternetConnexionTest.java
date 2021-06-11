@@ -2,14 +2,13 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 
-
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -17,12 +16,13 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class InternetConnexionTest {
+
     @Test
-    public void useAppContext() throws Exception {
+    public void internetIsAvailable() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.openclassrooms.go4lunch", appContext.getPackageName());
+        assertEquals(true, Utils.isInternetAvailable(appContext));
     }
 }

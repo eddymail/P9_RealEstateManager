@@ -155,7 +155,25 @@ public class Utils {
     }
 
     /**
+     * Calculate monthly payment
+     */
+    public static double calculateMonthlyPayment(double interestRate, double loanPeriod, double loanAmount) {
+        double r = interestRate / 1200;
+        double r1 = Math.pow(r + 1, loanPeriod);
+        return ((r + (r / (r1 - 1))) * loanAmount);
+    }
+
+    /**
+     * Calculate total payment
+     */
+    public static double calculateTotalPayment(double monthlyPayment, double loanPeriod) {
+        return (monthlyPayment * loanPeriod);
+
+    }
+
+    /**
      * Get latitude and longitude from an adress
+     *
      * @param address
      * @return latitude and longitude
      */

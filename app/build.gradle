@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.openclassrooms.realestatemanager"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         Properties properties = new Properties()
         if (rootProject.file("local.properties").exists()) {
             properties.load(rootProject.file("local.properties").newDataInputStream())
@@ -42,6 +42,7 @@ dependencies {
     implementation "androidx.drawerlayout:drawerlayout:1.0.0"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //TEST
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'

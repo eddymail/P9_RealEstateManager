@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 
 import java.text.DecimalFormat;
 
@@ -43,11 +44,10 @@ public class LoanCalculatorActivity extends AppCompatActivity implements View.On
         double loanAmount = Integer.parseInt(etAmount.getText().toString());
         double interestRate = Double.parseDouble(String.valueOf(etRate.getText()));
         double loanPeriod = Integer.parseInt(etPeriod.getText().toString()) * 12;
-        double r = interestRate/1200;
-        double r1 = Math.pow(r+1,loanPeriod);
 
-        double monthlyPayment = (r + (r / (r1 - 1))) * loanAmount;
-        double totalPayment = monthlyPayment * loanPeriod;
+
+        double monthlyPayment = Utils.calculateMonthlyPayment(interestRate, loanPeriod, loanAmount);
+        double totalPayment = Utils.calculateTotalPayment(monthlyPayment, loanPeriod);
 
 
         tvMonthlyPayment.setText("Montant de vos mensualités : " + (new DecimalFormat("##.##").format(monthlyPayment)) + " €");

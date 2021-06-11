@@ -1,10 +1,11 @@
 package com.openclassrooms.realestatemanager.Model;
 
+import android.content.ContentValues;
+
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import android.content.ContentValues;
 
 @Entity
 public class House {
@@ -33,9 +34,12 @@ public class House {
 
     //Constructor
     @Ignore
-    public House() {};
+    public House() {
+    }
 
-    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, int school, int shopping, int publicTransport, int swimmingPool, String description, String illustration, String address, boolean available, String dateOfEntry, @Nullable String dateOfSale, String realEstateAgent) {
+    public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, int school,
+                 int shopping, int publicTransport, int swimmingPool, String description, String illustration, String address, boolean available, String dateOfEntry,
+                 @Nullable String dateOfSale, String realEstateAgent) {
         this.category = category;
         this.district = district;
         this.isEuro = isEuro;
