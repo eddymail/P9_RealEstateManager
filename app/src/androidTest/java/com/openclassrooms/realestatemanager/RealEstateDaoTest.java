@@ -67,6 +67,7 @@ public class RealEstateDaoTest {
         database.clearAllTables();
     }
 
+    //HouseDao
     @Test
     public void insertAndGetHouse() throws InterruptedException {
         //Before: Adding demo house
@@ -100,6 +101,7 @@ public class RealEstateDaoTest {
         assertEquals(130, house.getArea());
     }
 
+    //Illustration Dao
     @Test
     public void insertAndGetIllustration() throws InterruptedException {
         //Before: Adding demo house and demo illustration

@@ -248,8 +248,11 @@ public class House {
         if(values.containsKey("dateOfEntry")) house.setDateOfEntry(values.getAsString("dateOfEntry"));
         if(values.containsKey("available")) house.setAvailable(values.getAsBoolean("available"));
         if(values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
-        if(values.containsKey("realEstateAgent")) house.setRealEstateAgent(values.getAsString("realEstateAgent"));
+        if (values.containsKey("realEstateAgent"))
+            house.setRealEstateAgent(values.getAsString("realEstateAgent"));
+        if (values.containsKey("realEstateAgent")) house.setId(values.getAsLong("houseId"));
         return house;
     }
+
 }
 

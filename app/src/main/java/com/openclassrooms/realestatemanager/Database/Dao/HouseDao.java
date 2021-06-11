@@ -1,11 +1,13 @@
 package com.openclassrooms.realestatemanager.Database.Dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import android.database.Cursor;
+
 import com.openclassrooms.realestatemanager.Model.House;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 public interface HouseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void createHouse(House house);
+    long createHouse(House house);
 
     @Query("SELECT * FROM House WHERE id = :houseId")
     LiveData<House> getHouse(long houseId);
@@ -90,5 +92,8 @@ public interface HouseDao {
                                            int shopping,
                                            int publicTransport,
                                            int swimmingPool);
+
+    @Query("DELETE FROM House WHERE id = :houseId")
+    int deleteHouse(long houseId);
 
 }

@@ -17,7 +17,7 @@ public class HouseContentProvider extends ContentProvider {
     //For data
     public static final String AUTHORITY = "com.openclassrooms.realestatemanager.Provider";
     public static final String TABLE_NAME = House.class.getSimpleName();
-    public static final Uri URI_HOUSE = Uri.parse("conten://" + AUTHORITY + "/" + TABLE_NAME);
+    public static final Uri URI_HOUSE = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
     public boolean onCreate() {
@@ -28,14 +28,14 @@ public class HouseContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        if(getContext() != null) {
+        if (getContext() != null) {
             long houseId = ContentUris.parseId(uri);
             final Cursor cursor = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().getHouseWithCursor(houseId);
-            cursor.setNotificationUri(getContext().getContentResolver(),uri);
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;
         }
 
-        throw new IllegalArgumentException("Failed to query raw for uri " + uri);
+        throw new IllegalArgumentException("Failed to query row for uri " + uri);
     }
 
     @Nullable
@@ -47,22 +47,57 @@ public class HouseContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-      /* if(getContext() != null) {
-         RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().createHouse(House.fromContentValues(contentValues));
 
-         getContext().getContentResolver().notifyChange(uri, null);
-         return ContentUris.withAppendedId(uri,)
-       }*/
-       return null;
+        if (getContext() != null) {
+            final long id;
+            if (contentValues != null) {
+                id = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().createHouse(House.fromContentValues(contentValues));
+                if (id != 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                    return ContentUris.withAppendedId(uri, id);
+                }
+            }
+        }
+
+        throw new IllegalArgumentException("Failed to insert row into " + uri);
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        if (getContext() != null) {
+            final int count = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().deleteHouse(ContentUris.parseId(uri));
+            getContext().getContentResolver().notifyChange(uri, null);
+            return count;
+        }
+        throw new IllegalArgumentException("Failed to delete row into " + uri);
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
+        if (getContext() != null) {
+            final int count = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().updateHouse(
+                    contentValues.getAsString("category"),
+                    contentValues.getAsString("district"),
+                    contentValues.getAsInteger("price"),
+                    contentValues.getAsBoolean("isEuro"),
+                    contentValues.getAsInteger("area"),
+                    contentValues.getAsInteger("numberOfRooms"),
+                    contentValues.getAsInteger("numberOfBathrooms"),
+                    contentValues.getAsInteger("numberOfBedrooms"),
+                    contentValues.getAsInteger("school"),
+                    contentValues.getAsInteger("shopping"),
+                    contentValues.getAsInteger("publicTransport"),
+                    contentValues.getAsInteger("swimmingPool"),
+                    contentValues.getAsString("description"),
+                    contentValues.getAsString("address"),
+                    contentValues.getAsBoolean("available"),
+                    contentValues.getAsString("dateOfEntry"),
+                    contentValues.getAsString("dateOfSale"),
+                    contentValues.getAsString("realEstateAgent"),
+                    contentValues.getAsLong("houseId"));
+            getContext().getContentResolver().notifyChange(uri, null);
+            return count;
+        }
+        throw new IllegalArgumentException("Failed to update row into " + uri);
     }
 }
