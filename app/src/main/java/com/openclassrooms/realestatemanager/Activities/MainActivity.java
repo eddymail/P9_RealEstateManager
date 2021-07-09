@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,18 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
-import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
-import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
-import com.openclassrooms.realestatemanager.Fragments.MainFragment;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.fragments.DetailFragment;
+import com.openclassrooms.realestatemanager.fragments.MainFragment;
+import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void configureAndShowMainFragment() {
         // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-        if (mainFragment == null) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        if (!(fragment instanceof MainFragment)) {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_main_frame_layout, mainFragment)
