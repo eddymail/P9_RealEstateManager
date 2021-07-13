@@ -100,9 +100,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
             houseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
-            String result = data.getStringExtra("Test");
             Log.e("Test", "onActivityResult Search List: " + houseList);
-            Log.e("Test", "onActivityResult Test: " + result);
             adapter.setData(houseList);
         }
     }

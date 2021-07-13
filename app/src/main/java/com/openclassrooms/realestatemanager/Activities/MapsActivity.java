@@ -1,22 +1,20 @@
-package com.openclassrooms.realestatemanager.fragments;
+package com.openclassrooms.realestatemanager.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,19 +30,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.activities.MainActivity;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.model.House;
 import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, Serializable {
 
-public class MapViewFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
+    public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
+    private static final long HOUSE_ID = 1;
     private GoogleMap googleMap;
     private FusedLocationProviderClient client;
     private RealEstateManagerViewModel realEstateManagerViewModel;
@@ -52,50 +51,46 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     private LatLng houseLatLng;
     private LatLng currentPosition;
     private Marker marker;
-    private static final long HOUSE_ID = 1;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //Initialize view
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
+
         //Initialize map fragment
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
+
+
+        //Async map
+        if (supportMapFragment != null) {
+            supportMapFragment.getMapAsync(this);
+        }
+
+        //Initialize location client
+        client = LocationServices.getFusedLocationProviderClient(this);
 
         this.configureViewModel();
         this.getAllHousesFromDatabase();
 
-        //Async map
-        if (supportMapFragment != null) {
-            supportMapFragment.getMapAsync(MapViewFragment.this);
-        }
-
-        //Initialize location client
-        client = LocationServices.getFusedLocationProviderClient(getActivity());
-
-        this.configureViewModel();
-       // this.getAllHousesFromDatabase();
-       // this.checkCondition();
-
-        return view;
     }
 
+
     private void checkCondition() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(),
+                ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         }
-        Toast.makeText(getContext(), "Vous n'êtes pas géolocalisé, activez la géolocalistion! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Vous n'êtes pas géolocalisé, activez la géolocalistion! ", Toast.LENGTH_LONG).show();
     }
 
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         //Initialize location manager
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //check condition
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             //When location service is enabled
@@ -110,7 +105,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         currentPosition = new LatLng(lat, lng);
-                       // setMarker();
+                        // setMarker();
                     }
                 }
             });
@@ -120,7 +115,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     private void setMarker() {
         for (House house : houseList) {
             String address = house.getAddress();
-            Geocoder coder = new Geocoder(getContext());
+            Geocoder coder = new Geocoder(this);
             List<Address> addresses;
             try {
                 addresses = coder.getFromLocationName(address, 10);
@@ -161,7 +156,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     private void configureViewModel() {
-        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
         this.realEstateManagerViewModel.init(HOUSE_ID);
 
@@ -179,10 +174,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     public boolean onMarkerClick(Marker marker) {
         Long id = (Long) marker.getTag();
         if (id != null) {
-            ((MainActivity) getActivity()).onHouseClick(getHouseById(id));
-        }
-        else{
-            Toast.makeText(getContext(),"Ceci est ma position", Toast.LENGTH_LONG).show();
+            House house = getHouseById(id);
+            Intent intent = new Intent();
+            intent.putExtra(BUNDLE_HOUSE_CLICKED, house);
+            setResult(RESULT_OK, intent);
+            finish();
+        } else {
+            Toast.makeText(this, "Ceci est ma position", Toast.LENGTH_LONG).show();
         }
 
         return false;

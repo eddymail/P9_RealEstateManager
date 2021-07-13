@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.fragments;
 
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.activities.MapsActivity;
 import com.openclassrooms.realestatemanager.adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
@@ -58,6 +60,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private DetailFragment detailFragment;
 
+    public static final String BUNDLE_HOUSE_ID = "BUNDLE_HOUSE_ID";
     private static final long HOUSE_ID = 1;
 
     // Required empty public constructor
@@ -202,7 +205,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private void checkConnectivityAndOpenMapviewFragment() {
         if (Utils.haveNetwork()) {
             //Start mapViewFragment
-            MapViewFragment mapViewFragment = new MapViewFragment();
+          /*  MapViewFragment mapViewFragment = new MapViewFragment();
             if (Utils.isTablet(getContext())) {
 
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -212,8 +215,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             } else {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.activity_main_frame_layout, mapViewFragment)
-                        .commit();
-            }
+                        .commit();*/
+            Intent intent = new Intent(getContext(), MapsActivity.class);
+            startActivity(intent);
+
         } else {
             Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
         }

@@ -14,25 +14,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.fragments.MainFragment;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.model.House;
 import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener, Serializable {
 
     public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
     private static final long HOUSE_ID = 1;
-    private final List<House> houseList = new ArrayList<>();
+    //private final List<House> houseList = new ArrayList<>();
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    private MainFragment fragment;
+    //  private MainFragment fragment;
+
     //For Data
     private String district;
+    private int miniPrice;
+    private int maxiPrice;
     private int school = 0;
     private int shopping = 0;
     private int publicTransport = 0;
@@ -41,6 +42,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private int maxiArea;
     private int miniRoom;
     private int maxiRoom;
+
     //For Design
     private EditText etMiniPrice;
     private EditText etMaxiPrice;
@@ -55,10 +57,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private CheckBox publicTransportCb;
     private CheckBox swimmingPoolCb;
 
-    // TODO
-    // Changer le type du prix
-    private int miniPrice;
-    private int maxiPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,19 +133,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (swimmingPoolCb.isChecked()) {
             swimmingPool = 1;
         }
-
-        Log.e("Test", " SAISIE district, = " + district);
-        Log.e("Test", " SAISIE miniPrice = " + miniPrice);
-        Log.e("Test", " SAISIE maxiPrice = " + maxiPrice);
-        Log.e("Test", " SAISIE miniArea = " + miniArea);
-        Log.e("Test", " SAISIE maxiArea = " + maxiArea);
-        Log.e("Test", " SAISIE miniRoom = " + miniRoom);
-        Log.e("Test", " SAISIE maxiRoom = " + maxiRoom);
-        Log.e("Test", " SAISIE school = " + school);
-        Log.e("Test", " SAISIE shopping = " + shopping);
-        Log.e("Test", " SAISIE publicTransport = " + publicTransport);
-        Log.e("Test", " SAISIE swimmingPool = " + swimmingPool);
-
     }
 
     private void getSearchedList(List<House> houseList) {
@@ -158,8 +143,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             Intent intent = new Intent();
             intent.putExtra(BUNDLE_RESULT_LIST, (Serializable) houseList);
-            String test = "OK";
-            intent.putExtra("Test", test);
             setResult(RESULT_OK, intent);
             finish();
         }

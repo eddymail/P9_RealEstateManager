@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final long HOUSE_ID = 1;
     public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
-    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
+    public static final int MAPS_ACTIVITY_REQUEST_CODE = 22;
+    public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
 
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
@@ -243,8 +244,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-        fragment.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+
+                case SEARCH_ACTIVITY_REQUEST_CODE:
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+                    fragment.onActivityResult(requestCode, resultCode, data);
+
+                    break;
+
+                case MAPS_ACTIVITY_REQUEST_CODE:
+                    House houseClicked = (House) data.getSerializableExtra(BUNDLE_HOUSE_CLICKED);
+                    Log.e("Test", "onActivityResult house clicked: " + houseClicked);
+                    onHouseClick(houseClicked);
+                    break;
+            }
+        }
+
+     /*   Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        fragment.onActivityResult(requestCode, resultCode, data);*/
 
     }
 
