@@ -1,10 +1,10 @@
-package com.openclassrooms.realestatemanager.Injection;
+package com.openclassrooms.realestatemanager.injection;
 
 import android.content.Context;
 
-import com.openclassrooms.realestatemanager.Database.RealEstateManagerDatabase;
-import com.openclassrooms.realestatemanager.Repositories.HouseDataRepository;
-import com.openclassrooms.realestatemanager.Repositories.IllustrationDataRepository;
+import com.openclassrooms.realestatemanager.database.RealEstateManagerDatabase;
+import com.openclassrooms.realestatemanager.repositories.HouseDataRepository;
+import com.openclassrooms.realestatemanager.repositories.IllustrationDataRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Database.Dao;
+package com.openclassrooms.realestatemanager.database.dao;
 
 import android.database.Cursor;
 
@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.openclassrooms.realestatemanager.Model.House;
+import com.openclassrooms.realestatemanager.model.House;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface HouseDao {
     LiveData<House> getHouse(long houseId);
 
     @Query("SELECT * FROM House WHERE id = :houseId")
-    Cursor getHouseWithCursor(long houseId);
+    Cursor getHousesWithCursor(long houseId);
 
     @Query("SELECT * FROM House")
     LiveData<List<House>> getAll();

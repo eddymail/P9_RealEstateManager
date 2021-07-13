@@ -12,9 +12,9 @@ import android.net.wifi.WifiManager;
 import android.util.Base64;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.openclassrooms.realestatemanager.Activities.MainActivity;
-import com.openclassrooms.realestatemanager.Model.House;
-import com.openclassrooms.realestatemanager.Model.Illustration;
+import com.openclassrooms.realestatemanager.activities.MainActivity;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.model.Illustration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

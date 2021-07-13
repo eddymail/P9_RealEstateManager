@@ -1,7 +1,8 @@
-package com.openclassrooms.realestatemanager.Activities;
+package com.openclassrooms.realestatemanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -36,8 +37,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView textViewQuantity;
 
     private static final long HOUSE_ID = 1;
+    public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
+    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
+
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
+    private long id;
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HouseRecyclerAdapter adapter;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
-    private long id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,8 +231,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 return true;
             case R.id.menu_activity_main_toolbar_search:
-                Intent searchActivityIntent = new Intent(MainActivity.this, SearchResultsActivity.class);
-                startActivity(searchActivityIntent);
+                Intent searchActivityIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivityForResult(searchActivityIntent, SEARCH_ACTIVITY_REQUEST_CODE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -235,11 +240,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        fragment.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
     public void onBackPressed() {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (!Utils.isTablet(getBaseContext())) {
             super.onBackPressed();
+        } else {
+            mainFragment = new MainFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_main_frame_layout, mainFragment)
+                    .commit();
+            Log.e("test", "passe par ici");
         }
     }
 }

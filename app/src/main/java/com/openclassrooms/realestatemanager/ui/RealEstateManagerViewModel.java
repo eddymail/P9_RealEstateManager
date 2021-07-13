@@ -1,14 +1,13 @@
-package com.openclassrooms.realestatemanager.Ui;
-
+package com.openclassrooms.realestatemanager.ui;
 
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.Model.House;
-import com.openclassrooms.realestatemanager.Model.Illustration;
-import com.openclassrooms.realestatemanager.Repositories.HouseDataRepository;
-import com.openclassrooms.realestatemanager.Repositories.IllustrationDataRepository;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.model.Illustration;
+import com.openclassrooms.realestatemanager.repositories.HouseDataRepository;
+import com.openclassrooms.realestatemanager.repositories.IllustrationDataRepository;
 
 import java.util.List;
 import java.util.concurrent.Executor;

@@ -1,26 +1,27 @@
-package com.openclassrooms.realestatemanager.Fragments;
+package com.openclassrooms.realestatemanager.fragments;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.openclassrooms.realestatemanager.Activities.MainActivity;
-import com.openclassrooms.realestatemanager.Activities.SearchResultsActivity;
-import com.openclassrooms.realestatemanager.Adapter.HouseRecyclerAdapter;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.Model.House;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
+import com.openclassrooms.realestatemanager.activities.MainActivity;
+import com.openclassrooms.realestatemanager.adapter.HouseRecyclerAdapter;
+import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +30,21 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener, SearchResultsActivity.SearchListener {
+public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener {
 
     private RecyclerView recyclerView;
     private List<House> houseList = new ArrayList<>();
-    private List<House> searchResult;
+    public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
+    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
+    private List<House> searchResult;
 
     public MainFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +66,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
     private void configureRecyclerView() {
         Log.e("Test", "configure RecyclerView");
-        this.houseList = new ArrayList<>();
+        //  this.houseList = new ArrayList<>();
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -92,17 +96,20 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
+            houseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
+            String result = data.getStringExtra("Test");
+            Log.e("Test", "onActivityResult Search List: " + houseList);
+            Log.e("Test", "onActivityResult Test: " + result);
+            adapter.setData(houseList);
+        }
+    }
+
+    @Override
     public void onHouseClick(int position) {
         ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
     }
 
-    @Override
-    public void onSearch(List<House> searchResult) {
-
-      //  this.adapter = new HouseRecyclerAdapter(this.searchResult, this);
-        Log.e("Test", "configure OnSearch adapter value :" + adapter);
-       // adapter.setData(searchResult);
-        Log.e("Test", "onSearch searchedList size : "  + searchResult.size());
-       // adapter.notifyDataSetChanged();
-    }
 }

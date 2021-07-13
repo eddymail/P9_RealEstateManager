@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Model;
+package com.openclassrooms.realestatemanager.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

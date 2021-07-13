@@ -1,6 +1,7 @@
-package com.openclassrooms.realestatemanager.Activities;
+package com.openclassrooms.realestatemanager.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,26 +11,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.openclassrooms.realestatemanager.Fragments.MainFragment;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.Model.House;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
+import com.openclassrooms.realestatemanager.fragments.MainFragment;
+import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener, Serializable {
 
-    // private String[] queries;
+    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
     private static final long HOUSE_ID = 1;
     private final List<House> houseList = new ArrayList<>();
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    private SearchListener searchListener;
     private MainFragment fragment;
     //For Data
     private String district;
@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getDataFromEditText() {
-        district = etDistrict.getText().toString();
+        district = etDistrict.getText().toString().toUpperCase();
         String miniPriceInput = etMiniPrice.getText().toString();
         String maxiPriceInput = etMaxiPrice.getText().toString();
         String miniAreaInput = etMiniArea.getText().toString();
@@ -156,12 +156,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (houseList.isEmpty()) {
             Toast.makeText(this, "Aucun bien ne correspond", Toast.LENGTH_LONG).show();
         } else {
-            fragment = new MainFragment();
-            searchListener = (SearchListener) fragment;
-            searchListener.onSearch(houseList);
-            Log.e("Test", " searchListner : " + searchListener);
+            Intent intent = new Intent();
+            intent.putExtra(BUNDLE_RESULT_LIST, (Serializable) houseList);
+            String test = "OK";
+            intent.putExtra("Test", test);
+            setResult(RESULT_OK, intent);
+            finish();
         }
-        finish();
     }
 
     @Override
@@ -193,17 +194,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Log.e("Test", " RECHERCHE swimmingPool = " + swimmingPool);
 
     }
-
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-
-        fragment = new MainFragment();
-        searchListener = (SearchListener) fragment;
-    }
-
-    public interface SearchListener {
-        void onSearch(List<House> searchResult);
-    }
-
 }

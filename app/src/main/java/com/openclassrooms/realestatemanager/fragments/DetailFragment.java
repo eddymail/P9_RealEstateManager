@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Fragments;
+package com.openclassrooms.realestatemanager.fragments;
 
 
 import android.location.Address;
@@ -19,18 +19,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.openclassrooms.realestatemanager.Adapter.GalleryRecyclerAdapter;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.Model.House;
-import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.adapter.GalleryRecyclerAdapter;
+import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.model.Illustration;
+import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private TextView label;
     private ImageView mapView;
 
-    private List<Illustration> gallery = new ArrayList<>();
+    private final List<Illustration> gallery = new ArrayList<>();
 
     // Smartphone
     private House house;
@@ -57,6 +56,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     private GalleryRecyclerAdapter adapter;
     private RealEstateManagerViewModel realEstateManagerViewModel;
+    private DetailFragment detailFragment;
 
     private static final long HOUSE_ID = 1;
 
@@ -199,15 +199,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
-    private void checkConnectivity() {
+    private void checkConnectivityAndOpenMapviewFragment() {
         if (Utils.haveNetwork()) {
             //Start mapViewFragment
-
             MapViewFragment mapViewFragment = new MapViewFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_frame_layout, mapViewFragment)
-                    .commit();
+            if (Utils.isTablet(getContext())) {
 
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_frame_layout, mapViewFragment)
+                        .commit();
+
+            } else {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_main_frame_layout, mapViewFragment)
+                        .commit();
+            }
         } else {
             Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
         }
@@ -224,6 +230,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        checkConnectivity();
+        checkConnectivityAndOpenMapviewFragment();
     }
 }

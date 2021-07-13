@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Provider;
+package com.openclassrooms.realestatemanager.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,13 +9,13 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.openclassrooms.realestatemanager.Database.RealEstateManagerDatabase;
-import com.openclassrooms.realestatemanager.Model.House;
+import com.openclassrooms.realestatemanager.database.RealEstateManagerDatabase;
+import com.openclassrooms.realestatemanager.model.House;
 
-public class HouseContentProvider extends ContentProvider {
+public class RealEstateContentProvider extends ContentProvider {
 
     //For data
-    public static final String AUTHORITY = "com.openclassrooms.realestatemanager.Provider";
+    public static final String AUTHORITY = "com.openclassrooms.realestatemanager.provider";
     public static final String TABLE_NAME = House.class.getSimpleName();
     public static final Uri URI_HOUSE = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
@@ -30,7 +30,7 @@ public class HouseContentProvider extends ContentProvider {
 
         if (getContext() != null) {
             long houseId = ContentUris.parseId(uri);
-            final Cursor cursor = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().getHouseWithCursor(houseId);
+            final Cursor cursor = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().getHousesWithCursor(houseId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;
         }
@@ -49,15 +49,12 @@ public class HouseContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
 
         if (getContext() != null) {
-            final long id;
-            if (contentValues != null) {
-                id = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().createHouse(House.fromContentValues(contentValues));
+            final long id = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().createHouse(House.fromContentValues(contentValues));
                 if (id != 0) {
                     getContext().getContentResolver().notifyChange(uri, null);
                     return ContentUris.withAppendedId(uri, id);
                 }
             }
-        }
 
         throw new IllegalArgumentException("Failed to insert row into " + uri);
     }

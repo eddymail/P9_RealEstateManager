@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Model;
+package com.openclassrooms.realestatemanager.model;
 
 import android.content.ContentValues;
 
@@ -7,8 +7,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class House {
+public class House implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Long id;
     private String category;
@@ -247,12 +249,11 @@ public class House {
         if(values.containsKey("address")) house.setAddress(values.getAsString("address"));
         if(values.containsKey("dateOfEntry")) house.setDateOfEntry(values.getAsString("dateOfEntry"));
         if(values.containsKey("available")) house.setAvailable(values.getAsBoolean("available"));
-        if(values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
+        if (values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
         if (values.containsKey("realEstateAgent"))
             house.setRealEstateAgent(values.getAsString("realEstateAgent"));
         if (values.containsKey("realEstateAgent")) house.setId(values.getAsLong("houseId"));
         return house;
     }
-
 }
 

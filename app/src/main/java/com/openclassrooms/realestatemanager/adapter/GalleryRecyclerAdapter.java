@@ -1,4 +1,5 @@
-package com.openclassrooms.realestatemanager.Adapter;
+package com.openclassrooms.realestatemanager.adapter;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.model.Illustration;
 
 import java.util.List;
 

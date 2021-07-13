@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Activities;
+package com.openclassrooms.realestatemanager.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,8 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,16 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.openclassrooms.realestatemanager.Fragments.DescriptionPictureDialog;
-import com.openclassrooms.realestatemanager.Fragments.DetailFragment;
-import com.openclassrooms.realestatemanager.Fragments.GalleryPictureDialog;
-import com.openclassrooms.realestatemanager.Fragments.MainFragment;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.Model.House;
-import com.openclassrooms.realestatemanager.Model.Illustration;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Ui.RealEstateManagerViewModel;
+import com.openclassrooms.realestatemanager.fragments.DescriptionPictureDialog;
+import com.openclassrooms.realestatemanager.fragments.GalleryPictureDialog;
+import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.model.Illustration;
+import com.openclassrooms.realestatemanager.ui.RealEstateManagerViewModel;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,10 +1,10 @@
-package com.openclassrooms.realestatemanager.Repositories;
+package com.openclassrooms.realestatemanager.repositories;
 
 
 import androidx.lifecycle.LiveData;
 
-import com.openclassrooms.realestatemanager.Database.Dao.HouseDao;
-import com.openclassrooms.realestatemanager.Model.House;
+import com.openclassrooms.realestatemanager.database.dao.HouseDao;
+import com.openclassrooms.realestatemanager.model.House;
 
 import java.util.List;
 

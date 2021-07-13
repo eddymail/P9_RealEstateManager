@@ -1,8 +1,7 @@
-package com.openclassrooms.realestatemanager.Database;
+package com.openclassrooms.realestatemanager.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -11,10 +10,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.openclassrooms.realestatemanager.Database.Dao.HouseDao;
-import com.openclassrooms.realestatemanager.Database.Dao.IllustrationDao;
-import com.openclassrooms.realestatemanager.Model.House;
-import com.openclassrooms.realestatemanager.Model.Illustration;
+import com.openclassrooms.realestatemanager.database.dao.HouseDao;
+import com.openclassrooms.realestatemanager.database.dao.IllustrationDao;
+import com.openclassrooms.realestatemanager.model.House;
+import com.openclassrooms.realestatemanager.model.Illustration;
 
 @Database(entities = {House.class, Illustration.class}, version = 1, exportSchema = false)
 public abstract class RealEstateManagerDatabase extends RoomDatabase {
