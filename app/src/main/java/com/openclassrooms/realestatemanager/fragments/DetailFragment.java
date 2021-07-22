@@ -1,11 +1,11 @@
 package com.openclassrooms.realestatemanager.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +39,10 @@ import java.util.List;
  */
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
+    public static final int MAPS_ACTIVITY_REQUEST_CODE = 22;
+    public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
+    private static final long HOUSE_ID = 1;
+
     private TextView area;
     private TextView rooms;
     private TextView bedrooms;
@@ -50,18 +54,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private ImageView mapView;
 
     private final List<Illustration> gallery = new ArrayList<>();
-
-    // Smartphone
     private House house;
     private long id;
 
     private RecyclerView recyclerView;
     private GalleryRecyclerAdapter adapter;
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    private DetailFragment detailFragment;
-
-    public static final String BUNDLE_HOUSE_ID = "BUNDLE_HOUSE_ID";
-    private static final long HOUSE_ID = 1;
 
     // Required empty public constructor
     public DetailFragment() {
@@ -154,7 +152,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         rooms.setText(String.valueOf(house.getNumberOfRooms()));
         bedrooms.setText(String.valueOf(house.getNumberOfBedrooms()));
         bathrooms.setText(String.valueOf(house.getNumberOfBathrooms()));
-        Log.e("Test", "Nbre de ch =" + house.getNumberOfRooms());
+
         List<String> pois = new ArrayList<>();
         if (house.getSchool() == 1) {
             pois.add("école");
@@ -202,28 +200,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
-    private void checkConnectivityAndOpenMapviewFragment() {
-        if (Utils.haveNetwork()) {
-            //Start mapViewFragment
-          /*  MapViewFragment mapViewFragment = new MapViewFragment();
-            if (Utils.isTablet(getContext())) {
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_frame_layout, mapViewFragment)
-                        .commit();
-
-            } else {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_main_frame_layout, mapViewFragment)
-                        .commit();*/
-            Intent intent = new Intent(getContext(), MapsActivity.class);
-            startActivity(intent);
-
-        } else {
-            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
-        }
-    }
-
     //Listener
     public void onHouseClick(House house) {
         if (house != null) {
@@ -233,8 +209,24 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //display house clicked on smartphone
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (MAPS_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
+            House houseClicked = (House) data.getSerializableExtra(BUNDLE_HOUSE_CLICKED);
+            updateData(houseClicked);
+            this.house = houseClicked;
+        }
+    }
+
     @Override
     public void onClick(View view) {
-        checkConnectivityAndOpenMapviewFragment();
+        if (Utils.haveNetwork()) {
+            //Start mapsViewActivity
+            Intent intent = new Intent(getActivity(), MapsActivity.class);
+            getActivity().startActivityForResult(intent, MAPS_ACTIVITY_REQUEST_CODE);
+        } else {
+            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
+        }
     }
 }

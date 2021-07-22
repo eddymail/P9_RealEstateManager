@@ -33,14 +33,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
-
-    private static final long HOUSE_ID = 1;
     public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
     public static final int MAPS_ACTIVITY_REQUEST_CODE = 22;
     public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
-
+    private static final long HOUSE_ID = 1;
+    private TextView textViewMain;
+    private TextView textViewQuantity;
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
     private long id;
@@ -142,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //Tablet
             detailFragment.updateData(house);
             detailFragment.updateDisplay(house);
-            this.id = house.getId();
 
         } else {
             //Smartphone
@@ -153,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
             detailFragment.onHouseClick(house);
-            this.id = house.getId();
         }
+        this.id = house.getId();
     }
 
     private void getAllHousesFromDatabase() {
@@ -244,6 +241,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.e("Test", "PASSE PAR onActivityResult " + RESULT_OK + " REQUEST CODE " + requestCode);
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
 
@@ -254,30 +253,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
 
                 case MAPS_ACTIVITY_REQUEST_CODE:
-                    House houseClicked = (House) data.getSerializableExtra(BUNDLE_HOUSE_CLICKED);
-                    Log.e("Test", "onActivityResult house clicked: " + houseClicked);
-                    onHouseClick(houseClicked);
+                    //display house clicked on smartphone
+                    if (!Utils.isTablet(this)) {
+                        House houseClicked = (House) data.getSerializableExtra(BUNDLE_HOUSE_CLICKED);
+                        onHouseClick(houseClicked);
+                    } else {
+                        // the result from MapsActivity to DetailFragment
+                        Fragment detailsFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+                        detailsFragment.onActivityResult(requestCode, resultCode, data);
+                    }
+
                     break;
             }
         }
-
-     /*   Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-        fragment.onActivityResult(requestCode, resultCode, data);*/
-
     }
 
     @Override
     public void onBackPressed() {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (!Utils.isTablet(getBaseContext())) {
-            super.onBackPressed();
         } else {
+            super.onBackPressed();
+     /*   } else {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_main_frame_layout, mainFragment)
                     .commit();
-            Log.e("test", "passe par ici");
+        }*/
         }
     }
 }

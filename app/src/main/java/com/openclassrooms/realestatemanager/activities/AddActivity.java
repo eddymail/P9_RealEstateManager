@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,25 +42,25 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private RealEstateManagerViewModel realEstateManagerViewModel;
 
     //For Data
-    private String category;
-    private String district;
-    private String address;
-    private String description;
-    private String realEstateAgent;
-    private String dateOfSale;
-    private String dateOfEntry;
-    private String picture;
-    private String tvDescription;
-    private boolean available = true;
-    private int school = 0;
-    private int shopping = 0;
-    private int publicTransport = 0;
-    private int swimmingPool = 0;
-    private int price;
-    private int area;
-    private int numberOfRooms;
-    private int numberOfBedRooms;
-    private int numberOfBathrooms;
+    public String category;
+    public String district;
+    public String address;
+    public String description;
+    public String realEstateAgent;
+    public String dateOfSale;
+    public String dateOfEntry;
+    public String picture;
+    public String tvDescription;
+    public boolean available = true;
+    public int school = 0;
+    public int shopping = 0;
+    public int publicTransport = 0;
+    public int swimmingPool = 0;
+    public int price;
+    public int area;
+    public int numberOfRooms;
+    public int numberOfBedRooms;
+    public int numberOfBathrooms;
     private long id;
     private List<House> houseList = new ArrayList<>();
     private House houseToAdd;
@@ -174,11 +175,31 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         Date date = Calendar.getInstance().getTime();
         dateOfEntry = new SimpleDateFormat("dd-MM-yyyy").format(date);
 
-        price = Integer.parseInt(priceInput.getText().toString());
-        area = Integer.parseInt(areaInput.getText().toString());
-        numberOfRooms = Integer.parseInt(roomInput.getText().toString());
-        numberOfBedRooms = Integer.parseInt(bedroomInput.getText().toString());
-        numberOfBathrooms = Integer.parseInt(bathroomInput.getText().toString());
+        String strPrice = priceInput.getText().toString();
+        if (!TextUtils.isEmpty(strPrice)) {
+            price = Integer.parseInt(strPrice);
+        }
+
+        String strArea = areaInput.getText().toString();
+        if (!TextUtils.isEmpty(strArea)) {
+            area = Integer.parseInt(strArea);
+            Log.e("Test", "area saisie = " + area);
+        }
+
+        String strNumberOfRooms = roomInput.getText().toString();
+        if (!TextUtils.isEmpty(strNumberOfRooms)) {
+            numberOfRooms = Integer.parseInt(strNumberOfRooms);
+        }
+
+        String strNumberOfBedRooms = bedroomInput.getText().toString();
+        if (!TextUtils.isEmpty(strNumberOfBedRooms)) {
+            numberOfBedRooms = Integer.parseInt(strNumberOfBedRooms);
+        }
+
+        String strNumberOfBathrooms = bathroomInput.getText().toString();
+        if (!TextUtils.isEmpty(strNumberOfBathrooms)) {
+            numberOfBathrooms = Integer.parseInt(strNumberOfBathrooms);
+        }
 
         if (schoolCb.isChecked()) {
             school = 1;
@@ -194,9 +215,49 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    private Boolean checkInput() {
+
+        Boolean isOk;
+
+        if (category.isEmpty()) {
+            Toast.makeText(this, "Veuillez indiquer la catégorie du bien", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (district.isEmpty()) {
+            Toast.makeText(this, "Veuillez saisir le secteur du bien", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (address.isEmpty()) {
+            Toast.makeText(this, "Veuillez saisir une adresse", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (description.isEmpty()) {
+            Toast.makeText(this, "Veuillez indiquer une description", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (realEstateAgent.isEmpty()) {
+            Toast.makeText(this, "Veuillez indiquer le nom de l'agent immobilier", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (price == 0) {
+            Toast.makeText(this, "Veuillez indiquer le prix", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (area == 0) {
+            Toast.makeText(this, "Veuillez indiquer la surface", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (numberOfRooms == 0) {
+            Toast.makeText(this, "Veuillez indiquer le nombre de pièce", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (numberOfBedRooms == 0) {
+            Toast.makeText(this, "Veuillez indiquer le nombre de chambre", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (numberOfBathrooms == 0) {
+            Toast.makeText(this, "Veuillez indiquer le nombre de salle de bain", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else {
+            isOk = true;
+        }
+        return isOk;
+
+    }
+
     private void collectInputForIllustration() {
         tvDescription = null;
-
     }
 
     private void prepopulateTextView(House houseToDisplay) {
@@ -294,6 +355,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 dateOfSale,
                 realEstateAgent,
                 id);
+        Log.e("Test", "area UPDATE = " + area);
     }
 
     private void updateHouseIllustrationInDatabase() {
@@ -341,15 +403,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 if (id == -1 || id == 0) {
                     //Create new house in database
                     this.collectInputUser();
-                    this.createHouseAndAddItToDatabase();
-                    Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
-                    AddActivity.this.finish();
+                    if (checkInput()) {
+                        this.createHouseAndAddItToDatabase();
+                        Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
+                        AddActivity.this.finish();
+                    }
+
                 } else {
                     //Update house in database
                     this.collectInputUser();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
                     AddActivity.this.finish();
+
                 }
                 break;
 
@@ -415,7 +481,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         //Cursor for access
         Cursor cursor = this.getContentResolver().query(uri, filePathColumn, null, null, null);
-        //position on line (normalement une seule)
+        //position on line
         cursor.moveToFirst();
         //get path
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);

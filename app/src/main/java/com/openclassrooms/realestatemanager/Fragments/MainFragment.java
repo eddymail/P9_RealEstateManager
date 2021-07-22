@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
     public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
-    private List<House> searchResult;
 
     public MainFragment() {
         // Required empty public constructor
@@ -59,18 +57,14 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         this.configureViewModel();
         this.configureRecyclerView();
 
-        Log.e("Test", "onCreateMainfragment");
-
         return view;
     }
 
     private void configureRecyclerView() {
-        Log.e("Test", "configure RecyclerView");
         //  this.houseList = new ArrayList<>();
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.e("Test", "configure RecyclerView adapter value :" + adapter);
     }
 
     private void configureViewModel() {
@@ -100,7 +94,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
             houseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
-            Log.e("Test", "onActivityResult Search List: " + houseList);
             adapter.setData(houseList);
         }
     }

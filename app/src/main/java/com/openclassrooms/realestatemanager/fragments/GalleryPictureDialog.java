@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +35,6 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
             public void onClick(DialogInterface dialogInterface, int i) {
                 String pictureDescription = description.getText().toString();
                 dialogListener.applyDescription(pictureDescription);
-                Log.e("Test", "description récupéré = " + pictureDescription);
             }
         });
         builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -74,14 +72,11 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_gallery_picture_dialog_take_picture:
-                //TODO gallery picture
                 ((AddActivity) getActivity()).takePicture();
-                
                 break;
-            case R.id.bt_gallery_picture_dialog_select_picture:
-                //TODO gallery picture
-                ((AddActivity) getActivity()).addPictureFromDevice();
 
+            case R.id.bt_gallery_picture_dialog_select_picture:
+                ((AddActivity) getActivity()).addPictureFromDevice();
                 break;
         }
     }

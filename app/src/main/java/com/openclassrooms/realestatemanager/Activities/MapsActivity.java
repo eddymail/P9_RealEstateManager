@@ -105,7 +105,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         currentPosition = new LatLng(lat, lng);
-                        // setMarker();
                     }
                 }
             });

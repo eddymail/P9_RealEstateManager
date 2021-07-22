@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +27,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
     private static final long HOUSE_ID = 1;
-    //private final List<House> houseList = new ArrayList<>();
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    //  private MainFragment fragment;
 
     //For Data
     private String district;
@@ -93,6 +92,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getDataFromEditText() {
+
         district = etDistrict.getText().toString().toUpperCase();
         String miniPriceInput = etMiniPrice.getText().toString();
         String maxiPriceInput = etMaxiPrice.getText().toString();
@@ -100,27 +100,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         String maxiAreaInput = etMaxiArea.getText().toString();
         String miniRoomInput = etMiniRoom.getText().toString();
         String maxiRoomInput = etMaxiRoom.getText().toString();
-        if (miniPriceInput == "" & maxiPriceInput == "") {
-            miniPrice = 0;
-            maxiPrice = 0;
-        } else {
+
+        if (!TextUtils.isEmpty(miniPriceInput)) {
             miniPrice = Integer.parseInt(miniPriceInput);
+        }
+        if (!TextUtils.isEmpty(maxiPriceInput)) {
             maxiPrice = Integer.parseInt(maxiPriceInput);
         }
-        if (miniAreaInput == "" & maxiAreaInput == "") {
-            miniArea = 0;
-            maxiArea = 0;
-        } else {
+
+        if (!TextUtils.isEmpty(miniAreaInput)) {
             miniArea = Integer.parseInt(miniAreaInput);
+        }
+        if (!TextUtils.isEmpty(maxiAreaInput)) {
             maxiArea = Integer.parseInt(maxiAreaInput);
         }
-        if (miniRoomInput == "" & maxiRoomInput == "") {
-            miniRoom = 0;
-            maxiRoom = 0;
-        } else {
+
+        if (!TextUtils.isEmpty(miniRoomInput)) {
             miniRoom = Integer.parseInt(miniRoomInput);
+        }
+        if (!TextUtils.isEmpty(maxiRoomInput)) {
             maxiRoom = Integer.parseInt(maxiRoomInput);
         }
+
         if (schoolCb.isChecked()) {
             school = 1;
         }
@@ -135,9 +136,42 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private Boolean checkInput() {
+
+        Boolean isOk;
+
+        if (district.isEmpty()) {
+            Toast.makeText(this, "Saisir le secteur du bien", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (miniPrice == 0) {
+            Toast.makeText(this, "Saisir le prix mini", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (maxiPrice == 0) {
+            Toast.makeText(this, "Saisir le prix maxi", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (miniArea == 0) {
+            Toast.makeText(this, "Saisir la surface mini", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (maxiArea == 0) {
+            Toast.makeText(this, "Saisir indiquer la surface maxi", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (miniRoom == 0) {
+            Toast.makeText(this, "Saisir indiquer le nombre de pièces mini", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (maxiRoom == 0) {
+            Toast.makeText(this, "Saisir indiquer le nombre de pièces maxi", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else {
+            isOk = true;
+        }
+
+        Log.e("Test", "Valeur checkInput :" + isOk.toString());
+
+        return isOk;
+    }
+
     private void getSearchedList(List<House> houseList) {
 
-        Log.e("Test", " getHouses houseList: " + houseList.size());
         if (houseList.isEmpty()) {
             Toast.makeText(this, "Aucun bien ne correspond", Toast.LENGTH_LONG).show();
         } else {
@@ -152,29 +186,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         this.getDataFromEditText();
 
-        realEstateManagerViewModel.getSearchedHouse(district,
-                miniPrice,
-                maxiPrice,
-                miniArea,
-                maxiArea,
-                miniRoom,
-                maxiRoom,
-                school,
-                shopping,
-                publicTransport,
-                swimmingPool).observe(this, this::getSearchedList);
-
-        Log.e("Test", " RECHERCHE district, = " + district);
-        Log.e("Test", " RECHERCHE miniPrice = " + miniPrice);
-        Log.e("Test", " RECHERCHE maxiPrice = " + maxiPrice);
-        Log.e("Test", " RECHERCHE miniArea = " + miniArea);
-        Log.e("Test", " RECHERCHE maxiArea = " + maxiArea);
-        Log.e("Test", " RECHERCHE miniRoom = " + miniRoom);
-        Log.e("Test", " RECHERCHE maxiRoom = " + maxiRoom);
-        Log.e("Test", " RECHERCHE school = " + school);
-        Log.e("Test", " RECHERCHE shopping = " + shopping);
-        Log.e("Test", " RECHERCHE publicTransport = " + publicTransport);
-        Log.e("Test", " RECHERCHE swimmingPool = " + swimmingPool);
-
+        if (checkInput()) {
+            realEstateManagerViewModel.getSearchedHouse(district,
+                    miniPrice,
+                    maxiPrice,
+                    miniArea,
+                    maxiArea,
+                    miniRoom,
+                    maxiRoom,
+                    school,
+                    shopping,
+                    publicTransport,
+                    swimmingPool).observe(this, this::getSearchedList);
+        }
     }
 }

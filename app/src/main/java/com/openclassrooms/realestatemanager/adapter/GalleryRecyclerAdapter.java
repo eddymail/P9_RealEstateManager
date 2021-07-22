@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,6 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
         public void updateIllustration(Illustration illustration) {
 
             description.setText(illustration.getDescription());
-            Log.e("Test", "description = " + illustration.getDescription());
 
             if (illustration.getPicture().isEmpty()) {
                 illustrationView.setImageResource(R.drawable.add_picture);
