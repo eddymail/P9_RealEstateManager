@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.adapter;
 
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import java.util.List;
 
 public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdapter.ViewHolder> {
 
-    private List<House> houseList;
     private final OnHouseListener onHouseListener;
+    private List<House> houseList;
 
     public HouseRecyclerAdapter(List<House> houseList, OnHouseListener onHouseListener) {
         this.houseList = houseList;
@@ -55,6 +56,11 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         }
     }
 
+    // Use to detect the click
+    public interface OnHouseListener {
+        void onHouseClick(int position);
+    }
+
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView category;
@@ -64,8 +70,8 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         private final ImageView illustrationView;
         private final ImageView changeView;
         private final OnHouseListener onHouseListener;
-        private String illustration;
         public Resources res;
+        private String illustration;
 
         // Constructor
         public ViewHolder(View itemView, OnHouseListener onHouseListener) {
@@ -86,7 +92,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
             category.setText(house.getCategory());
             district.setText(house.getDistrict());
 
-            if(!house.isAvailable()) {
+            if (!house.isAvailable()) {
                 sale.setVisibility(View.VISIBLE);
                 sale.setText("VENDU LE " + house.getDateOfSale());
             }
@@ -130,11 +136,7 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
         @Override
         public void onClick(View view) {
             onHouseListener.onHouseClick(getAdapterPosition());
+            Log.e("Test", "ADAPTER Clic sur la vue");
         }
-    }
-
-    // Use to detect the click
-    public interface OnHouseListener {
-        void onHouseClick(int position);
     }
 }

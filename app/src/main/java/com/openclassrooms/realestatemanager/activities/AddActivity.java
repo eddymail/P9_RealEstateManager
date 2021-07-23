@@ -183,7 +183,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         String strArea = areaInput.getText().toString();
         if (!TextUtils.isEmpty(strArea)) {
             area = Integer.parseInt(strArea);
-            Log.e("Test", "area saisie = " + area);
         }
 
         String strNumberOfRooms = roomInput.getText().toString();
@@ -317,7 +316,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
         houseToAdd = new House(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms, school, shopping, publicTransport, swimmingPool,
                 description, picture, address, available, dateOfEntry, null, realEstateAgent);
-        Log.e("Test", "TEST PHOTO DESCRIPTION " + picture);
         this.realEstateManagerViewModel.createHouse(houseToAdd);
     }
 
@@ -326,7 +324,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             picture = "";
         }
         illustrationToAdd = new Illustration(id, tvDescription, picture);
-        Log.e("Test", "TEST ToDatabase description = " + tvDescription + " PICTURE " + picture);
         this.realEstateManagerViewModel.createIllustration(illustrationToAdd);
     }
 
@@ -355,7 +352,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 dateOfSale,
                 realEstateAgent,
                 id);
-        Log.e("Test", "area UPDATE = " + area);
     }
 
     private void updateHouseIllustrationInDatabase() {
@@ -373,6 +369,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     //Start Activity for take picture with device
     public void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Log.e("Test", "TAKE PICTURE est appelée ");
         //check intent can be managed
         if (intent.resolveActivity(getPackageManager()) != null) {
             //Create a unique file name
@@ -388,10 +385,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
                 //Open activity
                 startActivityForResult(intent, RESULT_TAKE_PICTURE);
+                Log.e("Test", "TAKE PICTURE est lancée ");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        Log.e("Test", "TAKE PICTURE est pas lancée ");
     }
 
     //OnClick method
@@ -472,6 +471,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 case RESULT_TAKE_PICTURE:
                     //Get picture
                     picture = picturePath;
+                    Log.e("Test", "TAKE PICTURE : " + requestCode);
                     break;
             }
         }

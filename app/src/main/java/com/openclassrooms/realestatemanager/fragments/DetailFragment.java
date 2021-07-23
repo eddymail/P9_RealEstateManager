@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.activities.MapsActivity;
+import com.openclassrooms.realestatemanager.activities.MapActivity;
 import com.openclassrooms.realestatemanager.adapter.GalleryRecyclerAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
@@ -42,7 +43,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public static final int MAPS_ACTIVITY_REQUEST_CODE = 22;
     public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
     private static final long HOUSE_ID = 1;
-
+    private final List<Illustration> gallery = new ArrayList<>();
     private TextView area;
     private TextView rooms;
     private TextView bedrooms;
@@ -52,8 +53,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private TextView description;
     private TextView label;
     private ImageView mapView;
-
-    private final List<Illustration> gallery = new ArrayList<>();
     private House house;
     private long id;
 
@@ -77,15 +76,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onStart() {
-        //Smartphone display
-        if (house != null) {
-            this.updateData(house);
-        }
-        this.updateDisplay(house);
-        super.onStart();
-    }
+
+    // Configure methods
 
     private void initActivity(View view) {
         area = view.findViewById(R.id.tv_fragment_detail_surface_value);
@@ -98,7 +90,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         label = view.findViewById(R.id.lbl_no_house);
         mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
-
         mapView.setOnClickListener(this);
     }
 
@@ -122,14 +113,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+
     //Tablet display
     public void updateData(House house) {
-        updateHouse(house);
+        updateHouseDetails(house);
         configureViewModel();
         configureRecyclerView();
         getGalleryHouseFromDatabase(house.getId());
+        Log.e("Test", "DETAILFRAGMENT updateData");
     }
 
+
+    // Update the display of the list
     private void updateDisplayList() {
         if (gallery.size() == 0) {
             recyclerView.setVisibility(View.GONE);
@@ -139,15 +134,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //Update the display
     public void updateDisplay(House house) {
         if (house == null) {
             getView().setVisibility(View.GONE);
         } else {
             getView().setVisibility(View.VISIBLE);
         }
+        Log.e("Test", "DETAILFRAGMENT updateDisplay");
     }
 
-    public void updateHouse(House house) {
+    //Fill in the editText
+    public void updateHouseDetails(House house) {
         area.setText(String.valueOf(house.getArea()));
         rooms.setText(String.valueOf(house.getNumberOfRooms()));
         bedrooms.setText(String.valueOf(house.getNumberOfBedrooms()));
@@ -174,13 +172,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         pointOfInterest.setText(list);
         address.setText(house.getAddress());
         description.setText(house.getDescription());
-        //Display house on staticMap
+
+        //Display real estate on staticMap
         Glide.with(mapView.getContext())
                 .load(convertAndShowAddressOnStaticMap(house.getAddress()))
                 .into(mapView);
     }
 
 
+    //Convert Address of the real estate and show it on the static map
     public String convertAndShowAddressOnStaticMap(String address) {
         Geocoder coder = new Geocoder(getContext());
         List<Address> addresses;
@@ -192,7 +192,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
             String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200" +
-                    "&markers=color:black%7C" + lat + "," + lng + "&sensor=false&key=AIzaSyCV1RfW578IO-3Sr5zeb8uK5xdLx_Gz_5M";
+                    "&markers=color:red%7C" + lat + "," + lng + "&sensor=false&key=AIzaSyCV1RfW578IO-3Sr5zeb8uK5xdLx_Gz_5M";
             return url;
         } catch (IOException e) {
             e.printStackTrace();
@@ -202,6 +202,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     //Listener
     public void onHouseClick(House house) {
+        Log.e("Test", "DETAILFRAGMENT OnHouseClick" + house);
         if (house != null) {
             this.house = house;
             //Use for modify
@@ -209,9 +210,34 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    //display house clicked on smartphone
+    // Override methods
+
+    @Override
+    public void onStart() {
+        //Smartphone
+        if (house != null) {
+            this.updateData(house);
+        }
+        //Tablet
+        this.updateDisplay(house);
+        super.onStart();
+    }
+
+    @Override
+    public void onClick(View view) {
+        //Start mapsViewActivity if user has network
+        if (Utils.haveNetwork()) {
+            Intent intent = new Intent(getActivity(), MapActivity.class);
+            getActivity().startActivityForResult(intent, MAPS_ACTIVITY_REQUEST_CODE);
+            Log.e("Test", "DETAILFRAGMENT Lancement MapActivity");
+        } else {
+            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Display house clicked on MapsActivity on smartphone
         if (MAPS_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
             House houseClicked = (House) data.getSerializableExtra(BUNDLE_HOUSE_CLICKED);
             updateData(houseClicked);
@@ -219,14 +245,4 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (Utils.haveNetwork()) {
-            //Start mapsViewActivity
-            Intent intent = new Intent(getActivity(), MapsActivity.class);
-            getActivity().startActivityForResult(intent, MAPS_ACTIVITY_REQUEST_CODE);
-        } else {
-            Toast.makeText(getContext(), "Vous êtes connecté à aucun réseau", Toast.LENGTH_LONG).show();
-        }
-    }
 }
