@@ -31,23 +31,21 @@ import java.util.List;
  */
 public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener {
 
+    public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
+    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
     private RecyclerView recyclerView;
     private List<House> houseList = new ArrayList<>();
-    public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
-    public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
 
     public MainFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -60,15 +58,15 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         return view;
     }
 
+    //Configure methods
+
     private void configureRecyclerView() {
-        //  this.houseList = new ArrayList<>();
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void configureViewModel() {
-
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
         realEstateManagerViewModel.getAll().observe((LifecycleOwner) this, houseList -> {
@@ -79,7 +77,6 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     private void updateDisplay() {
-
         if (houseList.size() == 0) {
             lblNoHouse.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -89,9 +86,10 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
         }
     }
 
+    //Override methods
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
             houseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
             adapter.setData(houseList);
@@ -102,5 +100,4 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     public void onHouseClick(int position) {
         ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
     }
-
 }

@@ -4,25 +4,21 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Base64;
+import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.activities.MainActivity;
 import com.openclassrooms.realestatemanager.model.House;
 import com.openclassrooms.realestatemanager.model.Illustration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -120,8 +116,10 @@ public class Utils {
     public static String getIllustrationFromDevice(House house) {
         File file = new File(house.getIllustration());
         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Log.e("Test", "BITMAP null");
         if (bitmap != null) {
             String illustration = getStringImage(bitmap);
+            Log.e("Test", "BITMAP pas null");
             return illustration;
         }
         return null;
@@ -169,30 +167,6 @@ public class Utils {
     public static double calculateTotalPayment(double monthlyPayment, double loanPeriod) {
         return (monthlyPayment * loanPeriod);
 
-    }
-
-    /**
-     * Get latitude and longitude from an adress
-     *
-     * @param address
-     * @return latitude and longitude
-     */
-    public static LatLng getLatLngFromAddress(String address) {
-        Geocoder coder = new Geocoder(context);
-        List<Address> addresses;
-        try {
-            addresses = coder.getFromLocationName(address, 10);
-            if (addresses == null) {
-            }
-            Address location = addresses.get(0);
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            LatLng latLng = new LatLng(lat, lng);
-            return latLng;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

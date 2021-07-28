@@ -120,7 +120,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         configureViewModel();
         configureRecyclerView();
         getGalleryHouseFromDatabase(house.getId());
-        Log.e("Test", "DETAILFRAGMENT updateData");
     }
 
 
@@ -141,7 +140,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         } else {
             getView().setVisibility(View.VISIBLE);
         }
-        Log.e("Test", "DETAILFRAGMENT updateDisplay");
     }
 
     //Fill in the editText

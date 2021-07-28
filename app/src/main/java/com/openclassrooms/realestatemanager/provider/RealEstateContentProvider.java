@@ -50,11 +50,11 @@ public class RealEstateContentProvider extends ContentProvider {
 
         if (getContext() != null) {
             final long id = RealEstateManagerDatabase.getINSTANCE(getContext()).houseDao().createHouse(House.fromContentValues(contentValues));
-                if (id != 0) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                    return ContentUris.withAppendedId(uri, id);
-                }
+            if (id != 0) {
+                getContext().getContentResolver().notifyChange(uri, null);
+                return ContentUris.withAppendedId(uri, id);
             }
+        }
 
         throw new IllegalArgumentException("Failed to insert row into " + uri);
     }

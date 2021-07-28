@@ -24,8 +24,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @androidx.annotation.NonNull
     @Override
     public <T extends ViewModel> T create(@androidx.annotation.NonNull Class<T> modelClass) {
-        if(modelClass.isAssignableFrom(RealEstateManagerViewModel.class)) {
-            return (T) new RealEstateManagerViewModel(houseDataSource, illustrationDataSource,executor);
+        if (modelClass.isAssignableFrom(RealEstateManagerViewModel.class)) {
+            return (T) new RealEstateManagerViewModel(houseDataSource, illustrationDataSource, executor);
         }
         throw new IllegalArgumentException("Unknow ViewModel class");
     }

@@ -48,7 +48,6 @@ public interface HouseDao {
             "dateOfEntry = :dateOfEntry," +
             "dateOfSale = :dateOfSale," +
             "realEstateAgent = :realEstateAgent WHERE id = :id")
-
     int updateHouse(String category,
                     String district,
                     int price,
@@ -80,7 +79,6 @@ public interface HouseDao {
             " AND shopping LIKE :shopping" +
             " AND publicTransport LIKE :publicTransport" +
             " AND swimmingPool LIKE :swimmingPool")
-
     LiveData<List<House>> getSearchedHouse(String district,
                                            int miniPrice,
                                            int maxiPrice,

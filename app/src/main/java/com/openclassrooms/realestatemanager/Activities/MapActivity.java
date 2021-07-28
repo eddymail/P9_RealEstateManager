@@ -60,7 +60,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         //Initialize map fragment
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
 
-
         //Async map
         if (supportMapFragment != null) {
             supportMapFragment.getMapAsync(this);
@@ -74,6 +73,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
+
+    }
 
     private void checkCondition() {
         if (ContextCompat.checkSelfPermission(this,
@@ -144,23 +149,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-    private void getAllHousesFromDatabase() {
-        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
-    }
-
-    private void updateList(List<House> houses) {
-        houseList = new ArrayList<>();
-        houseList.addAll(houses);
-        setMarker();
-    }
-
-    private void configureViewModel() {
-        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
-        this.realEstateManagerViewModel.init(HOUSE_ID);
-
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -183,6 +171,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
 
         return false;
+    }
+
+    private void getAllHousesFromDatabase() {
+        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
+    }
+
+    private void updateList(List<House> houses) {
+        houseList = new ArrayList<>();
+        houseList.addAll(houses);
+        setMarker();
     }
 
     public House getHouseById(Long id) {

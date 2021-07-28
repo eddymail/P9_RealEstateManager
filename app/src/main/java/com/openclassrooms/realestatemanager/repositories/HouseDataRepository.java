@@ -12,16 +12,24 @@ public class HouseDataRepository {
 
     private final HouseDao houseDao;
 
-    public HouseDataRepository(HouseDao houseDao) { this.houseDao = houseDao; }
+    public HouseDataRepository(HouseDao houseDao) {
+        this.houseDao = houseDao;
+    }
 
     //Create house
-    public void createHouse(House house) { houseDao.createHouse(house); }
+    public void createHouse(House house) {
+        houseDao.createHouse(house);
+    }
 
     //Get house
-    public LiveData<House> getHouse(long houseId ) { return this.houseDao.getHouse(houseId); }
+    public LiveData<House> getHouse(long houseId) {
+        return this.houseDao.getHouse(houseId);
+    }
 
     //Get all
-    public LiveData<List<House>> getAll() { return this.houseDao.getAll(); }
+    public LiveData<List<House>> getAll() {
+        return this.houseDao.getAll();
+    }
 
     //Update isEuro
     public void updateIsEuro(boolean isEuro, long id) {
@@ -29,7 +37,9 @@ public class HouseDataRepository {
     }
 
     //Update illustration
-    public void updateIllustration(String illustration, long id) {houseDao.updateIllustration(illustration, id); }
+    public void updateIllustration(String illustration, long id) {
+        houseDao.updateIllustration(illustration, id);
+    }
 
     //Update house
     public void updateHouse(String category,
@@ -50,8 +60,7 @@ public class HouseDataRepository {
                             String dateOfEntry,
                             String dateOfSale,
                             String realEstateAgent,
-                            long id)
-    {
+                            long id) {
         houseDao.updateHouse(category,
                 district,
                 price,
@@ -96,6 +105,7 @@ public class HouseDataRepository {
                 school,
                 shopping,
                 publicTransport,
-                swimmingPool);}
+                swimmingPool);
+    }
 
 }

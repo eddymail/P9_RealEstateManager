@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,8 +38,9 @@ import java.util.List;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, GalleryPictureDialog.DialogListener {
 
-    private RealEstateManagerViewModel realEstateManagerViewModel;
-
+    public static final int RESULT_ADD_PICTURE = 1;
+    public static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final long HOUSE_ID = 1;
     //For Data
     public String category;
     public String district;
@@ -61,12 +61,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public int numberOfRooms;
     public int numberOfBedRooms;
     public int numberOfBathrooms;
+    private final List<House> houseList = new ArrayList<>();
     private long id;
-    private List<House> houseList = new ArrayList<>();
+    private RealEstateManagerViewModel realEstateManagerViewModel;
     private House houseToAdd;
     private House houseToUpdate;
     private Illustration illustrationToAdd;
-
     //For Design
     private EditText categoryInput;
     private EditText districtInput;
@@ -88,10 +88,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private CheckBox shoppingCb;
     private CheckBox publicTransportCb;
     private CheckBox swimmingPoolCb;
-
-    public static final int RESULT_ADD_PICTURE = 1;
-    public static final int RESULT_TAKE_PICTURE = 2;
-    private static final long HOUSE_ID = 1;
     private String picturePath = null;
     private Uri selectedPicture;
 
@@ -171,7 +167,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         description = descriptionValue.getText().toString();
         realEstateAgent = agentNameValue.getText().toString();
         dateOfSale = etDateOfSale.getText().toString();
-
         Date date = Calendar.getInstance().getTime();
         dateOfEntry = new SimpleDateFormat("dd-MM-yyyy").format(date);
 
@@ -215,9 +210,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private Boolean checkInput() {
-
         Boolean isOk;
-
         if (category.isEmpty()) {
             Toast.makeText(this, "Veuillez indiquer la catégorie du bien", Toast.LENGTH_LONG).show();
             isOk = false;
@@ -255,10 +248,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void collectInputForIllustration() {
-        tvDescription = null;
-    }
-
     private void prepopulateTextView(House houseToDisplay) {
         categoryInput.setText(houseToDisplay.getCategory());
         districtInput.setText(houseToDisplay.getDistrict());
@@ -286,29 +275,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    // Get methods
+
     private void getCurrentHouse(long id) {
         this.realEstateManagerViewModel.getHouse(id).observe(this, this::prepopulateTextView);
     }
 
     private void getHouseToUpdate(long id) {
-        this.realEstateManagerViewModel.getHouse(id).observe(this, this::updateHouseAndUpdateDatabase);
+        this.realEstateManagerViewModel.getHouse(id).observe(this, this::updateHouseInDatabase);
     }
 
-    private void getHouseToUpdateIllustration(long id) {
-        this.realEstateManagerViewModel.getHouse(id).observe(this, this::updateHouseIllustrationInDatabase);
-    }
-
-    private void updateHouseIllustrationInDatabase(House house) {
-    }
-
-    private void getAllHousesFromDatabase() {
-        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
-    }
-
-    private void updateList(List<House> houses) {
-        houseList = new ArrayList<>();
-        houseList.addAll(houses);
-    }
+    // Create methods
 
     private void createHouseAndAddItToDatabase() {
         if (picture == null) {
@@ -327,7 +304,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         this.realEstateManagerViewModel.createIllustration(illustrationToAdd);
     }
 
-    private void updateHouseAndUpdateDatabase(House house) {
+    // Update methods
+
+    private void updateHouseInDatabase(House house) {
 
         if (!dateOfSale.isEmpty()) {
             available = false;
@@ -340,7 +319,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 swimmingPool,
                 description, picture, address, available, dateOfEntry, dateOfSale, realEstateAgent);
 
-        this.realEstateManagerViewModel.updateHouse(category, district,true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms,
+        this.realEstateManagerViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms,
                 school,
                 shopping,
                 publicTransport,
@@ -354,11 +333,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 id);
     }
 
-    private void updateHouseIllustrationInDatabase() {
+    private void updatePictureDescriptionInDatabase() {
         if (picture != null) {
             this.realEstateManagerViewModel.updateIllustration(picture, id);
         }
     }
+
+    //Picture
 
     //Start Activity for get picture from device
     public void addPictureFromDevice() {
@@ -369,7 +350,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     //Start Activity for take picture with device
     public void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Log.e("Test", "TAKE PICTURE est appelée ");
         //check intent can be managed
         if (intent.resolveActivity(getPackageManager()) != null) {
             //Create a unique file name
@@ -384,16 +364,34 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 //Uri to intent for save picture in temporary file
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
                 //Open activity
-                startActivityForResult(intent, RESULT_TAKE_PICTURE);
-                Log.e("Test", "TAKE PICTURE est lancée ");
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        Log.e("Test", "TAKE PICTURE est pas lancée ");
     }
 
-    //OnClick method
+    private String getPathFromUri(Uri uri) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        //Cursor for access
+        Cursor cursor = this.getContentResolver().query(uri, filePathColumn, null, null, null);
+        //position on line
+        cursor.moveToFirst();
+        //get path
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String imgPath = cursor.getString(columnIndex);
+        cursor.close();
+        this.picture = imgPath;
+
+        return picture;
+    }
+
+    @Override
+    public void applyDescription(String pictureDescription) {
+        tvDescription = pictureDescription;
+    }
+
+    //OnClick methods
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -407,20 +405,18 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                         Toast.makeText(this, "Le bien a été ajouté ", Toast.LENGTH_LONG).show();
                         AddActivity.this.finish();
                     }
-
                 } else {
                     //Update house in database
                     this.collectInputUser();
                     this.getHouseToUpdate(id);
                     Toast.makeText(this, "Le bien a été modifié ", Toast.LENGTH_LONG).show();
                     AddActivity.this.finish();
-
                 }
                 break;
 
             case R.id.bt_add_activity_add_description_picture:
                 //Update description picture in database
-                this.updateHouseIllustrationInDatabase();
+                this.updatePictureDescriptionInDatabase();
                 Toast.makeText(this, "L'image de description a été modifiée ", Toast.LENGTH_LONG).show();
                 break;
 
@@ -442,7 +438,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    //Picture dialog
+    //Pictures dialog
+
     private void openGalleryPictureDialog() {
         GalleryPictureDialog galleryPictureDialog = new GalleryPictureDialog();
         galleryPictureDialog.show(getSupportFragmentManager(), "gallery picture dialog");
@@ -468,33 +465,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     getPathFromUri(selectedPicture);
                     break;
 
-                case RESULT_TAKE_PICTURE:
+                case REQUEST_IMAGE_CAPTURE:
                     //Get picture
                     picture = picturePath;
-                    Log.e("Test", "TAKE PICTURE : " + requestCode);
                     break;
             }
         }
-    }
-
-    private String getPathFromUri(Uri uri) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        //Cursor for access
-        Cursor cursor = this.getContentResolver().query(uri, filePathColumn, null, null, null);
-        //position on line
-        cursor.moveToFirst();
-        //get path
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String imgPath = cursor.getString(columnIndex);
-        cursor.close();
-        this.picture = imgPath;
-
-        return picture;
-    }
-
-    @Override
-    public void applyDescription(String pictureDescription) {
-        tvDescription = pictureDescription;
-        Log.e("Test", "tvDescription = " + tvDescription);
     }
 }

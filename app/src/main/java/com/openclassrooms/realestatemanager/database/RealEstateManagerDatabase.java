@@ -21,11 +21,6 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
     //Singleton
     private static volatile RealEstateManagerDatabase INSTANCE;
 
-    //Dao
-    public abstract HouseDao houseDao();
-
-    public abstract IllustrationDao illustrationDao();
-
     //Instance
     public static RealEstateManagerDatabase getINSTANCE(Context context) {
         if (INSTANCE == null) {
@@ -49,6 +44,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 super.onCreate(db);
 
                 ContentValues houseOne = new ContentValues();
+
                 houseOne.put("id", 1);
                 houseOne.put("category", "Maison");
                 houseOne.put("district", "HOURTON");
@@ -72,8 +68,8 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
 
                 db.insert("House", OnConflictStrategy.IGNORE, houseOne);
 
-
                 ContentValues houseTwo = new ContentValues();
+
                 houseTwo.put("id", 2);
                 houseTwo.put("category", "Maison");
                 houseTwo.put("district", "CENTRE VILLE");
@@ -98,6 +94,7 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 db.insert("House", OnConflictStrategy.IGNORE, houseTwo);
 
                 ContentValues houseThree = new ContentValues();
+
                 houseThree.put("id", 3);
                 houseThree.put("category", "Villa");
                 houseThree.put("district", "CENTRE VILLE");
@@ -120,7 +117,6 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 houseThree.put("realEstateAgent", "Eddy");
 
                 db.insert("House", OnConflictStrategy.IGNORE, houseThree);
-
 
                 ContentValues photoA = new ContentValues();
 
@@ -262,8 +258,13 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
                 photoP.put("picture", "");
 
                 db.insert("Illustration", OnConflictStrategy.IGNORE, photoP);
-                
+
             }
         };
     }
+
+    //Dao
+    public abstract HouseDao houseDao();
+
+    public abstract IllustrationDao illustrationDao();
 }

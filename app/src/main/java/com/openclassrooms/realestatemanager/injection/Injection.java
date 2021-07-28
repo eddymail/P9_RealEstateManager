@@ -21,7 +21,9 @@ public class Injection {
         return new IllustrationDataRepository(database.illustrationDao());
     }
 
-    public static Executor provideExecutor() { return Executors.newSingleThreadExecutor(); }
+    public static Executor provideExecutor() {
+        return Executors.newSingleThreadExecutor();
+    }
 
     public static ViewModelFactory provideViewModelFactory(Context context) {
         HouseDataRepository dataSourceHouse = provideHouseDataSource(context);

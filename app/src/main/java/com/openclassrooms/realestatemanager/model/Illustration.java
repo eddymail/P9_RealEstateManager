@@ -21,34 +21,32 @@ public class Illustration {
         this.picture = picture;
     }
 
-    //Getter
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public long getHouseId() {
         return houseId;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    //Setter
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setHouseId(long houseId) {
         this.houseId = houseId;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPicture() {
+        return picture;
     }
 
     public void setPicture(String picture) {

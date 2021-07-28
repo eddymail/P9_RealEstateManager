@@ -2,8 +2,6 @@ package com.openclassrooms.realestatemanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // bug 1: Problème de ressource
         // this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
         // this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
@@ -88,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.textViewQuantity.setText(String.valueOf(quantity));
     }
 
+    //Configure display Tablet or SmartPhone
+
     public void configureAndShowMainFragment() {
         // Get FragmentManager (support) and Try to find existing instance of fragment in FrameLayout container
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // Configure methods
+
     private void configureToolBar() {
         this.toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
@@ -127,13 +130,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
-
-        return true;
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
+        this.realEstateManagerViewModel.init(HOUSE_ID);
     }
 
+    private void getAllHousesFromDatabase() {
+        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
+    }
+
+    private void updateList(List<House> houses) {
+        houseList = new ArrayList<>();
+        houseList.addAll(houses);
+    }
+
+    //Currency conversion methods
+
+    private void changeCurrencyToDollarsAndUpdateDataBase(List<House> houses) {
+        if (houses != null) {
+            for (House house : houses) {
+                long houseId = house.getId();
+                this.realEstateManagerViewModel.updateIsEuro(false, houseId);
+            }
+        }
+    }
+
+    private void changeCurrencyToEuroAndUpdateDataBase(List<House> houses) {
+        if (houses != null) {
+            for (House house : houses) {
+                long houseId = house.getId();
+                this.realEstateManagerViewModel.updateIsEuro(true, houseId);
+            }
+        }
+    }
+
+    //Transmission of the information of the clicked property for the display of details on DetailsFragment
     public void onHouseClick(House house) {
 
         if (detailFragment != null && Utils.isTablet(this)) {
@@ -154,38 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.id = house.getId();
     }
 
-    private void getAllHousesFromDatabase() {
-        this.realEstateManagerViewModel.getAll().observe(this, this::updateList);
-    }
-
-    private void updateList(List<House> houses) {
-        houseList = new ArrayList<>();
-        houseList.addAll(houses);
-    }
-
-    private void changeCurrencyToDollarsAndUpdateDataBase(List<House> houses) {
-        if (houses != null) {
-            for (House house : houses) {
-                long houseId = house.getId();
-                this.realEstateManagerViewModel.updateIsEuro(false, houseId);
-            }
-        }
-    }
-
-    private void changeCurrencyToEuroAndUpdateDataBase(List<House> houses) {
-        if (houses != null) {
-            for (House house : houses) {
-                long houseId = house.getId();
-                this.realEstateManagerViewModel.updateIsEuro(true, houseId);
-            }
-        }
-    }
-
-    private void configureViewModel() {
-        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
-        this.realEstateManagerViewModel.init(HOUSE_ID);
-    }
+    //Override methods
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -213,12 +214,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle actions on menu items
+        //Handle actions on menu items
         switch (item.getItemId()) {
+            //Start AddActivity when add button is clicked
             case R.id.menu_activity_main_toolbar_add:
                 Intent intentAdd = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(intentAdd);
                 return true;
+
+            //Start AddActivity when modify button is clicked
             case R.id.menu_activity_main_toolbar_modify:
                 if (id != 0) {
                     Intent intentModify = new Intent(MainActivity.this, AddActivity.class);
@@ -228,6 +232,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(this, "Selectionner un bien à vendre", Toast.LENGTH_LONG).show();
                 }
                 return true;
+
+            //Start SearchActivity when add button is clicked
             case R.id.menu_activity_main_toolbar_search:
                 Intent searchActivityIntent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivityForResult(searchActivityIntent, SEARCH_ACTIVITY_REQUEST_CODE);
@@ -240,8 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.e("Test", "PASSE PAR onActivityResult " + RESULT_OK + " REQUEST CODE " + requestCode);
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
@@ -274,12 +278,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-     /*   } else {
-            mainFragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_main_frame_layout, mainFragment)
-                    .commit();
-        }*/
         }
     }
 }

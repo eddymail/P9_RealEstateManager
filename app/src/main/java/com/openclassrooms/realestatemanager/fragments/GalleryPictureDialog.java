@@ -53,10 +53,6 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
         return builder.create();
     }
 
-    public interface DialogListener {
-        void applyDescription(String pictureDescription);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -79,5 +75,9 @@ public class GalleryPictureDialog extends AppCompatDialogFragment implements Vie
                 ((AddActivity) getActivity()).addPictureFromDevice();
                 break;
         }
+    }
+
+    public interface DialogListener {
+        void applyDescription(String pictureDescription);
     }
 }
