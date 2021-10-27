@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -29,12 +30,14 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener {
+public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHouseListener, View.OnClickListener {
 
     public static final int SEARCH_ACTIVITY_REQUEST_CODE = 26;
     public static final String BUNDLE_RESULT_LIST = "BUNDLE_RESULT_LIST";
+    private final List<House> houseList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private List<House> houseList = new ArrayList<>();
+    private Button displayListButton;
+    private List<House> searchHouseList = new ArrayList<>();
     private HouseRecyclerAdapter adapter;
     private TextView lblNoHouse;
     private RealEstateManagerViewModel realEstateManagerViewModel;
@@ -51,6 +54,9 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
         recyclerView = view.findViewById(R.id.fragment_main_recyclerview);
         lblNoHouse = view.findViewById(R.id.lbl_no_house);
+        displayListButton = view.findViewById(R.id.bt_display_list);
+
+        displayListButton.setOnClickListener(this);
 
         this.configureViewModel();
         this.configureRecyclerView();
@@ -59,6 +65,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
     //Configure methods
+
 
     private void configureRecyclerView() {
         this.adapter = new HouseRecyclerAdapter(this.houseList, this);
@@ -91,13 +98,22 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
-            houseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
-            adapter.setData(houseList);
+            displayListButton.setVisibility(View.VISIBLE);
+            searchHouseList = (List<House>) data.getSerializableExtra(BUNDLE_RESULT_LIST);
+            adapter.setData(searchHouseList);
         }
     }
 
     @Override
     public void onHouseClick(int position) {
         ((MainActivity) getActivity()).onHouseClick(houseList.get(position));
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        configureViewModel();
+        displayListButton.setVisibility(View.GONE);
+
     }
 }

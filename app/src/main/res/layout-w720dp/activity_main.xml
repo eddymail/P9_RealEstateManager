@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme" />
+            android:theme="@style/ToolbarTheme"
+            app:menu="@menu/activity_main_menu_toolbar" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -187,6 +188,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //Override methods
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the toolbar menu
+        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+        return true;
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/linearborder"
     tools:context=".fragments.MainFragment">
 
     <TextView
@@ -10,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:drawableTop="@drawable/ic_baseline_add_shopping_cart_24"
         android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_baseline_add_shopping_cart_24"
         android:gravity="center_horizontal"
         android:text="@string/no_house"
         android:textSize="22sp" />
@@ -23,7 +24,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="10dp"
         android:text="Afficher tous les biens"
-        android:textSize="14dp"
+        android:textSize="8dp"
         android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
