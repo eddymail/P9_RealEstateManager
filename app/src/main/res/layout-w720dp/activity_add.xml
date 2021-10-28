@@ -56,7 +56,7 @@
         android:inputType="textPersonName"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toEndOf="@+id/et_add_activity_category"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_district" />
 
@@ -109,7 +109,7 @@
         android:inputType="number"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_area" />
 
@@ -122,7 +122,7 @@
         android:text="Nombre de :"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_address" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_linearlayout_address" />
 
     <EditText
         android:id="@+id/et_add_activity_room"
@@ -161,7 +161,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_room" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/et_add_activity_linearLayout_poi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -245,7 +245,7 @@
         android:text="Agent immobilier :"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_linearLayout_picture_button" />
 
     <EditText
         android:id="@+id/et_add_activity_agent_name"
@@ -256,7 +256,7 @@
         android:inputType="textPersonName"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/tv_add_activity_agent_name"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_linearLayout_picture_button" />
 
     <Button
         android:id="@+id/bt_add_activity"
@@ -283,22 +283,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_add_activity_price" />
 
-    <EditText
-        android:id="@+id/et_add_activity_address"
+    <LinearLayout
+        android:id="@+id/et_add_activity_linearlayout_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="Adresse"
-        android:inputType="textPersonName"
-        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_address" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_activity_address">
+
+        <EditText
+            android:id="@+id/et_add_activity_street_number"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="N°"
+            android:inputType="number"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/et_add_activity_street_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:ems="10"
+            android:hint="Rue"
+            android:inputType="textPersonName"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/et_add_activity_zipcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Code postal"
+            android:inputType="number"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/et_add_activity_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:ems="10"
+            android:hint="Ville"
+            android:inputType="textPersonName"
+            android:textSize="10sp" />
+    </LinearLayout>
+
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/et_add_activity_linearLayout_picture_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -307,7 +345,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_linearLayout_poi">
 
         <Button
             android:id="@+id/bt_add_activity_select_description_picture"
@@ -359,6 +397,6 @@
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/et_add_activity_agent_name"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_activity_linearLayout_picture_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,10 +41,15 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public static final int RESULT_ADD_PICTURE = 1;
     public static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final long HOUSE_ID = 1;
+    private final List<House> houseList = new ArrayList<>();
     //For Data
     public String category;
     public String district;
     public String address;
+    public String streetNumber;
+    public String streetName;
+    public String zipCode;
+    public String city;
     public String description;
     public String realEstateAgent;
     public String dateOfSale;
@@ -61,7 +66,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public int numberOfRooms;
     public int numberOfBedRooms;
     public int numberOfBathrooms;
-    private final List<House> houseList = new ArrayList<>();
     private long id;
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private House houseToAdd;
@@ -77,8 +81,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private EditText bathroomInput;
     private EditText descriptionValue;
     private EditText agentNameValue;
-    private EditText addressValue;
-    private EditText etDateOfSale;
+    private EditText dateOfSaleInput;
+    private EditText streetNumberInput;
+    private EditText streetNameInput;
+    private EditText zipCodeInput;
+    private EditText cityInput;
     private Button addBtn;
     private Button selectDescriptionPictureBtn;
     private Button selectGalleryPictureBtn;
@@ -109,18 +116,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             selectGalleryPictureBtn.setVisibility(View.GONE);
             addGalleryPictureBtn.setVisibility(View.GONE);
             addDescriptionPictureBtn.setVisibility(View.GONE);
-            etDateOfSale.setVisibility(View.GONE);
+            dateOfSaleInput.setVisibility(View.GONE);
             addBtn.setText("Ajouter");
         } else {
             //Modify
             this.initActivity();
             selectGalleryPictureBtn.setVisibility(View.VISIBLE);
             addGalleryPictureBtn.setVisibility(View.VISIBLE);
-            etDateOfSale.setVisibility(View.VISIBLE);
+            dateOfSaleInput.setVisibility(View.VISIBLE);
             this.getCurrentHouse(id);
             addBtn.setText("Modifier");
         }
 
+        //Listeners
         addBtn.setOnClickListener(this);
         selectDescriptionPictureBtn.setOnClickListener(this);
         selectGalleryPictureBtn.setOnClickListener(this);
@@ -149,7 +157,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         swimmingPoolCb = findViewById(R.id.cb_add_activity_swimming_pool);
 
         descriptionValue = findViewById(R.id.et_add_activity_description);
-        addressValue = findViewById(R.id.et_add_activity_address);
+        streetNumberInput = findViewById(R.id.et_add_activity_street_number);
+        streetNameInput = findViewById(R.id.et_add_activity_street_name);
+        zipCodeInput = findViewById(R.id.et_add_activity_zipcode);
+        cityInput = findViewById(R.id.et_add_activity_city);
+
         agentNameValue = findViewById(R.id.et_add_activity_agent_name);
 
         addBtn = findViewById(R.id.bt_add_activity);
@@ -157,16 +169,24 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         addDescriptionPictureBtn = findViewById(R.id.bt_add_activity_add_description_picture);
         selectGalleryPictureBtn = findViewById(R.id.bt_add_activity_select_gallerie_picture);
         addGalleryPictureBtn = findViewById(R.id.bt_add_activity_add_gallerie_picture);
-        etDateOfSale = findViewById(R.id.et_add_activity_date_of_sale);
+        dateOfSaleInput = findViewById(R.id.et_add_activity_date_of_sale);
     }
 
     private void collectInputUser() {
         category = categoryInput.getText().toString();
         district = districtInput.getText().toString().toUpperCase();
-        address = addressValue.getText().toString();
+
+        streetNumber = streetNumberInput.getText().toString();
+        streetName = streetNameInput.getText().toString();
+        zipCode = zipCodeInput.getText().toString();
+        city = cityInput.getText().toString();
+        address = streetNumber + " " + streetName + " " + zipCode + " " + city;
+
         description = descriptionValue.getText().toString();
         realEstateAgent = agentNameValue.getText().toString();
-        dateOfSale = etDateOfSale.getText().toString();
+
+        dateOfSale = dateOfSaleInput.getText().toString();
+
         Date date = Calendar.getInstance().getTime();
         dateOfEntry = new SimpleDateFormat("dd-MM-yyyy").format(date);
 
@@ -217,8 +237,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         } else if (district.isEmpty()) {
             Toast.makeText(this, "Veuillez saisir le secteur du bien", Toast.LENGTH_LONG).show();
             isOk = false;
-        } else if (address.isEmpty()) {
-            Toast.makeText(this, "Veuillez saisir une adresse", Toast.LENGTH_LONG).show();
+        } else if (streetNumber.isEmpty()) {
+            Toast.makeText(this, "Veuillez saisir un numéro de rue", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (streetName.isEmpty()) {
+            Toast.makeText(this, "Veuillez indiquer une rue", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (zipCode.isEmpty()) {
+            Toast.makeText(this, "Veuillez indiquer le code postal", Toast.LENGTH_LONG).show();
+            isOk = false;
+        } else if (city.isEmpty()) {
+            Toast.makeText(this, "Veuillez saisir une ville", Toast.LENGTH_LONG).show();
             isOk = false;
         } else if (description.isEmpty()) {
             Toast.makeText(this, "Veuillez indiquer une description", Toast.LENGTH_LONG).show();
@@ -245,14 +274,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             isOk = true;
         }
         return isOk;
-
     }
 
     private void prepopulateTextView(House houseToDisplay) {
         categoryInput.setText(houseToDisplay.getCategory());
         districtInput.setText(houseToDisplay.getDistrict());
         descriptionValue.setText(houseToDisplay.getDescription());
-        addressValue.setText(houseToDisplay.getAddress());
         agentNameValue.setText(houseToDisplay.getRealEstateAgent());
 
         priceInput.setText(String.valueOf(houseToDisplay.getPrice()));

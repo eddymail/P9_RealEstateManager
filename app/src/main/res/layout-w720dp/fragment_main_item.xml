@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_fragment_main_item_category" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/et_add_activity_linearLayout_poi"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +86,7 @@
         android:textSize="12sp"
         android:textStyle="bold|italic"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/et_add_activity_linearLayout_poi"
         app:layout_constraintStart_toEndOf="@+id/fragment_main_item_illustration"
         app:layout_constraintTop_toTopOf="parent" />
 
