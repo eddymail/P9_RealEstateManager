@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -72,6 +74,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private House houseToUpdate;
     private Illustration illustrationToAdd;
     //For Design
+    private LinearLayout layout;
     private EditText categoryInput;
     private EditText districtInput;
     private EditText priceInput;
@@ -91,6 +94,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button selectGalleryPictureBtn;
     private Button addDescriptionPictureBtn;
     private Button addGalleryPictureBtn;
+    private TextView addressTv;
     private CheckBox schoolCb;
     private CheckBox shoppingCb;
     private CheckBox publicTransportCb;
@@ -117,6 +121,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             addGalleryPictureBtn.setVisibility(View.GONE);
             addDescriptionPictureBtn.setVisibility(View.GONE);
             dateOfSaleInput.setVisibility(View.GONE);
+
             addBtn.setText("Ajouter");
         } else {
             //Modify
@@ -124,6 +129,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             selectGalleryPictureBtn.setVisibility(View.VISIBLE);
             addGalleryPictureBtn.setVisibility(View.VISIBLE);
             dateOfSaleInput.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.GONE);
+            addressTv.setVisibility(View.GONE);
+
             this.getCurrentHouse(id);
             addBtn.setText("Modifier");
         }
@@ -143,6 +151,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initActivity() {
+
         categoryInput = findViewById(R.id.et_add_activity_category);
         districtInput = findViewById(R.id.et_add_activity_district);
         priceInput = findViewById(R.id.et_add_activity_price);
@@ -157,11 +166,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         swimmingPoolCb = findViewById(R.id.cb_add_activity_swimming_pool);
 
         descriptionValue = findViewById(R.id.et_add_activity_description);
+        layout = findViewById(R.id.et_add_activity_linearlayout_address);
+        addressTv = findViewById(R.id.tv_add_activity_address);
         streetNumberInput = findViewById(R.id.et_add_activity_street_number);
         streetNameInput = findViewById(R.id.et_add_activity_street_name);
         zipCodeInput = findViewById(R.id.et_add_activity_zipcode);
         cityInput = findViewById(R.id.et_add_activity_city);
-
         agentNameValue = findViewById(R.id.et_add_activity_agent_name);
 
         addBtn = findViewById(R.id.bt_add_activity);
@@ -170,6 +180,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         selectGalleryPictureBtn = findViewById(R.id.bt_add_activity_select_gallerie_picture);
         addGalleryPictureBtn = findViewById(R.id.bt_add_activity_add_gallerie_picture);
         dateOfSaleInput = findViewById(R.id.et_add_activity_date_of_sale);
+
     }
 
     private void collectInputUser() {
@@ -344,7 +355,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 shopping,
                 publicTransport,
                 swimmingPool,
-                description, picture, address, available, dateOfEntry, dateOfSale, realEstateAgent);
+                description, picture, available, dateOfEntry, dateOfSale, realEstateAgent);
 
         this.realEstateManagerViewModel.updateHouse(category, district, true, price, area, numberOfRooms, numberOfBathrooms, numberOfBedRooms,
                 school,
@@ -352,7 +363,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 publicTransport,
                 swimmingPool,
                 description,
-                address,
                 available,
                 dateOfEntry,
                 dateOfSale,

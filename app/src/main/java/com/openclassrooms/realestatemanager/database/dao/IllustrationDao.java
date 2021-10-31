@@ -18,7 +18,4 @@ public interface IllustrationDao {
     @Query("SELECT * FROM Illustration WHERE houseId = :houseId")
     LiveData<List<Illustration>> getGallery(long houseId);
 
-    @Query("UPDATE Illustration SET description = :description, picture = :picture WHERE id = :id")
-    int updateIllustration(String description, String picture, long id);
-
 }

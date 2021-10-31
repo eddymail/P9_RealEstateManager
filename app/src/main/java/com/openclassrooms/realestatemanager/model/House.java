@@ -39,6 +39,9 @@ public class House implements Serializable {
     public House() {
     }
 
+    public House(String category, String district, boolean b, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedRooms, int school, int shopping, int publicTransport, int swimmingPool, String description, String picture, boolean available, String dateOfEntry, String dateOfSale, String realEstateAgent) {
+    }
+
     public House(String category, String district, boolean isEuro, int price, int area, int numberOfRooms, int numberOfBathrooms, int numberOfBedrooms, int school,
                  int shopping, int publicTransport, int swimmingPool, String description, String illustration, String address, boolean available, String dateOfEntry,
                  @Nullable String dateOfSale, String realEstateAgent) {
@@ -64,6 +67,89 @@ public class House implements Serializable {
     }
 
     //Getter
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public boolean isEuro() {
+        return isEuro;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public int getNumberOfRooms() {
+        return numberOfRooms;
+    }
+
+    public int getNumberOfBathrooms() {
+        return numberOfBathrooms;
+    }
+
+    public int getNumberOfBedrooms() {
+        return numberOfBedrooms;
+    }
+
+    public int getSchool() {
+        return school;
+    }
+
+    public int getShopping() {
+        return shopping;
+    }
+
+    public int getPublicTransport() {
+        return publicTransport;
+    }
+
+    public int getSwimmingPool() {
+        return swimmingPool;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getIllustration() {
+        return illustration;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public String getDateOfEntry() {
+        return dateOfEntry;
+    }
+
+    @Nullable
+    public String getDateOfSale() {
+        return dateOfSale;
+    }
+
+    public String getRealEstateAgent() {
+        return realEstateAgent;
+    }
+
+    //Setter
 
     //Utils
     public static House fromContentValues(ContentValues values) {
@@ -100,165 +186,84 @@ public class House implements Serializable {
         return house;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
     public void setDistrict(String district) {
         this.district = district;
-    }
-
-    public boolean isEuro() {
-        return isEuro;
     }
 
     public void setEuro(boolean euro) {
         isEuro = euro;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public int getArea() {
-        return area;
     }
 
     public void setArea(int area) {
         this.area = area;
     }
 
-    public int getNumberOfRooms() {
-        return numberOfRooms;
-    }
-
     public void setNumberOfRooms(int numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
-    }
-
-    public int getNumberOfBathrooms() {
-        return numberOfBathrooms;
     }
 
     public void setNumberOfBathrooms(int numberOfBathrooms) {
         this.numberOfBathrooms = numberOfBathrooms;
     }
 
-    public int getNumberOfBedrooms() {
-        return numberOfBedrooms;
-    }
-
     public void setNumberOfBedrooms(int numberOfBedrooms) {
         this.numberOfBedrooms = numberOfBedrooms;
-    }
-
-    public int getSchool() {
-        return school;
     }
 
     public void setSchool(int school) {
         this.school = school;
     }
 
-    public int getShopping() {
-        return shopping;
-    }
-
     public void setShopping(int shopping) {
         this.shopping = shopping;
-    }
-
-    public int getPublicTransport() {
-        return publicTransport;
     }
 
     public void setPublicTransport(int publicTransport) {
         this.publicTransport = publicTransport;
     }
 
-    public int getSwimmingPool() {
-        return swimmingPool;
-    }
-
     public void setSwimmingPool(int swimmingPool) {
         this.swimmingPool = swimmingPool;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getIllustration() {
-        return illustration;
-    }
-
     public void setIllustration(String illustration) {
         this.illustration = illustration;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
-
     public void setAvailable(boolean available) {
         this.available = available;
-    }
-
-    public String getDateOfEntry() {
-        return dateOfEntry;
     }
 
     public void setDateOfEntry(String dateOfEntry) {
         this.dateOfEntry = dateOfEntry;
     }
 
-    @Nullable
-    public String getDateOfSale() {
-        return dateOfSale;
+    public void setRealEstateAgent(String realEstateAgent) {
+        this.realEstateAgent = realEstateAgent;
     }
 
     public void setDateOfSale(@Nullable String dateOfSale) {
         this.dateOfSale = dateOfSale;
-    }
-
-    public String getRealEstateAgent() {
-        return realEstateAgent;
-    }
-
-    public void setRealEstateAgent(String realEstateAgent) {
-        this.realEstateAgent = realEstateAgent;
     }
 }
 

@@ -93,7 +93,7 @@ public class RealEstateDaoTest {
         houseAdded.setArea(130);
         this.database.houseDao().updateHouse(houseAdded.getCategory(), houseAdded.getDistrict(), houseAdded.getPrice(), houseAdded.isEuro(), houseAdded.getArea(),
                 houseAdded.getNumberOfRooms(), houseAdded.getNumberOfBathrooms(), houseAdded.getNumberOfBedrooms(), houseAdded.getSchool(), houseAdded.getShopping(),
-                houseAdded.getPublicTransport(), houseAdded.getSwimmingPool(), houseAdded.getDescription(), houseAdded.getAddress(), houseAdded.isAvailable(),
+                houseAdded.getPublicTransport(), houseAdded.getSwimmingPool(), houseAdded.getDescription(), houseAdded.isAvailable(),
                 houseAdded.getDateOfEntry(), houseAdded.getDateOfSale(), houseAdded.getRealEstateAgent(), houseAdded.getId());
 
         //TEST

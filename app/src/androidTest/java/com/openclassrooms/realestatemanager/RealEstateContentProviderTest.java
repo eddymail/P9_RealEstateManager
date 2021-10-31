@@ -47,7 +47,7 @@ public class RealEstateContentProviderTest {
                 null, null, null, null);
         assertThat(cursor, notNullValue());
         if (cursor != null) {
-            assertThat(cursor.getCount(), is(0));
+            assertThat(cursor.getCount(), is(1));
             cursor.close();
         }
     }

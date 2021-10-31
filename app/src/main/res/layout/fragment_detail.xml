@@ -275,6 +275,40 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_description" />
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_agent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/agent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_agent_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Agent name" />
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_date_of_entry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Date de mise en vente :"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_fragment_detail_date_of_entry_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Date" />
             </LinearLayout>
 
         </ScrollView>

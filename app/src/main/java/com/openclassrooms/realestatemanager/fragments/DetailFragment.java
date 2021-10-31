@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +51,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private TextView address;
     private TextView description;
     private TextView label;
+    private TextView agent;
+    private TextView dateOfEntry;
     private ImageView mapView;
     private House house;
     private long id;
@@ -87,9 +88,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         pointOfInterest = view.findViewById(R.id.tv_fragment_detail_poi_value);
         address = view.findViewById(R.id.tv_fragment_detail_address_value);
         description = view.findViewById(R.id.tv_fragment_detail_description_value);
+        agent = view.findViewById(R.id.tv_fragment_detail_agent_value);
+        dateOfEntry = view.findViewById(R.id.tv_fragment_detail_date_of_entry_value);
         label = view.findViewById(R.id.lbl_no_house);
         mapView = view.findViewById(R.id.iv_fragment_detail_mapview);
         recyclerView = view.findViewById(R.id.rv_fragment_detail);
+
         mapView.setOnClickListener(this);
     }
 
@@ -107,7 +111,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getGalleryHouseFromDatabase(long houseId) {
-        this.realEstateManagerViewModel.getGallery(houseId).observe((LifecycleOwner) this, illustrations -> {
+        this.realEstateManagerViewModel.getGallery(houseId).observe(this, illustrations -> {
             adapter.setData(illustrations);
             updateDisplayList();
         });
@@ -170,13 +174,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         pointOfInterest.setText(list);
         address.setText(house.getAddress());
         description.setText(house.getDescription());
+        agent.setText(house.getRealEstateAgent());
+        dateOfEntry.setText(house.getDateOfEntry());
 
         //Display real estate on staticMap
         Glide.with(mapView.getContext())
                 .load(convertAndShowAddressOnStaticMap(house.getAddress()))
                 .into(mapView);
     }
-
 
     //Convert Address of the real estate and show it on the static map
     public String convertAndShowAddressOnStaticMap(String address) {

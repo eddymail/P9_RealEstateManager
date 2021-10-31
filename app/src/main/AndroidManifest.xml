@@ -54,7 +54,7 @@
 
         <provider
             android:name=".provider.RealEstateContentProvider"
-            android:authorities="com.openclassrooms.realestatemanager.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="true" />
 
     </application>

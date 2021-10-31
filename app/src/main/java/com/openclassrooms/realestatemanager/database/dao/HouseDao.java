@@ -43,7 +43,6 @@ public interface HouseDao {
             "publicTransport = :publicTransport," +
             "swimmingPool = :swimmingPool," +
             "description = :description," +
-            "address = :address," +
             "available = :available," +
             "dateOfEntry = :dateOfEntry," +
             "dateOfSale = :dateOfSale," +
@@ -61,7 +60,6 @@ public interface HouseDao {
                     int publicTransport,
                     int swimmingPool,
                     String description,
-                    String address,
                     boolean available,
                     String dateOfEntry,
                     String dateOfSale,

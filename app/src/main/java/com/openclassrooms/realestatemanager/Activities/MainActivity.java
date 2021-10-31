@@ -36,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int MAPS_ACTIVITY_REQUEST_CODE = 22;
     public static final String BUNDLE_HOUSE_CLICKED = "BUNDLE_HOUSE_CLICKED";
     private static final long HOUSE_ID = 1;
+
     private TextView textViewMain;
     private TextView textViewQuantity;
+
     private RealEstateManagerViewModel realEstateManagerViewModel;
     private List<House> houseList = new ArrayList<>();
     private long id;

@@ -36,7 +36,7 @@ public class HouseDataRepository {
         houseDao.updateIsEuro(isEuro, id);
     }
 
-    //Update illustration
+    //Update illustration for description picture
     public void updateIllustration(String illustration, long id) {
         houseDao.updateIllustration(illustration, id);
     }
@@ -55,7 +55,6 @@ public class HouseDataRepository {
                             int publicTransport,
                             int swimmingPool,
                             String description,
-                            String address,
                             boolean available,
                             String dateOfEntry,
                             String dateOfSale,
@@ -74,7 +73,6 @@ public class HouseDataRepository {
                 publicTransport,
                 swimmingPool,
                 description,
-                address,
                 available,
                 dateOfEntry,
                 dateOfSale,

@@ -86,7 +86,6 @@ public class RealEstateContentProvider extends ContentProvider {
                     contentValues.getAsInteger("publicTransport"),
                     contentValues.getAsInteger("swimmingPool"),
                     contentValues.getAsString("description"),
-                    contentValues.getAsString("address"),
                     contentValues.getAsBoolean("available"),
                     contentValues.getAsString("dateOfEntry"),
                     contentValues.getAsString("dateOfSale"),
