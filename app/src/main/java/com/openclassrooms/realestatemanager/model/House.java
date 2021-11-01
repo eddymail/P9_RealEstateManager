@@ -151,41 +151,6 @@ public class House implements Serializable {
 
     //Setter
 
-    //Utils
-    public static House fromContentValues(ContentValues values) {
-        final House house = new House();
-        if (values.containsKey("category")) house.setCategory(values.getAsString("category"));
-        if (values.containsKey("district")) house.setDistrict(values.getAsString("district"));
-        if (values.containsKey("isEuro")) house.setEuro(values.getAsBoolean("isEuro"));
-        if (values.containsKey("price")) house.setCategory(values.getAsString("price"));
-        if (values.containsKey("area")) house.setArea(values.getAsInteger("area"));
-        if (values.containsKey("numberOfRooms"))
-            house.setNumberOfRooms(values.getAsInteger("numberOfRooms"));
-        if (values.containsKey("numberOfBathrooms"))
-            house.setNumberOfBathrooms(values.getAsInteger("numberOfBathrooms"));
-        if (values.containsKey("numberOfBedrooms"))
-            house.setNumberOfBedrooms(values.getAsInteger("numberOfBedrooms"));
-        if (values.containsKey("school")) house.setSchool(values.getAsInteger("school"));
-        if (values.containsKey("shopping")) house.setShopping(values.getAsInteger("shopping"));
-        if (values.containsKey("publicTransport"))
-            house.setPublicTransport(values.getAsInteger("publicTransport"));
-        if (values.containsKey("swimmingPool"))
-            house.setSwimmingPool(values.getAsInteger("swimmingPool"));
-        if (values.containsKey("description"))
-            house.setDescription(values.getAsString("description"));
-        if (values.containsKey("illustration"))
-            house.setIllustration(values.getAsString("illustration"));
-        if (values.containsKey("address")) house.setAddress(values.getAsString("address"));
-        if (values.containsKey("dateOfEntry"))
-            house.setDateOfEntry(values.getAsString("dateOfEntry"));
-        if (values.containsKey("available")) house.setAvailable(values.getAsBoolean("available"));
-        if (values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
-        if (values.containsKey("realEstateAgent"))
-            house.setRealEstateAgent(values.getAsString("realEstateAgent"));
-        if (values.containsKey("realEstateAgent")) house.setId(values.getAsLong("houseId"));
-        return house;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -265,5 +230,41 @@ public class House implements Serializable {
     public void setDateOfSale(@Nullable String dateOfSale) {
         this.dateOfSale = dateOfSale;
     }
+
+    //Utils
+    public static House fromContentValues(ContentValues values) {
+        final House house = new House();
+        if (values.containsKey("category")) house.setCategory(values.getAsString("category"));
+        if (values.containsKey("district")) house.setDistrict(values.getAsString("district"));
+        if (values.containsKey("isEuro")) house.setEuro(values.getAsBoolean("isEuro"));
+        if (values.containsKey("price")) house.setCategory(values.getAsString("price"));
+        if (values.containsKey("area")) house.setArea(values.getAsInteger("area"));
+        if (values.containsKey("numberOfRooms"))
+            house.setNumberOfRooms(values.getAsInteger("numberOfRooms"));
+        if (values.containsKey("numberOfBathrooms"))
+            house.setNumberOfBathrooms(values.getAsInteger("numberOfBathrooms"));
+        if (values.containsKey("numberOfBedrooms"))
+            house.setNumberOfBedrooms(values.getAsInteger("numberOfBedrooms"));
+        if (values.containsKey("school")) house.setSchool(values.getAsInteger("school"));
+        if (values.containsKey("shopping")) house.setShopping(values.getAsInteger("shopping"));
+        if (values.containsKey("publicTransport"))
+            house.setPublicTransport(values.getAsInteger("publicTransport"));
+        if (values.containsKey("swimmingPool"))
+            house.setSwimmingPool(values.getAsInteger("swimmingPool"));
+        if (values.containsKey("description"))
+            house.setDescription(values.getAsString("description"));
+        if (values.containsKey("illustration"))
+            house.setIllustration(values.getAsString("illustration"));
+        if (values.containsKey("address")) house.setAddress(values.getAsString("address"));
+        if (values.containsKey("dateOfEntry"))
+            house.setDateOfEntry(values.getAsString("dateOfEntry"));
+        if (values.containsKey("available")) house.setAvailable(values.getAsBoolean("available"));
+        if (values.containsKey("dateOfSale")) house.setDateOfSale(values.getAsString("dateOfSale"));
+        if (values.containsKey("realEstateAgent"))
+            house.setRealEstateAgent(values.getAsString("realEstateAgent"));
+        if (values.containsKey("realEstateAgent")) house.setId(values.getAsLong("houseId"));
+        return house;
+    }
+
 }
 

@@ -98,7 +98,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     public void configureRecyclerView() {
-        // this.gallery = new ArrayList<>();
         this.adapter = new GalleryRecyclerAdapter(this.gallery);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));

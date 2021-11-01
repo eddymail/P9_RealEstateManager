@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,7 +75,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         realEstateManagerViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateManagerViewModel.class);
-        realEstateManagerViewModel.getAll().observe((LifecycleOwner) this, houseList -> {
+        realEstateManagerViewModel.getAll().observe(this, houseList -> {
             adapter.setData(houseList);
             updateDisplay();
         });
@@ -95,6 +94,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
 
     //Override methods
 
+    //Use to display the search properties recover from searchActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
@@ -110,6 +110,7 @@ public class MainFragment extends Fragment implements HouseRecyclerAdapter.OnHou
     }
 
 
+    // Use to display list of available properties when searched result list is display
     @Override
     public void onClick(View v) {
         configureViewModel();

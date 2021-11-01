@@ -27,15 +27,12 @@ public class Illustration {
     public Long getId() {
         return id;
     }
-
     public long getHouseId() {
         return houseId;
     }
-
     public String getDescription() {
         return description;
     }
-
     public String getPicture() {
         return picture;
     }
@@ -44,15 +41,12 @@ public class Illustration {
     public void setId(Long id) {
         this.id = id;
     }
-
     public void setHouseId(long houseId) {
         this.houseId = houseId;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public void setPicture(String picture) {
         this.picture = picture;
     }

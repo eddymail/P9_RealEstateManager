@@ -103,7 +103,6 @@ public class HouseRecyclerAdapter extends RecyclerView.Adapter<HouseRecyclerAdap
 
             boolean isEuro = house.isEuro();
 
-
             if (isEuro == true) {
                 price.setText(String.valueOf(house.getPrice()));
                 changeView.setImageResource(R.drawable.ic_baseline_eur_24);

@@ -370,8 +370,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_baseline_photo_library_24"
+            android:text="galerie"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="gallerie"
             android:textSize="10sp" />
 
         <Button

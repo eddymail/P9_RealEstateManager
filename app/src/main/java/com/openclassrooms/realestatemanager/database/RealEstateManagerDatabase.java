@@ -36,6 +36,12 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    //Dao
+    public abstract HouseDao houseDao();
+
+    public abstract IllustrationDao illustrationDao();
+
+
     private static Callback prepopulateDatabase() {
         return new Callback() {
 
@@ -262,9 +268,4 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
             }
         };
     }
-
-    //Dao
-    public abstract HouseDao houseDao();
-
-    public abstract IllustrationDao illustrationDao();
 }
