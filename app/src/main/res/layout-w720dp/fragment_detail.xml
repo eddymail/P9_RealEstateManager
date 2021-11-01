@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="766dp"
+        android:layout_height="match_parent"
         android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -66,8 +66,8 @@
             android:id="@+id/rv_fragment_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_fragment_detail_surface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -262,17 +262,16 @@
         <TextView
             android:id="@+id/tv_fragment_detail_poi_value"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/poi_details"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_fragment_point_of_interest"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_fragment_detail_poi" />
 
         <TextView
             android:id="@+id/tv_fragment_detail_address"
@@ -304,7 +303,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            android:scrollbars="vertical"
+            android:scrollbars="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -381,7 +380,6 @@
             android:layout_height="150dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_dialog_map"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"

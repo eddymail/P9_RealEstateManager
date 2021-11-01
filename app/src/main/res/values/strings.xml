@@ -40,7 +40,7 @@
     <string name="tablet_rooms">Nombre de pièces :</string>
     <string name="tablet_bedrooms">Nombre de chambres :</string>
     <string name="tablet_nombre_de_salle_de_bain">Nombre de salle de bain :</string>
-    <string name="tablet_poi">Point d\'intérêts à proximité :</string>
+    <string name="tablet_poi">Point d\'intérêts :</string>
     <string name="agent">Agent :</string>
 
 </resources>
