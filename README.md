@@ -1,22 +1,20 @@
 # P9_RealEstateManager
 
-## Informations générales
-Ce dépôt contient une application pour le P9 du parcours **Grande École du Numérique**.
-RealEstateManager est une application mobile qui permet aux agents immobiliers de pouvoir accéder aux fiches des différents biens immobiliers depuis leur équipement mobile.
-Cette application fonctionne à la fois sur Smartphone et tablette. Pour avoir accès à la liste des biens même si l’agent est hors connexion, 
-l'ensemble des données sera stocké dans la base de données de l’application. Pour sauvegarder les données j’ai utilisé le moteur  de base de données relationnelle SQLite qui stocke les données dans un fichier. 
-L’orm choisi est ROOM d’Android qui facilite la manipulation des données.
+## General informations
+This repository contains an application for the P9 project of the **Grande École du Numérique** course.
+RealEstateManager is a mobile application that allows real estate agents to access the files of different real estate from their mobile device.
+This app works on both smartphone and tablet. To have access to the list of assets even if the agent is offline,
+all data will be stored in the application database. To save the data I used the SQLite relational database engine which stores the data in a file.
+The chosen orm is Android's ROOM which facilitates data manipulation.
 
+## Startup
+To open the project in Android Studio.
+* In the VCS menu
+  * import from version control
+  * git
+  * Then enter the URL of the repository.
 
-
-## Démarrage
-Pour ouvrir le projet sous Android Studio.
-* Dans le menu VCS
-  * import from version control 
-  * git 
-  * Renseigner ensuite l'URL du repository.
-
-## Auteur
+## Author
 * Edouard Loussouarn
   * Education
   > OpenClassrooms
