@@ -7,6 +7,8 @@ This app works on both smartphone and tablet. To have access to the list of asse
 all data will be stored in the application database. To save the data I used the SQLite relational database engine which stores the data in a file.
 The chosen orm is Android's ROOM which facilitates data manipulation.
 
+![Prez Picture Github](https://user-images.githubusercontent.com/53012350/214010578-dfa0b0e8-0328-4f77-b7e9-eda027768c02.png)
+
 ## Startup
 To open the project in Android Studio.
 * In the VCS menu
